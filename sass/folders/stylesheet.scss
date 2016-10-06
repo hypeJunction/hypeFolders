@@ -1,0 +1,205 @@
+@import "compass/css3";
+
+.folders-search-form {
+    @include display-flex;
+    @include flex-wrap(wrap);
+    @include justify-content(space-between);
+}
+
+.folders-search-form .elgg-foot {
+	@include flex(1 0 100%);
+}
+
+.folders-search-form .elgg-field {
+    @include flex(0 1 49%);
+}
+
+.elgg-menu-folders {
+	li {
+		line-height: 18px;
+		vertical-align: middle;
+		text-indent: -15px;
+		padding-left: 20px;
+		padding-top: 4px;
+		padding-bottom: 4px;
+		& > span, & > a, & > a span {
+			margin-right: 5px;
+			display: inline;
+			vertical-align: middle;
+			line-height: 18px;
+		}
+		&.elgg-state-selected > a {
+			font-weight: bold;
+		}
+	}
+	.elgg-menu-closed {
+		.elgg-child-menu {
+			display: none;
+		}
+		& > .elgg-child-menu-toggle > .collapse {
+			display: none;
+		}
+		& > .elgg-child-menu-toggle > .expand {
+			display: block;
+		}
+		&.elgg-menu-parent {
+			margin-left: auto;
+		}
+	}
+
+	.elgg-menu-open {
+		& > .elgg-child-menu-toggle > .collapse {
+			display: block;
+		}
+		& > .elgg-child-menu-toggle > .expand {
+			display: none;
+		}
+	}
+
+	img {
+		width: 16px;
+		height: 16px;
+		width: auto;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 4px;
+	}
+
+	.elgg-child-menu-toggle, .elgg-child-menu-indicator {
+		margin: 0;
+		cursor: pointer;
+		color: #666;
+		font-size: 10px;
+		display: inline-block;
+		vertical-align: middle;
+		padding: 0 6px 0 3px;
+		width: 18px;
+		text-align: center;
+	}
+}
+
+.elgg-form-folders-search-search_results [type="text"] {
+    display: inline-block;
+    width: calc(100% - 50px);
+    float: left;
+}
+
+.elgg-form-folders-search-search_results [type="submit"] {
+    float: right;
+    width: auto;
+    min-width: 0;
+}
+
+.folders-content-editor {
+    display: flex;
+}
+
+.folders-search-area {
+    flex: 1 1 40%;
+    box-sizing: border-box;
+    border: 1px solid #dcdcdc;
+}
+
+.folders-search-area .elgg-menu-folderd-entity {
+	display: none;
+}
+
+.folders-content-area {
+    flex: 1 1 60%;
+    box-sizing: border-box;
+	border-color: #dcdcdc;
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
+}
+
+.folders-search-results {
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+.folders-content-area .folders-content-list {
+    height: 600px;
+    overflow-y: auto;
+	margin-bottom: 10px;
+}
+
+.folders-content-editor .folders-content-list > li {
+	cursor: move;
+}
+
+.folders-content-editor .folders-content-list > li a {
+	cursor: pointer;
+}
+
+.folders-content-list {
+	max-width: 100%;
+	position: relative;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.folders-draggable-placeholder {
+	background: #f1f1f1;
+	min-height: 60px;
+	width: 100%;
+	display: block;
+}
+
+.folders-content-list > li {
+    padding: 0;
+	width: 100%!important;
+	height: auto!important;
+}
+
+.folders-content-item.elgg-image-block {
+    padding: 10px;
+    font-size: 90%;
+}
+
+.folders-content-item.elgg-image-block > .elgg-image img {
+    max-width: 40px;
+    height: auto;
+}
+
+.folders-content-item.elgg-image-block .elgg-content {
+    margin: 3px 0 0;
+}
+
+.folders-nav-item.elgg-image-block {
+    padding: 3px;
+    font-size: 80%;
+}
+
+.folders-nav-item.elgg-image-block > .elgg-image img {
+    max-width: 25px;
+    height: auto;
+}
+
+.folders-search-area .elgg-form {
+    padding: 5px 10px;
+    border-bottom: 1px solid #dcdcdc;
+    position: relative;
+    background: #f4f4f4;
+}
+
+.folders-search-area .elgg-form button {
+    position: absolute;
+    right: 0;
+    margin: 5px 10px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.folders-content-area .elgg-form {
+	padding: 0;
+}
+.folders-content-area .elgg-form .elgg-foot {
+    padding: 10px;
+    text-align: right;
+	border-bottom: 1px solid #dcdcdc;
+}
+
+.folders-editor-component {
+	padding: 15px;
+}
