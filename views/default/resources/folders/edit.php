@@ -12,6 +12,9 @@ if (!$folder->canEdit()) {
 	forward(REFERER);
 }
 
+$container = $folder->getContainerEntity();
+elgg_set_page_owner_guid($container->guid);
+
 $folder->setBreadcrumbs($folder->guid);
 elgg_push_breadcrumb(elgg_echo('folders:edit'));
 

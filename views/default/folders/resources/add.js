@@ -36,7 +36,7 @@ define(function (require) {
 	$(document).on('submit', '.elgg-form-folders-resources-search', function (e) {
 		e.preventDefault();
 		var $form = $(this);
-		ajax.action($form.attr('action'), {
+		ajax.path($form.prop('action'), {
 			data: ajax.objectify($form)
 		}).done(function (output, statusText, jqXHR) {
 			if (jqXHR.AjaxData.status === -1) {

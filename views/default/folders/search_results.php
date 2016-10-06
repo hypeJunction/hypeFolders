@@ -1,5 +1,6 @@
 <?php
 
+use hypeJunction\Folders\Folder;
 use hypeJunction\Folders\FoldersService;
 use hypeJunction\Folders\MainFolder;
 
@@ -14,6 +15,12 @@ $offset = get_input('search_results_offset', 0);
 
 $svc = new FoldersService();
 $subtypes = $svc->getContentTypes();
+$exceptions = [
+	MainFolder::SUBTYPE,
+	Folder::SUBTYPE,
+];
+
+$subtypes = array_diff($subtypes, $exceptions);
 $dbprefix = elgg_get_config('dbprefix');
 $options = [
 	'types' => 'object',

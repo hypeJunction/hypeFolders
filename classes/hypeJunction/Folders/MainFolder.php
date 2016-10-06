@@ -52,7 +52,8 @@ class MainFolder extends ElggObject {
 		if ($id) {
 			$weight = $weight ?: $this->getWeight($resource_guid);
 		} else {
-			$id = add_entity_relationship($resource_guid, 'resource', $this->guid);
+			add_entity_relationship($resource_guid, 'resource', $this->guid);
+			$id = $this->isResource($resource_guid);
 		}
 
 		if (!$id) {
@@ -154,7 +155,10 @@ class MainFolder extends ElggObject {
 
 		$options['selects'][] = 'frs.*';
 		$options['order_by'] = 'frs.weight = 0, frs.weight ASC';
-		$options['wheres'][] = "frs.folder_guid = $this->guid";
+		$options['wheres'][] = "
+			frs.folder_guid = $this->guid
+			AND frs.resource_guid != $this->guid
+		";
 
 		$rows = elgg_get_entities($options);
 		
@@ -326,10 +330,6 @@ class MainFolder extends ElggObject {
 		$parent_guid = (int) get_input('parent_guid');
 
 		if (!$folder instanceof MainFolder) {
-			return;
-		}
-
-		if ($entity instanceof Folder) {
 			return;
 		}
 

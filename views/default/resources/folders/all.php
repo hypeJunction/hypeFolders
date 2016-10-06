@@ -8,7 +8,7 @@ elgg_register_title_button('folders', 'add', 'object', MainFolder::SUBTYPE);
 
 $title = elgg_echo('folders:all');
 
-echo elgg_view('folders/listing/all');
+$content = elgg_view('folders/listing/all');
 
 $layout = elgg_view_layout('content', array(
 	'title' => $title,

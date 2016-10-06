@@ -33,9 +33,9 @@ class Menus {
 		$selected = elgg_extract('resource', $params, $folder);
 
 		$ancestors = $folder->getAncestors($selected->guid);
-		array_walk($ancestors, function($elem) {
+		$ancestors = array_map(function($elem) {
 			return $elem->guid;
-		});
+		}, $ancestors);
 
 		$return[] = ElggMenuItem::factory([
 				'name' => "resource:$folder->guid",
@@ -43,11 +43,11 @@ class Menus {
 				'href' => "folders/view/$folder->guid",
 				'priority' => 1,
 				'data-guid' => $folder->guid,
-				'item_class' => 'elgg-state-highlighted',
+				'item_class' => (in_array($folder->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
 				'selected' => $folder->guid == $selected->guid,
 				'data' => [
 					'guid' => $folder->guid,
-					'collapse' => true,
+					'collapse' => !in_array($folder->guid, $ancestors),
 				],
 		]);
 		
@@ -61,7 +61,7 @@ class Menus {
 				'parent_name' => ($parent) ? "resource:$parent->guid" : null,
 				'data-guid' => $resource->guid,
 				'item_class' => (in_array($resource->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
-				'selected' => $resource == $selected,
+				'selected' => $resource->guid == $selected->guid,
 				'data' => [
 					'guid' => $resource->guid,
 					'collapse' => !in_array($resource->guid, $ancestors),

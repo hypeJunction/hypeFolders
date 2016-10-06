@@ -20,6 +20,9 @@ if (!$resource) {
 	$resource = $folder;
 }
 
+$container = $folder->getContainerEntity();
+elgg_set_page_owner_guid($container->guid);
+
 $folder->setBreadcrumbs($resource->guid);
 
 $title = elgg_echo('folders:resources:add');

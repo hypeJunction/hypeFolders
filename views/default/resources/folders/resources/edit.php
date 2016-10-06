@@ -19,6 +19,9 @@ if (!$resource->canEdit()) {
 	forward('', '403');
 }
 
+$container = $folder->getContainerEntity();
+elgg_set_page_owner_guid($container->guid);
+
 $folder->setBreadcrumbs($resource->guid);
 
 $title = elgg_echo('folders:edit');

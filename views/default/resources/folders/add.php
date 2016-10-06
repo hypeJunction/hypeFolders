@@ -16,6 +16,8 @@ if (!$container->canWriteToContainer(0, 'object', MainFolder::SUBTYPE)) {
 	forward(REFERRER);
 }
 
+elgg_set_page_owner_guid($container->guid);
+
 elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
 if ($container instanceof ElggGroup) {
 	elgg_push_breadcrumb(elgg_echo('folders'), "folders/group/$container->guid");
