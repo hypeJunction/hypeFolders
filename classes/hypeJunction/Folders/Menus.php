@@ -38,26 +38,26 @@ class Menus {
 		}, $ancestors);
 
 		$return[] = ElggMenuItem::factory([
-				'name' => "resource:$folder->guid",
-				'text' => $folder->title,
-				'href' => "folders/view/$folder->guid",
-				'priority' => 1,
-				'data-guid' => $folder->guid,
-				'item_class' => (in_array($folder->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
-				'selected' => $folder->guid == $selected->guid,
-				'data' => [
-					'guid' => $folder->guid,
-					'collapse' => !in_array($folder->guid, $ancestors),
-				],
+			'name' => "resource:$folder->guid",
+			'text' => $folder->title,
+			'href' => "folders/view/$folder->guid",
+			'priority' => 1,
+			'data-guid' => $folder->guid,
+			'item_class' => (in_array($folder->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
+			'selected' => $folder->guid == $selected->guid,
+			'data' => [
+				'guid' => $folder->guid,
+				'collapse' => !in_array($folder->guid, $ancestors),
+			],
 		]);
-		
+
 		foreach ($resources as $resource) {
 			$parent = $folder->getParent($resource->guid);
 			$return[] = ElggMenuItem::factory([
 				'name' => "resource:$resource->guid",
 				'text' => $resource->title,
 				'href' => "folders/view/$folder->guid/$resource->guid",
-				'priority' => $folder->getWeight($resource->guid) ? : 9999,
+				'priority' => $folder->getWeight($resource->guid) ?: 9999,
 				'parent_name' => ($parent) ? "resource:$parent->guid" : null,
 				'data-guid' => $resource->guid,
 				'item_class' => (in_array($resource->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
@@ -128,11 +128,13 @@ class Menus {
 
 			if ($entity->canDelete()) {
 				$return[] = ElggMenuItem::factory([
-					'name' => 'edit',
-					'text' => elgg_echo('edit'),
+					'name' => 'delete',
+					'text' => elgg_echo('delete'),
 					'href' => elgg_http_add_url_query_elements("action/entity/delete", [
 						'guid' => $entity->guid,
 					]),
+					'confirm' => true,
+					'is_action' => true,
 				]);
 			}
 
@@ -162,6 +164,8 @@ class Menus {
 					'href' => elgg_http_add_url_query_elements("action/entity/delete", [
 						'guid' => $entity->guid,
 					]),
+					'confirm' => true,
+					'is_action' => true,
 				]);
 			}
 
@@ -176,6 +180,8 @@ class Menus {
 					'guid' => $entity->guid,
 				]),
 				'item_class' => 'elgg-menu-item-delete',
+				'confirm' => true,
+				'is_action' => true,
 			]);
 
 			return $return;
