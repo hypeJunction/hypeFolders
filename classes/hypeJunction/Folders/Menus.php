@@ -118,9 +118,9 @@ class Menus {
 	/**
 	 * Adds a node to the folder tree
 	 *
-	 * @param ElggEntity                        $resource   Resource
-	 * @param \hypeJunctions\Folders\MainFolder  $folder     Folder
-	 * @param array                              $params     Additional params
+	 * @param ElggEntity $resource Resource
+	 * @param MainFolder $folder   Folder
+	 * @param array      $params   Additional params
 	 * @return array
 	 */
 	public static function setupFolderTreeNode($resource, $folder, $params = array()) {
@@ -218,7 +218,7 @@ class Menus {
 
 	/**
 	 * Returns profile menu items
-	 * 
+	 *
 	 * @param ElggEntity $resource Entity
 	 * @param MainFolder $folder   Main folder
 	 * @param bool       $expand   Use extended menu
@@ -257,50 +257,44 @@ class Menus {
 			}
 		}
 
-		if ($resource instanceof MainFolder) {
-			if ($resource->canEdit()) {
-				$return[] = ElggMenuItem::factory([
-							'name' => 'edit',
-							'text' => elgg_echo('edit'),
-							'title' => elgg_echo('edit'),
-							'href' => "folders/edit/$resource->guid",
-							'data' => [
-								'icon' => 'pencil',
-							],
-				]);
-			}
+		if ($resource instanceof MainFolder && $resource->canEdit()) {
+			$return[] = ElggMenuItem::factory([
+						'name' => 'edit',
+						'text' => elgg_echo('edit'),
+						'title' => elgg_echo('edit'),
+						'href' => "folders/edit/$resource->guid",
+						'data' => [
+							'icon' => 'pencil',
+						],
+			]);
 		}
 
-		if ($resource instanceof Folder && $folder->canWriteToContainer()) {
-			if ($resource->canEdit()) {
-				$return[] = ElggMenuItem::factory([
-							'name' => 'edit',
-							'text' => elgg_echo('edit'),
-							'title' => elgg_echo('edit'),
-							'href' => "folders/resources/edit/$folder->guid/$resource->guid",
-							'data' => [
-								'icon' => 'pencil',
-							],
-				]);
-			}
+		if ($resource instanceof Folder && $resource->canEdit()) {
+			$return[] = ElggMenuItem::factory([
+						'name' => 'edit',
+						'text' => elgg_echo('edit'),
+						'title' => elgg_echo('edit'),
+						'href' => "folders/resources/edit/$folder->guid/$resource->guid",
+						'data' => [
+							'icon' => 'pencil',
+						],
+			]);
 		}
 
-		if ($resource instanceof Folder || $resource instanceof MainFolder) {
-			if ($resource->canDelete()) {
-				$return[] = ElggMenuItem::factory([
-							'name' => 'delete',
-							'text' => elgg_echo('delete'),
-							'title' => elgg_echo('delete'),
-							'href' => elgg_http_add_url_query_elements("action/entity/delete", [
-								'guid' => $resource->guid,
-							]),
-							'confirm' => true,
-							'is_action' => true,
-							'data' => [
-								'icon' => 'delete',
-							],
-				]);
-			}
+		if ($resource->canDelete()) {
+			$return[] = ElggMenuItem::factory([
+						'name' => 'delete',
+						'text' => elgg_echo('delete'),
+						'title' => elgg_echo('delete'),
+						'href' => elgg_http_add_url_query_elements("action/entity/delete", [
+							'guid' => $resource->guid,
+						]),
+						'confirm' => true,
+						'is_action' => true,
+						'data' => [
+							'icon' => 'delete',
+						],
+			]);
 		} else if ($folder->canWriteToContainer()) {
 			$return[] = ElggMenuItem::factory([
 						'name' => 'remove',
