@@ -27,7 +27,7 @@ class Menus {
 		}
 
 		$resources = $folder->getResources([
-				//'callback' => false,
+			'callback' => false,
 		]);
 
 		$selected = elgg_extract('resource', $params, $folder);
@@ -43,18 +43,18 @@ class Menus {
 			$drag = elgg_view_icon('arrows');
 			$item_class = 'elgg-state-draggable';
 		}
-		$menu = self::getProfileMenuItems($folder, $folder, false);
-		foreach ($menu as &$item) {
-			$icon = $item->getData('icon');
-			if ($icon) {
-				$item->setText(elgg_view_icon($icon));
-				$item->setData('icon', null);
-			}
-		}
-		$controls = elgg_view_menu('resource:item:controls', [
-			'items' => $menu,
-			'class' => 'elgg-menu-hz',
-		]);
+//		$menu = self::getProfileMenuItems($folder, $folder, false);
+//		foreach ($menu as &$item) {
+//			$icon = $item->getData('icon');
+//			if ($icon) {
+//				$item->setText(elgg_view_icon($icon));
+//				$item->setData('icon', null);
+//			}
+//		}
+//		$controls = elgg_view_menu('resource:item:controls', [
+//			'items' => $menu,
+//			'class' => 'elgg-menu-hz',
+//		]);
 
 		$link = elgg_view('output/url', [
 			'text' => $folder->title,
@@ -76,18 +76,18 @@ class Menus {
 		]);
 
 		foreach ($resources as $resource) {
-			$menu = self::getProfileMenuItems($resource, $folder, false);
-			foreach ($menu as &$item) {
-				$icon = $item->getData('icon');
-				if ($icon) {
-					$item->setText(elgg_view_icon($icon));
-					$item->setData('icon', null);
-				}
-			}
-			$controls = elgg_view_menu('resource:item:controls', [
-				'items' => $menu,
-				'class' => 'elgg-menu-hz',
-			]);
+//			$menu = self::getProfileMenuItems($resource, $folder, false);
+//			foreach ($menu as &$item) {
+//				$icon = $item->getData('icon');
+//				if ($icon) {
+//					$item->setText(elgg_view_icon($icon));
+//					$item->setData('icon', null);
+//				}
+//			}
+//			$controls = elgg_view_menu('resource:item:controls', [
+//				'items' => $menu,
+//				'class' => 'elgg-menu-hz',
+//			]);
 
 			$link = elgg_view('output/url', [
 				'text' => $resource->title,
