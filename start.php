@@ -56,6 +56,11 @@ elgg_register_event_handler('init', 'system', function() {
 	elgg_extend_view('forms/pages/edit', 'folders/resources/new');
 	elgg_extend_view('forms/videolist/edit', 'folders/resources/new');
 	elgg_register_event_handler('create', 'object', [MainFolder::class, 'addCreatedResource']);
+
+	// Sync folder hierarchy
+	elgg_register_event_handler('update', 'object', [MainFolder::class, 'syncTitle']);
+	elgg_register_event_handler('delete', 'object', [MainFolder::class, 'removeDeletedItems'], 999);
+	
 });
 
 elgg_register_event_handler('upgrade', 'system', function() {

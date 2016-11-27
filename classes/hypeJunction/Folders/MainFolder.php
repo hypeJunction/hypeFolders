@@ -2,12 +2,10 @@
 
 namespace hypeJunction\Folders;
 
-use ElggBatch;
 use ElggEntity;
 use ElggGroup;
 use ElggObject;
 use ElggUser;
-use stdClass;
 
 class MainFolder extends ElggObject {
 
@@ -342,4 +340,58 @@ class MainFolder extends ElggObject {
 		$folder->addResource($entity->guid, $parent_guid);
 	}
 
+	/**
+	 * Sync item title in the folders table
+	 * 
+	 * @param string     $event  "update"
+	 * @param string     $type   "object"
+	 * @param ElggEntity $entity Entity
+	 * @return void
+	 */
+	public static function syncTitle($event, $type, $entity) {
+
+		$original_attributes = $entity->getOriginalAttributes();
+		if (!array_key_exists('title', $original_attributes)) {
+			return;
+		}
+
+		$dbprefix = elgg_get_config('dbprefix');
+		$query = "
+			UPDATE {$dbprefix}folders
+			SET title = :title
+			WHERE resource_guid = :resource_guid
+		";
+
+		$params = [
+			':title' => (string) $entity->getDisplayName(),
+			':resource_guid' => $entity->guid,
+		];
+
+		update_data($query, $params);
+	}
+
+	/**
+	 * Remove deleted items from the tree
+	 *
+	 * @param string     $event  "delete"
+	 * @param string     $type   "object"
+	 * @param ElggEntity $entity Entity
+	 * @return void
+	 */
+	public static function removeDeletedItems($event, $type, $entity) {
+
+		$dbprefix = elgg_get_config('dbprefix');
+		$query = "
+			DELETE FROM {$dbprefix}folders
+			WHERE folder_guid = :guid
+			OR parent_guid = :guid
+			OR resource_guid = :guid
+		";
+
+		$params = [
+			':guid' => $entity->guid,
+		];
+
+		delete_data($query, $params);
+	}
 }
