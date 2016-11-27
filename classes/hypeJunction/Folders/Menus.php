@@ -307,7 +307,8 @@ class Menus {
 						'text' => elgg_echo('folders:resources:remove'),
 						'title' => elgg_echo('folders:resources:remove'),
 						'href' => elgg_http_add_url_query_elements("action/folders/resources/remove", [
-							'guid' => $resource->guid,
+							'guids' => [$resource->guid],
+							'main_folder_guid' => $folder->guid,
 						]),
 						'item_class' => 'elgg-menu-item-delete',
 						'confirm' => true,
