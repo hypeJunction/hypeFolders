@@ -14,9 +14,9 @@ if (!$resource) {
 }
 
 $no_results = '';
-if ($resource instanceof MainFolder || $resource instanceof Folder) {
-	$no_results = elgg_echo('folders:resources:no_results');
-}
+//if ($resource instanceof MainFolder || $resource instanceof Folder) {
+//	$no_results = elgg_echo('folders:resources:no_results');
+//}
 
 $resources = $folder->getChildren($resource->guid, ['limit' => 0]);
 
