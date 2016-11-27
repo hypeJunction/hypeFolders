@@ -2,8 +2,6 @@
 
 use hypeJunction\Folders\MainFolder;
 
-elgg_ajax_gatekeeper();
-
 $guid = elgg_extract('guid', $vars);
 elgg_entity_gatekeeper($guid, 'object', MainFolder::SUBTYPE);
 
@@ -23,7 +21,32 @@ elgg_set_page_owner_guid($container->guid);
 
 $subtype = elgg_extract('subtype', $vars);
 
-echo elgg_view("folders/resources/new/$subtype", [
+$content = elgg_view("folders/resources/new/$subtype", [
 	'folder' => $folder,
 	'resource' => $resource,
 ]);
+
+if (elgg_is_xhr()) {
+	echo $content;
+	return;
+}
+
+$title = elgg_echo('folders:resources:new_type', [strtolower(elgg_echo("folders:new:$subtype"))]);
+
+$folder->setBreadcrumbs($resource->guid);
+
+elgg_push_breadcrumb($title);
+
+$sidebar = elgg_view('folders/sidebar', array(
+	'folder' => $folder,
+	'resource' => $resource,
+		));
+
+$layout = elgg_view_layout('content', array(
+	'title' => $title,
+	'content' => $content,
+	'filter' => false,
+	'sidebar' => $sidebar,
+		));
+
+echo elgg_view_page($title, $layout);

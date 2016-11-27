@@ -30,7 +30,7 @@ elgg_pop_breadcrumb();
 $title = $resource->getDisplayName();
 elgg_push_breadcrumb($title);
 
-$items = \hypeJunction\Folders\Menus::getProfileMenuItems($resource, $folder);
+$items = \hypeJunction\Folders\Menus::getProfileMenuItems($resource, $folder, false);
 foreach ($items as $item) {
 	$item->addLinkClass('elgg-button elgg-button-action');
 	elgg_register_menu_item('title', $item);

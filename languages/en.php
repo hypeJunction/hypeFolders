@@ -78,6 +78,7 @@ return [
 		You can use reorder items in the folder by dragging and dropping them.
 	',
 
+	'folders:resources:new_type' => 'Add new %s',
 	'folders:new:file' => 'File',
 	'folders:new:videolist_item' => 'Video',
 	'folders:new:resource_folder' => 'Subfolder',

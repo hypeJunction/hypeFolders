@@ -35,7 +35,7 @@ elgg_register_event_handler('init', 'system', function() {
 	
 	// Setup menus
 	elgg_register_plugin_hook_handler('register', 'menu:folders', [Menus::class, 'setupFolderMenu']);
-	elgg_register_plugin_hook_handler('register', 'menu:resource', [Menus::class, 'setupFolderResourceMenu']);
+	elgg_register_plugin_hook_handler('register', 'menu:entity', [Menus::class, 'setupFolderResourceMenu']);
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', [Menus::class, 'setupOwnerBlockMenu']);
 
 	// Make it pretty

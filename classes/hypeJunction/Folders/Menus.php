@@ -43,7 +43,7 @@ class Menus {
 			$drag = elgg_view_icon('arrows');
 			$item_class = 'elgg-state-draggable';
 		}
-		$menu = self::getProfileMenuItems($folder, $folder);
+		$menu = self::getProfileMenuItems($folder, $folder, false);
 		foreach ($menu as &$item) {
 			$icon = $item->getData('icon');
 			if ($icon) {
@@ -76,7 +76,7 @@ class Menus {
 		]);
 
 		foreach ($resources as $resource) {
-			$menu = self::getProfileMenuItems($resource, $folder);
+			$menu = self::getProfileMenuItems($resource, $folder, false);
 			foreach ($menu as &$item) {
 				$icon = $item->getData('icon');
 				if ($icon) {
@@ -149,12 +149,21 @@ class Menus {
 	 * Setup folder resource menu
 	 *
 	 * @param string $hook   "register"
-	 * @param string $type   "menu:resource"
+	 * @param string $type   "menu:entity"
 	 * @param array  $return Menu
 	 * @param array  $params Hook params
 	 * @return array
 	 */
 	public static function setupFolderResourceMenu($hook, $type, $return, $params) {
+
+		if (elgg_in_context('folders')) {
+			$remove = ['access', 'likes', 'unlike', 'likes_count'];
+			foreach ($return as $key => $item) {
+				if (in_array($item->getName(), $remove)) {
+					unset($return[$key]);
+				}
+			}
+		}
 
 		$entity = elgg_extract('entity', $params);
 
@@ -212,22 +221,40 @@ class Menus {
 	 * 
 	 * @param ElggEntity $resource Entity
 	 * @param MainFolder $folder   Main folder
+	 * @param bool       $expand   Use extended menu
 	 * @return ElggMenuItem[]
 	 */
-	public static function getProfileMenuItems(ElggEntity $resource, MainFolder $folder) {
+	public static function getProfileMenuItems(ElggEntity $resource, MainFolder $folder, $expanded = true) {
 
 		$return = [];
 		if ($folder->canWriteToContainer()) {
-			$return[] = ElggMenuItem::factory([
-						'name' => 'resources:add',
-						'text' => elgg_echo('folders:resources:add'),
-						'title' => elgg_echo('folders:resources:add'),
-						'href' => "folders/resources/add/$folder->guid/$resource->guid",
-						'link_class' => 'js-folders-resources-add',
-						'data' => [
-							'icon' => 'plus',
-						],
-			]);
+			if (!$expanded) {
+				$return[] = ElggMenuItem::factory([
+							'name' => 'resources:add',
+							'text' => elgg_echo('folders:resources:add'),
+							'title' => elgg_echo('folders:resources:add'),
+							'href' => "folders/resources/add/$folder->guid/$resource->guid",
+							'link_class' => 'js-folders-resources-add',
+							'data' => [
+								'icon' => 'plus',
+							],
+				]);
+			} else {
+				$svc = new FoldersService();
+				$subtypes = $svc->getContentTypes();
+				foreach ($subtypes as $subtype) {
+					if (elgg_view_exists("folders/resources/new/$subtype") && $folder->canWriteToContainer()) {
+						$return[] = ElggMenuItem::factory([
+									'name' => "add:$subtype",
+									'text' => elgg_echo('folders:resources:new_type', [strtolower(elgg_echo("folders:new:$subtype"))]),
+									'href' => "folders/resources/new/$folder->guid/$resource->guid/$subtype",
+									'data' => [
+										'icon' => 'plus',
+									],
+						]);
+					}
+				}
+			}
 		}
 
 		if ($resource instanceof MainFolder) {

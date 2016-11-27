@@ -37,13 +37,13 @@ if ($owner instanceof ElggUser) {
 }
 
 $metadata = '';
-//if (!elgg_in_context('widgets')) {
-//	$metadata = elgg_view_menu('resource', array(
-//		'entity' => $entity,
-//		'sort_by' => 'priority',
-//		'class' => 'elgg-menu-entity elgg-menu-hz',
-//	));
-//}
+if (!elgg_in_context('widgets')) {
+	$metadata = elgg_view_menu('entity', array(
+		'entity' => $entity,
+		'sort_by' => 'priority',
+		'class' => 'elgg-menu-hz',
+	));
+}
 
 if ($full_view) {
 	$summary = elgg_view('object/elements/summary', array(
