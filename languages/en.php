@@ -83,4 +83,5 @@ return [
 	'folders:new:resource_folder' => 'Subfolder',
 	'folders:new:page_top' => 'Page',
 
+	'folders:error:permissions' => 'You do not have sufficient permissions for this action',
 ];

@@ -42,5 +42,7 @@ if (isset($vars['item_class'])) {
 echo elgg_format_element('li', array(
 	'class' => $item_class,
 	'data-guid' => $guid,
+	'data-parent-guid' => $item->getData('parent-guid'),
+	'data-folder-guid' => $item->getData('folder-guid'),
 		), $toggle . elgg_view_menu_item($item) . $submenu);
 

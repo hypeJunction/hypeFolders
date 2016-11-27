@@ -203,3 +203,45 @@
 .folders-editor-component {
 	padding: 15px;
 }
+
+.elgg-menu-resource-item-controls {
+    text-indent: 0;
+    margin-left: 5px;
+    display: none;
+}
+
+.elgg-menu-resource-item-controls > li {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    text-indent: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.elgg-menu-resource-item-controls > li > a {
+    color: #aaa;
+    margin: 0;
+    text-indent: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.elgg-menu-resource-item-controls > li > a > span {
+    margin: 0;
+    text-indent: 0;
+    font-size: 11px;
+}
+
+.elgg-menu-folders li:hover > .elgg-menu-resource-item-controls {
+    display: inline-block;
+}
+
+.elgg-menu-folders li.elgg-state-draggable {
+    cursor: move;
+}
+
+.elgg-menu-folders li .elgg-icon-arrows {
+    font-size: 12px;
+    color: #aaa;
+}
