@@ -38,34 +38,34 @@ class Menus {
 		}, $ancestors);
 
 		$return[] = ElggMenuItem::factory([
-			'name' => "resource:$folder->guid",
-			'text' => $folder->title,
-			'href' => "folders/view/$folder->guid",
-			'priority' => 1,
-			'data-guid' => $folder->guid,
-			'item_class' => (in_array($folder->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
-			'selected' => $folder->guid == $selected->guid,
-			'data' => [
-				'guid' => $folder->guid,
-				'collapse' => !in_array($folder->guid, $ancestors),
-			],
+					'name' => "resource:$folder->guid",
+					'text' => $folder->title,
+					'href' => "folders/view/$folder->guid",
+					'priority' => 1,
+					'data-guid' => $folder->guid,
+					'item_class' => (in_array($folder->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
+					'selected' => $folder->guid == $selected->guid,
+					'data' => [
+						'guid' => $folder->guid,
+						'collapse' => !in_array($folder->guid, $ancestors),
+					],
 		]);
 
 		foreach ($resources as $resource) {
 			$parent = $folder->getParent($resource->guid);
 			$return[] = ElggMenuItem::factory([
-				'name' => "resource:$resource->guid",
-				'text' => $resource->title,
-				'href' => "folders/view/$folder->guid/$resource->guid",
-				'priority' => $folder->getWeight($resource->guid) ?: 9999,
-				'parent_name' => ($parent) ? "resource:$parent->guid" : null,
-				'data-guid' => $resource->guid,
-				'item_class' => (in_array($resource->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
-				'selected' => $resource->guid == $selected->guid,
-				'data' => [
-					'guid' => $resource->guid,
-					'collapse' => !in_array($resource->guid, $ancestors),
-				],
+						'name' => "resource:$resource->guid",
+						'text' => $resource->title,
+						'href' => "folders/view/$folder->guid/$resource->guid",
+						'priority' => $folder->getWeight($resource->guid) ?: 9999,
+						'parent_name' => ($parent) ? "resource:$parent->guid" : null,
+						'data-guid' => $resource->guid,
+						'item_class' => (in_array($resource->guid, $ancestors)) ? 'elgg-state-highlighted' : '',
+						'selected' => $resource->guid == $selected->guid,
+						'data' => [
+							'guid' => $resource->guid,
+							'collapse' => !in_array($resource->guid, $ancestors),
+						],
 			]);
 		}
 
@@ -91,8 +91,6 @@ class Menus {
 
 		$menu = [];
 
-
-
 		$children = $folder->getChildren($resource->guid);
 		foreach ($children as $child) {
 			$submenu = self::setupFolderTreeNode($child, $folder, $params);
@@ -117,75 +115,19 @@ class Menus {
 
 		$entity = elgg_extract('entity', $params);
 
-		if ($entity instanceof MainFolder) {
-			if ($entity->canEdit()) {
-				$return[] = ElggMenuItem::factory([
-					'name' => 'edit',
-					'text' => elgg_echo('edit'),
-					'href' => "folders/edit/$entity->guid",
-				]);
-			}
-
-			if ($entity->canDelete()) {
-				$return[] = ElggMenuItem::factory([
-					'name' => 'delete',
-					'text' => elgg_echo('delete'),
-					'href' => elgg_http_add_url_query_elements("action/entity/delete", [
-						'guid' => $entity->guid,
-					]),
-					'confirm' => true,
-					'is_action' => true,
-				]);
-			}
-
-			return $return;
-		}
-
 		$folder_guid = $entity->getVolatileData('select:folder_guid');
-		$folder = get_entity($folder_guid);
+		if ($folder_guid) {
+			$folder = get_entity($folder_guid);
+		} else if ($entity instanceof MainFolder) {
+			$folder = $entity;
+		}
 
 		if (!$folder instanceof MainFolder) {
 			return;
 		}
 
-		if ($entity instanceof Folder && $folder->canWriteToContainer()) {
-			if ($entity->canEdit()) {
-				$return[] = ElggMenuItem::factory([
-					'name' => 'edit',
-					'text' => elgg_echo('edit'),
-					'href' => "folders/edit/$folder->guid/$entity->guid",
-				]);
-			}
-
-			if ($entity->canDelete()) {
-				$return[] = ElggMenuItem::factory([
-					'name' => 'delete',
-					'text' => elgg_echo('delete'),
-					'href' => elgg_http_add_url_query_elements("action/entity/delete", [
-						'guid' => $entity->guid,
-					]),
-					'confirm' => true,
-					'is_action' => true,
-				]);
-			}
-
-			return $return;
-		}
-
-		if ($folder->canWriteToContainer()) {
-			$return[] = ElggMenuItem::factory([
-				'name' => 'remove',
-				'text' => elgg_echo('folders:resources:remove'),
-				'href' => elgg_http_add_url_query_elements("action/folders/resources/remove", [
-					'guid' => $entity->guid,
-				]),
-				'item_class' => 'elgg-menu-item-delete',
-				'confirm' => true,
-				'is_action' => true,
-			]);
-
-			return $return;
-		}
+		$items = self::getProfileMenuItems($entity, $folder);
+		return array_merge($return, $items);
 	}
 
 	/**
@@ -204,19 +146,84 @@ class Menus {
 		if ($entity instanceof ElggGroup) {
 			if (elgg_get_plugin_setting('group_folders', 'hypeFolders', false) && $entity->folders_enable !== 'no') {
 				$return[] = ElggMenuItem::factory([
-					'name' => 'folders',
-					'href' => "folders/group/$entity->guid",
-					'text' => elgg_echo('folders:group'),
+							'name' => 'folders',
+							'href' => "folders/group/$entity->guid",
+							'text' => elgg_echo('folders:group'),
 				]);
 			}
 		} else if ($entity instanceof ElggUser) {
 			if (elgg_get_plugin_setting('user_folders', 'hypeFolders', false)) {
 				$return[] = ElggMenuItem::factory([
-					'name' => 'folders',
-					'href' => "folders/owner/$entity->username",
-					'text' => elgg_echo('folders'),
+							'name' => 'folders',
+							'href' => "folders/owner/$entity->username",
+							'text' => elgg_echo('folders'),
 				]);
 			}
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Returns profile menu items
+	 * 
+	 * @param ElggEntity $resource Entity
+	 * @param MainFolder $folder   Main folder
+	 * @return ElggMenuItem[]
+	 */
+	public static function getProfileMenuItems(ElggEntity $resource, MainFolder $folder) {
+
+		$return = [];
+		if ($folder->canWriteToContainer()) {
+			$return[] = ElggMenuItem::factory([
+						'name' => 'resources:add',
+						'text' => elgg_echo('folders:resources:add'),
+						'href' => "folders/resources/add/$folder->guid/$resource->guid",
+						'link_class' => 'js-folders-resources-add',
+			]);
+		}
+
+		if ($resource instanceof MainFolder) {
+			if ($resource->canEdit()) {
+				$return[] = ElggMenuItem::factory([
+							'name' => 'edit',
+							'text' => elgg_echo('edit'),
+							'href' => "folders/edit/$resource->guid",
+				]);
+			}
+		}
+
+		if ($resource instanceof Folder && $folder->canWriteToContainer()) {
+			if ($resource->canEdit()) {
+				$return[] = ElggMenuItem::factory([
+							'name' => 'edit',
+							'text' => elgg_echo('edit'),
+							'href' => "folders/resources/edit/$folder->guid/$resource->guid",
+				]);
+			}
+		}
+
+		if ($resource->canDelete()) {
+			$return[] = ElggMenuItem::factory([
+						'name' => 'delete',
+						'text' => elgg_echo('delete'),
+						'href' => elgg_http_add_url_query_elements("action/entity/delete", [
+							'guid' => $resource->guid,
+						]),
+						'confirm' => true,
+						'is_action' => true,
+			]);
+		} else if ($folder->canWriteToContainer()) {
+			$return[] = ElggMenuItem::factory([
+						'name' => 'remove',
+						'text' => elgg_echo('folders:resources:remove'),
+						'href' => elgg_http_add_url_query_elements("action/folders/resources/remove", [
+							'guid' => $resource->guid,
+						]),
+						'item_class' => 'elgg-menu-item-delete',
+						'confirm' => true,
+						'is_action' => true,
+			]);
 		}
 
 		return $return;

@@ -1,5 +1,7 @@
 <?php
 
+use hypeJunction\Folders\MainFolder;
+
 $folder = elgg_extract('folder', $vars);
 $resource = elgg_extract('resource', $vars);
 
@@ -8,7 +10,7 @@ $section = elgg_extract('filter_context', $vars, 'edit');
 $tabs = [
 	'edit' => [
 		'name' => 'edit',
-		'href' => "/folders/edit/$folder->guid",
+		'href' => $resource instanceof MainFolder ? "folders/edit/$folder->guid" : "/folders/resources/edit/$folder->guid/$resource->guid",
 		'text' => elgg_echo('folders:edit'),
 		'selected' => $section == 'edit',
 		'priority' => 100,

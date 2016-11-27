@@ -30,13 +30,10 @@ elgg_pop_breadcrumb();
 $title = $resource->getDisplayName();
 elgg_push_breadcrumb($title);
 
-if ($folder->canWriteToContainer()) {
-	elgg_register_menu_item('title', array(
-		'name' => 'resources:add',
-		'text' => elgg_echo('folders:resources:add'),
-		'href' => "folders/resources/add/$folder->guid/$resource->guid",
-		'link_class' => 'elgg-button elgg-button-action js-folders-resources-add',
-	));
+$items = \hypeJunction\Folders\Menus::getProfileMenuItems($resource, $folder);
+foreach ($items as $item) {
+	$item->addLinkClass('elgg-button elgg-button-action');
+	elgg_register_menu_item('title', $item);
 }
 
 $content = elgg_view('folders/resource', [

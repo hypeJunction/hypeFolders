@@ -30,17 +30,23 @@ elgg_push_breadcrumb($title);
 $sidebar = elgg_view('folders/sidebar', array(
 	'folder' => $folder,
 	'resource' => $resource,
-));
+		));
+
+$filter = elgg_view('folders/filter', [
+	'folder' => $folder,
+	'resource' => $resource,
+	'filter_context' => 'edit',
+		]);
 
 $content = elgg_view('folders/resources/edit', array(
 	'entity' => $resource,
-));
+		));
 
 $layout = elgg_view_layout('content', array(
 	'title' => $title,
 	'content' => $content,
-	'filter' => false,
+	'filter' => $filter,
 	'sidebar' => $sidebar,
-));
+		));
 
 echo elgg_view_page($title, $layout);
