@@ -64,19 +64,6 @@ class Menus {
 		]);
 
 		foreach ($resources as $resource) {
-//			$menu = self::getProfileMenuItems($resource, $folder, false);
-//			foreach ($menu as &$item) {
-//				$icon = $item->getData('icon');
-//				if ($icon) {
-//					$item->setText(elgg_view_icon($icon));
-//					$item->setData('icon', null);
-//				}
-//			}
-//			$controls = elgg_view_menu('resource:item:controls', [
-//				'items' => $menu,
-//				'class' => 'elgg-menu-hz',
-//			]);
-
 			$link = elgg_view('output/url', [
 				'text' => $resource->title,
 				'href' => "folders/view/$folder->guid/$resource->guid"
