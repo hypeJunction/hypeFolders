@@ -22,4 +22,4 @@ foreach ($items as $item) {
 	$folder->addResource($resource_guid, $parent_guid, $weight);
 }
 
-return elgg_ok_response(elgg_echo('folders:reoder:success'));
+return elgg_ok_response('', elgg_echo('folders:reoder:success'));

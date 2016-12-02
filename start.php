@@ -31,6 +31,7 @@ elgg_register_event_handler('init', 'system', function() {
 	elgg_register_action('folders/reorder', __DIR__ . '/actions/folders/reorder.php');
 	elgg_register_action('folders/folder/edit', __DIR__ . '/actions/folders/folder/edit.php');
 	elgg_register_action('folders/resources/add', __DIR__ . '/actions/folders/resources/add.php');
+	elgg_register_action('folders/resources/move', __DIR__ . '/actions/folders/resources/move.php');
 	elgg_register_action('folders/resources/remove', __DIR__ . '/actions/folders/resources/remove.php');
 	
 	// Setup menus

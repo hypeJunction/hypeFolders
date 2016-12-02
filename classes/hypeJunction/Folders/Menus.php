@@ -281,6 +281,22 @@ class Menus {
 			]);
 		}
 
+		if ($folder->canWriteToContainer()) {
+			$return[] = ElggMenuItem::factory([
+						'name' => 'move',
+						'text' => elgg_echo('folders:move'),
+						'title' => elgg_echo('folders:move'),
+						'href' => "folders/resources/move/$folder->guid/$resource->guid",
+						'link_class' => 'elgg-lightbox',
+						'data-colorbox-opts' => [
+							'maxWidth' => '600px',
+						],
+						'data' => [
+							'icon' => 'exchange',
+						],
+			]);
+		}
+		
 		if ($resource->canDelete()) {
 			$return[] = ElggMenuItem::factory([
 						'name' => 'delete',

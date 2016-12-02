@@ -88,6 +88,13 @@ class Router {
 							'subtype' => array_shift($segments),
 						]);
 						return true;
+
+					case 'move' :
+						echo elgg_view_resource('folders/resources/move', [
+							'guid' => array_shift($segments),
+							'resource_guid' => array_shift($segments),
+						]);
+						return true;
 				}
 				return false;
 

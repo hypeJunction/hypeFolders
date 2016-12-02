@@ -85,4 +85,11 @@ return [
 	'folders:new:page_top' => 'Page',
 
 	'folders:error:permissions' => 'You do not have sufficient permissions for this action',
+
+	'folders:reorder:success' => 'Items have been reordered successfully',
+	
+	'folders:move' => 'Move',
+	'folders:move:success' => 'Items has been successfully moved',
+	'folders:move:parent_guid' => 'Move to',
+	
 ];
