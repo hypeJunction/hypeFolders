@@ -43,18 +43,6 @@ class Menus {
 			$drag = elgg_view_icon('arrows');
 			$item_class = 'elgg-state-draggable';
 		}
-//		$menu = self::getProfileMenuItems($folder, $folder, false);
-//		foreach ($menu as &$item) {
-//			$icon = $item->getData('icon');
-//			if ($icon) {
-//				$item->setText(elgg_view_icon($icon));
-//				$item->setData('icon', null);
-//			}
-//		}
-//		$controls = elgg_view_menu('resource:item:controls', [
-//			'items' => $menu,
-//			'class' => 'elgg-menu-hz',
-//		]);
 
 		$link = elgg_view('output/url', [
 			'text' => $folder->title,
@@ -63,11 +51,11 @@ class Menus {
 
 		$return[] = ElggMenuItem::factory([
 					'name' => "resource:$folder->guid",
-					'text' => $drag . $link . $controls,
+					'text' => $link,
 					'href' => false,
 					'priority' => 1,
 					'data-guid' => $folder->guid,
-					'item_class' => (in_array($folder->guid, $ancestors)) ? "elgg-state-highlighted $item_class" : $item_class,
+					'item_class' => (in_array($folder->guid, $ancestors)) ? "elgg-state-highlighted" : '',
 					'selected' => $folder->guid == $selected->guid,
 					'data' => [
 						'guid' => $folder->guid,
