@@ -20,7 +20,7 @@ if (!$main_folder instanceof MainFolder || !$main_folder->canWriteToContainer())
 
 $success = 0;
 foreach ($guids as $weight => $guid) {
-	if ($main_folder->addResource($guid, $resource->guid)) {
+	if ($main_folder->addResource($guid, $resource->guid, $weight)) {
 		$success++;
 	}
 }
