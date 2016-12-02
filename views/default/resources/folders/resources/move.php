@@ -1,52 +1,64 @@
 <?php
 
-use hypeJunction\Folders\MainFolder;
-
-$guid = elgg_extract('guid', $vars);
-elgg_entity_gatekeeper($guid, 'object', MainFolder::SUBTYPE);
-
-$folder = get_entity($guid);
-/* @var $folder MainFolder */
-
-if (!$folder->canWriteToContainer()) {
-	forward('', '403');
+$folder = elgg_extract('folder', $vars);
+if (!$folder instanceof hypeJunction\Folders\MainFolder) {
+	return;
 }
 
-$resource_guid = elgg_extract('resource_guid', $vars);
-$resource = get_entity($resource_guid);
-/* @var $resource ElggEntity */
-
-if (!$folder->isResource($resource_guid)) {
-	forward('', '404');
+$resource = elgg_extract('resource', $vars);
+if (!$folder->isResource($resource->guid)) {
+	return;
 }
 
-$container = $folder->getContainerEntity();
-elgg_set_page_owner_guid($container->guid);
+$options = [];
 
-$folder->setBreadcrumbs($resource->guid);
+$resources = $folder->getResources();
+$parent = $folder->getParent($resource->guid);
 
-$title = elgg_echo('folders:move');
-elgg_push_breadcrumb($title);
+$tree = function($node, $level = 0) use ($folder, $resource, &$options, &$tree) {
+	if ($node->guid == $resource->guid) {
+		return;
+	}
 
-$content = elgg_view('folders/resources/move', array(
-	'folder' => $folder,
-	'resource' => $resource,
-));
+	if ($level > 0) {
+		$prefix = str_repeat("&#160;", $level * 3) . '-- ';
+	}
 
-if (elgg_is_xhr()) {
-	echo $content;
-} else {
+	$options[$node->guid] = $prefix . $node->title;
 
-	$sidebar = elgg_view('folders/sidebar', array(
-		'folder' => $folder,
-		'resource' => $resource,
-	));
+	$children = $folder->getChildren($node->guid);
+	foreach ($children as $child) {
+		$tree($child, $level + 1);
+	}
+};
 
-	$layout = elgg_view_layout('content', array(
-		'title' => $title,
-		'content' => $content,
-		'filter' => false,
-		'sidebar' => $sidebar,
-	));
-	echo elgg_view_page($title, $layout);
-}
+$tree($folder, 0);
+
+echo elgg_view_field([
+	'#type' => 'select',
+	'#label' => elgg_echo('folders:move:parent_guid'),
+	'options_values' => $options,
+	'value' => $parent->guid,
+	'name' => 'parent_guid',
+	'required' => true,
+]);
+
+echo elgg_view_field([
+	'#type' => 'hidden',
+	'name' => 'guid',
+	'value' => $resource->guid,
+]);
+
+echo elgg_view_field([
+	'#type' => 'hidden',
+	'name' => 'folder_guid',
+	'value' => $folder->guid,
+]);
+
+$footer = elgg_view_field([
+	'#type' => 'submit',
+	'value' => elgg_echo('save'),
+	'field_class' => 'elgg-foot',
+		]);
+elgg_set_form_footer($footer);
+
