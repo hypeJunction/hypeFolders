@@ -13,22 +13,22 @@ if (!$folder->isResource($resource->guid)) {
 $options = [];
 
 $resources = $folder->getResources();
+$parent = $folder->getParent($resource->guid);
 
 $tree = function($node, $level = 0) use ($folder, $resource, &$options, &$tree) {
 	if ($node->guid == $resource->guid) {
 		return;
 	}
+
 	if ($level > 0) {
-		$label = str_pad('', $level * 2);
-		$label .= '-- ';
+		$prefix = str_repeat("&#160;", $level * 3) . '-- ';
 	}
-	$options[$node->guid] = $label . $node->title;
+
+	$options[$node->guid] = $prefix . $node->title;
 
 	$children = $folder->getChildren($node->guid);
-	if ($children) {
-		foreach ($children as $child) {
-			$tree($child, $level + 1);
-		}
+	foreach ($children as $child) {
+		$tree($child, $level + 1);
 	}
 };
 
@@ -38,7 +38,7 @@ echo elgg_view_field([
 	'#type' => 'select',
 	'#label' => elgg_echo('folders:move:parent_guid'),
 	'options_values' => $options,
-	'value' => 0,
+	'value' => $parent->guid,
 	'name' => 'parent_guid',
 	'required' => true,
 ]);
@@ -59,6 +59,6 @@ $footer = elgg_view_field([
 	'#type' => 'submit',
 	'value' => elgg_echo('save'),
 	'field_class' => 'elgg-foot',
-]);
+		]);
 elgg_set_form_footer($footer);
 
