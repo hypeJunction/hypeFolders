@@ -41,6 +41,10 @@ class MainFolder extends ElggObject {
 	 * @return int|false
 	 */
 	public function addResource($resource_guid, $parent_guid = 0, $weight = 0) {
+		if ($resource_guid == $parent_guid || $resource_guid == $this->guid) {
+			return false;
+		}
+
 		$resource = get_entity($resource_guid);
 		if (!$resource) {
 			return false;
@@ -159,7 +163,7 @@ class MainFolder extends ElggObject {
 		";
 
 		$rows = elgg_get_entities($options);
-		
+
 		if (is_array($rows)) {
 			$keys = array_map(function($elem) {
 				return (int) $elem->guid;
@@ -168,7 +172,6 @@ class MainFolder extends ElggObject {
 		}
 
 		return $rows;
-
 	}
 
 	/**
@@ -202,7 +205,7 @@ class MainFolder extends ElggObject {
 		$resources = $this->getResources([
 			'callback' => false,
 		]);
-		
+
 		if (!$resources) {
 			return false;
 		}
@@ -217,9 +220,9 @@ class MainFolder extends ElggObject {
 		if ($parent_guid == $this->guid) {
 			return $this;
 		}
-		
+
 		$parent = elgg_extract($parent_guid, $resources, false);
-		
+
 		return $parent;
 	}
 
@@ -233,7 +236,7 @@ class MainFolder extends ElggObject {
 		$resources = $this->getResources([
 			'callback' => false,
 		]);
-		
+
 		if (!$resources) {
 			return 0;
 		}
@@ -394,4 +397,5 @@ class MainFolder extends ElggObject {
 
 		delete_data($query, $params);
 	}
+
 }
