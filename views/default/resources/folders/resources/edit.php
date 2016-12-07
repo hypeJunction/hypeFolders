@@ -40,6 +40,7 @@ $filter = elgg_view('folders/filter', [
 
 $content = elgg_view('folders/resources/edit', array(
 	'entity' => $resource,
+	'folder' => $folder,
 		));
 
 $layout = elgg_view_layout('content', array(
