@@ -29,6 +29,7 @@ $options = [
 	'offset' => $offset,
 	'joins' => [
 		"
+			// WARNING: objects_entity subtable removed in Elgg 3.0 — rewrite this SQL
 			JOIN {$dbprefix}objects_entity oe_sort
 				ON oe_sort.guid = e.guid
 		",
