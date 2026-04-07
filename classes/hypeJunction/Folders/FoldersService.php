@@ -21,7 +21,7 @@ class FoldersService {
 	protected function getEntities(array $options = array(), $as_guids = false, callable $ege = null) {
 
 		if (!$ege) {
-			$ege = 'elgg_get_entities_from_attributes';
+			$ege = 'elgg_get_entities';
 		}
 
 		if (!is_callable($ege)) {
