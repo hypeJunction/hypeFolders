@@ -231,7 +231,7 @@ class MainFolder extends ElggObject
     /**
      * {@inheritdoc}
      */
-    public function save()
+    public function save(): bool
     {
         $return = parent::save();
         if ($return && !isset($this->priority)) {
