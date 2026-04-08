@@ -7,13 +7,13 @@ return [
 	'entities' => [
 		[
 			'type' => 'object',
-			'subtype' => MainFolder::SUBTYPE,
+			'subtype' => 'main_resource_folder',
 			'class' => MainFolder::class,
 			'searchable' => true,
 		],
 		[
 			'type' => 'object',
-			'subtype' => Folder::SUBTYPE,
+			'subtype' => 'resource_folder',
 			'class' => Folder::class,
 			'searchable' => true,
 		],
