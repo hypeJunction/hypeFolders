@@ -1,14 +1,28 @@
 <?php
 
-run_function_once('hypefolders_upgrade_20160510a');
+// run_function_once() removed in Elgg 4.x — this upgrade should be handled via Elgg\Upgrade\Batch
+// Keeping function definition for reference only
+// run_function_once('hypefolders_upgrade_20160510a');
 function hypefolders_upgrade_20160510a()
 {
     $dbprefix = elgg_get_config('dbprefix');
     // Setup MySQL databases
-    run_sql_script(dirname(dirname(__FILE__)) . '/install/mysql.sql');
+    $sql = "CREATE TABLE IF NOT EXISTS `{$dbprefix}folders` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `relationship_id` int(11) NOT NULL,
+      `folder_guid` bigint(20) unsigned NOT NULL,
+      `parent_guid` bigint(20) unsigned NOT NULL,
+      `resource_guid` bigint(20) unsigned NOT NULL,
+      `weight` int(11) NOT NULL DEFAULT '0',
+      `title` text NOT NULL DEFAULT '',
+      PRIMARY KEY (`id`),
+      UNIQUE KEY `relationship_id` (`relationship_id`)
+    ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;";
+    elgg()->db->updateData($sql);
+
     $folders = new \ElggBatch('elgg_get_entities', ['types' => 'object', 'subtypes' => \hypeJunction\Folders\MainFolder::SUBTYPE, 'limit' => 0]);
     foreach ($folders as $folder) {
-        $resources = new ElggBatch('elgg_get_entities', ['relationship' => 'resource', 'relationship_guid' => $folder->guid, 'inverse_relationship' => true, 'limit' => 0]);
+        $resources = new \ElggBatch('elgg_get_entities', ['relationship' => 'resource', 'relationship_guid' => $folder->guid, 'inverse_relationship' => true, 'limit' => 0]);
         foreach ($resources as $resource) {
             $relationship = check_entity_relationship($resource->guid, 'resource', $folder->guid);
             $annotations = elgg_get_annotations(array('guids' => $resource->guid, 'annotation_names' => array('parent', 'weight'), 'annotation_owner_guids' => $folder->guid, 'limit' => 0));
@@ -24,17 +38,19 @@ function hypefolders_upgrade_20160510a()
                         break;
                 }
             }
-            $query = "\n\t\t\t\tINSERT INTO {$dbprefix}folders\n\t\t\t\tSET relationship_id = :relationship_id,\n\t\t\t\t    folder_guid = :folder_guid,\n\t\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\t    resource_guid = :resource_guid,\n\t\t\t\t\tweight = :weight,\n\t\t\t\t\ttitle = :title\n\t\t\t\tON DUPLICATE KEY UPDATE\n\t\t\t\t\tparent_guid = :parent_guid\n\t\t\t";
+            $query = "
+				INSERT INTO {$dbprefix}folders
+				SET relationship_id = :relationship_id,
+				    folder_guid = :folder_guid,
+					parent_guid = :parent_guid,
+				    resource_guid = :resource_guid,
+					weight = :weight,
+					title = :title
+				ON DUPLICATE KEY UPDATE
+					parent_guid = :parent_guid
+			";
             $params = [':relationship_id' => (int) $relationship->id, ':folder_guid' => (int) $folder->guid, ':parent_guid' => (int) $parent_guid, ':resource_guid' => (int) $resource->guid, ':weight' => (int) $weight, ':title' => (string) $resource->getDisplayName()];
-            $result = insert_data($query, $params);
-            if ($result) {
-                //				elgg_delete_annotations(array(
-                //					'guids' => $resource->guid,
-                //					'annotation_names' => array('parent', 'weight'),
-                //					'annotation_owner_guids' => $folder->guid,
-                //					'limit' => 0,
-                //				));
-            }
+            elgg()->db->insertData($query, $params);
         }
     }
 }

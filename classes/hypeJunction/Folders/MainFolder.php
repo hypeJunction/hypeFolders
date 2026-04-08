@@ -69,7 +69,7 @@ class MainFolder extends ElggObject
         $dbprefix = elgg_get_config('dbprefix');
         $query = "\n\t\t\tINSERT INTO {$dbprefix}folders\n\t\t\tSET relationship_id = :relationship_id,\n\t\t\t\tfolder_guid = :folder_guid,\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tresource_guid = :resource_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t\tON DUPLICATE KEY UPDATE\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t";
         $params = [':relationship_id' => (int) $id, ':folder_guid' => (int) $this->guid, ':parent_guid' => (int) $parent->guid, ':resource_guid' => (int) $resource->guid, ':weight' => (int) $weight, ':title' => (string) $resource->getDisplayName()];
-        return insert_data($query, $params);
+        return elgg()->db->insertData($query, $params);
     }
     /**
      * Removes a resource from folder
@@ -91,7 +91,7 @@ class MainFolder extends ElggObject
         if ($result) {
             $dbprefix = elgg_get_config('dbprefix');
             $query = "\n\t\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\t\tWHERE relationship_id = :relationship_id\n\t\t\t";
-            delete_data($query, [':relationship_id' => $id]);
+            elgg()->db->deleteData($query, [':relationship_id' => $id]);
         }
         return $result;
     }
@@ -278,7 +278,7 @@ class MainFolder extends ElggObject
         $dbprefix = elgg_get_config('dbprefix');
         $query = "\n\t\t\tUPDATE {$dbprefix}folders\n\t\t\tSET title = :title\n\t\t\tWHERE resource_guid = :resource_guid\n\t\t";
         $params = [':title' => (string) $entity->getDisplayName(), ':resource_guid' => $entity->guid];
-        update_data($query, $params);
+        elgg()->db->updateData($query, false, $params);
     }
     /**
      * Remove deleted items from the tree
@@ -293,6 +293,6 @@ class MainFolder extends ElggObject
         $dbprefix = elgg_get_config('dbprefix');
         $query = "\n\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\tWHERE folder_guid = :guid\n\t\t\tOR parent_guid = :guid\n\t\t\tOR resource_guid = :guid\n\t\t";
         $params = [':guid' => $entity->guid];
-        delete_data($query, $params);
+        elgg()->db->deleteData($query, $params);
     }
 }

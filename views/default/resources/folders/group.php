@@ -3,7 +3,7 @@
 use hypeJunction\Folders\MainFolder;
 $group_guid = elgg_extract('container_guid', $vars);
 elgg_entity_gatekeeper($group_guid, 'group');
-elgg_entity_gatekeeper(true, $group_guid);
+elgg_group_gatekeeper(true, $group_guid);
 $group = get_entity($group_guid);
 elgg_set_page_owner_guid($group->guid);
 elgg_push_breadcrumb($group->getDisplayName(), $group->getURL());

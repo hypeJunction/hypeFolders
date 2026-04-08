@@ -34,16 +34,15 @@ if ($guid) {
 
 $entity->title = $title;
 $entity->description = $description;
-$entity->tags = string_to_tag_array($tags);
+$entity->tags = elgg_string_to_array($tags);
 $entity->access_id = $access_id;
 
 if ($entity->save()) {
 	$entity->saveIconFromUploadedFile('icon');
 
 	elgg_clear_sticky_form('folders/edit');
-	
-	system_message(elgg_echo('folders:save:success'));
-	forward($entity->getURL());
+
+	return elgg_ok_response('', elgg_echo('folders:save:success'), $entity->getURL());
 } else {
-	register_error(elgg_echo('folders:save:error:generic'));
+	return elgg_error_response(elgg_echo('folders:save:error:generic'));
 }

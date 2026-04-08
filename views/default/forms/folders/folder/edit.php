@@ -21,7 +21,7 @@ echo elgg_view_input('text', array(
 
 echo elgg_view_input('file', array(
 	'name' => 'icon',
-	'value' => ($entity->icontime),
+	'value' => ($entity && $entity->hasIcon('small')),
 	'label' => elgg_echo('folders:folder:icon'),
 ));
 
@@ -46,7 +46,7 @@ echo elgg_view('forms/folders/folder/edit/extend', $vars);
 
 echo elgg_view_input('access', array(
 	'name' => 'access_id',
-	'value' => elgg_extract('access_id', $vars, ($entity) ? $entity->access_id : get_default_access()),
+	'value' => elgg_extract('access_id', $vars, ($entity) ? $entity->access_id : elgg_get_default_access()),
 	'label' => elgg_echo('folders:folder:access_id')
 ));
 

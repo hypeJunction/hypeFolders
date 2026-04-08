@@ -12,9 +12,11 @@ if (!$resource) {
 }
 $container = $folder->getContainerEntity();
 if (!$container) {
-    forward('', '404');
+    throw new \Elgg\Exceptions\Http\EntityNotFoundException();
 }
-elgg_entity_gatekeeper(true, $container->guid);
+if ($container instanceof \ElggGroup) {
+    elgg_group_gatekeeper(true, $container->guid);
+}
 elgg_set_page_owner_guid($container->guid);
 $folder->setBreadcrumbs($resource->guid);
 elgg_pop_breadcrumb();

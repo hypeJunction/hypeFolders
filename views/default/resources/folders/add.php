@@ -12,8 +12,7 @@ if (!$container) {
 }
 
 if (!$container->canWriteToContainer(0, 'object', MainFolder::SUBTYPE)) {
-	register_error(elgg_echo('folders:write:error:container'));
-	forward(REFERRER);
+	throw new \Elgg\Exceptions\Http\EntityPermissionsException(elgg_echo('folders:write:error:container'));
 }
 
 elgg_set_page_owner_guid($container->guid);

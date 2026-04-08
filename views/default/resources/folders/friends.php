@@ -6,12 +6,11 @@ $username = elgg_extract('username', $vars);
 $user = get_user_by_username($username);
 
 if (!$user) {
-	forward('', '404');
+	throw new \Elgg\Exceptions\Http\EntityNotFoundException();
 }
 
 if (!$user->canEdit()) {
-	register_error(elgg_echo('noaccess'));
-	forward("folders/all");
+	throw new \Elgg\Exceptions\Http\EntityPermissionsException();
 }
 
 elgg_set_page_owner_guid($user->guid);

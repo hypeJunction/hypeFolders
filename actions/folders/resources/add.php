@@ -10,12 +10,11 @@ $main_folder = get_entity($main_folder_guid);
 $resource = get_entity($resource_guid);
 
 if (empty($guids) || !is_array($guids)) {
-	forward(REFERRER);
+	return elgg_error_response('');
 }
 
 if (!$main_folder instanceof MainFolder || !$main_folder->canWriteToContainer()) {
-	register_error(elgg_echo('folders:folder:error:no_entity'));
-	forward(REFERRER);
+	return elgg_error_response(elgg_echo('folders:folder:error:no_entity'));
 }
 
 $success = 0;
@@ -25,7 +24,5 @@ foreach ($guids as $weight => $guid) {
 	}
 }
 
-//system_message(elgg_echo('folders:resources:add:success', array($success, count($guids))));
-
 $forward_url = ($resource) ? $resource->getURL() : $main_folder->getURL();
-forward($forward_url);
+return elgg_ok_response('', '', $forward_url);

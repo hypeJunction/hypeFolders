@@ -9,7 +9,7 @@ $resource_guid = get_input('resource_guid');
 $title = get_input('title');
 $description = get_input('description');
 $tags = get_input('tags', '');
-$access_id = get_input('access_id', get_default_access());
+$access_id = get_input('access_id', elgg_get_default_access());
 
 $user = elgg_get_logged_in_user_entity();
 $entity = ($guid) ? get_entity($guid) : null;
@@ -19,25 +19,21 @@ $main_folder = get_entity($main_folder_guid);
 $resource = get_entity($resource_guid);
 
 if (!$title) {
-	register_error(elgg_echo('folders:input:error:required', [elgg_echo('title')]));
-	forward(REFERRER);
+	return elgg_error_response(elgg_echo('folders:input:error:required', [elgg_echo('title')]));
 }
 
 if (!$main_folder instanceof \hypeJunction\Folders\MainFolder || !$main_folder->canEdit()) {
-	register_error(elgg_echo('folders:folder:error:no_entity'));
-	forward(REFERRER);
+	return elgg_error_response(elgg_echo('folders:folder:error:no_entity'));
 }
 
 if ($guid) {
 	if (!$entity) {
-		register_error(elgg_echo('folders:get:error:entity'));
-		forward(REFERRER);
+		return elgg_error_response(elgg_echo('folders:get:error:entity'));
 	}
 } else {
 	$container = $main_folder->getContainerEntity();
 	if (!$container || !$container->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
-		register_error(elgg_echo('folders:write:error:container'));
-		forward(REFERER);
+		return elgg_error_response(elgg_echo('folders:write:error:container'));
 	}
 
 	$entity = new \hypeJunction\Folders\Folder();
@@ -47,7 +43,7 @@ if ($guid) {
 
 $entity->title = $title;
 $entity->description = $description;
-$entity->tags = string_to_tag_array($tags);
+$entity->tags = elgg_string_to_array($tags);
 $entity->access_id = $access_id;
 
 
@@ -59,9 +55,8 @@ if ($entity->save()) {
 	$main_folder->addResource($entity->guid, $resource->guid);
 
 	elgg_clear_sticky_form('folders/folder/edit');
-	
-	system_message(elgg_echo('folders:save:success'));
-	forward($entity->getURL());
+
+	return elgg_ok_response('', elgg_echo('folders:save:success'), $entity->getURL());
 } else {
-	register_error(elgg_echo('folders:save:error:generic'));
+	return elgg_error_response(elgg_echo('folders:save:error:generic'));
 }
