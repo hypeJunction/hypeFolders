@@ -1,9 +1,12 @@
 <?php
 
+use hypeJunction\Folders\Bootstrap;
 use hypeJunction\Folders\Folder;
 use hypeJunction\Folders\MainFolder;
 
 return [
+	'bootstrap' => Bootstrap::class,
+
 	'entities' => [
 		[
 			'type' => 'object',
