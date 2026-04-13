@@ -3,9 +3,63 @@
 use hypeJunction\Folders\Bootstrap;
 use hypeJunction\Folders\Folder;
 use hypeJunction\Folders\MainFolder;
+use hypeJunction\Folders\Menus;
+use hypeJunction\Folders\Permissions;
+use hypeJunction\Folders\Router;
 
 return [
 	'bootstrap' => Bootstrap::class,
+
+	'plugin' => [
+		'dependencies' => [
+			'elgg_tokeninput' => [],
+		],
+	],
+
+	'events' => [
+		'create' => [
+			'object' => [
+				MainFolder::class . '::addCreatedResource' => [],
+			],
+		],
+		'update' => [
+			'object' => [
+				MainFolder::class . '::syncTitle' => [],
+			],
+		],
+		'delete' => [
+			'object' => [
+				MainFolder::class . '::removeDeletedItems' => ['priority' => 999],
+			],
+		],
+	],
+
+	'hooks' => [
+		'entity:url' => [
+			'object' => [
+				Router::class . '::entityUrlHandler' => ['priority' => 999],
+			],
+		],
+		'container_permissions_check' => [
+			'object' => [
+				Permissions::class . '::checkContainerPermissions' => [],
+			],
+			'all' => [
+				Permissions::class . '::checkFolderPermissions' => [],
+			],
+		],
+		'register' => [
+			'menu:folders' => [
+				Menus::class . '::setupFolderMenu' => [],
+			],
+			'menu:entity' => [
+				Menus::class . '::setupFolderResourceMenu' => [],
+			],
+			'menu:owner_block' => [
+				Menus::class . '::setupOwnerBlockMenu' => [],
+			],
+		],
+	],
 
 	'entities' => [
 		[
