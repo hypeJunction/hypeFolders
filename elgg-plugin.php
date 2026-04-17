@@ -6,9 +6,14 @@ use hypeJunction\Folders\MainFolder;
 use hypeJunction\Folders\Menus;
 use hypeJunction\Folders\Permissions;
 use hypeJunction\Folders\Router;
+use hypeJunction\Folders\Upgrades\MigratePluginId;
 
 return [
 	'bootstrap' => Bootstrap::class,
+
+	'upgrades' => [
+		MigratePluginId::class,
+	],
 
 	'plugin' => [
 		'dependencies' => [
