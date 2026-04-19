@@ -18,12 +18,16 @@
 		}
 	],
 	"extra": {
-		"installer-name": "hypeFolders"
+		"installer-name": "hypeFolders",
+		"elgg-plugin": {
+			"id": "hypefolders"
+		}
 	},
 	"require": {
 		"php": ">=7.4",
-		"composer/installers": "~1.0",
-		"hypejunction/elgg_tokeninput": "*"
+		"composer/installers": "^2.0",
+		"hypejunction/elgg_tokeninput": "*",
+		"elgg/elgg": "^4.0"
 	},
 	"autoload": {
 		"psr-0": {
