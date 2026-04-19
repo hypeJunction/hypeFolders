@@ -28,7 +28,7 @@ $content = elgg_view('folders/listing/friends', [
 
 $layout = elgg_view_layout('content', array(
 	'title' => $title,
-	'content' =>$content,
+	'content' => $content,
 	'filter_context' => 'friends',
 ));
 

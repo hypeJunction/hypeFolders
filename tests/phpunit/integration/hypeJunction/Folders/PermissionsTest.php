@@ -2,13 +2,11 @@
 
 namespace hypeJunction\Folders;
 
-use Elgg\Hook;
+use Elgg\HooksRegistrationService\Hook;
 use Elgg\IntegrationTestCase;
 
 /**
  * Tests for the container_permissions_check hook handlers in Permissions.
- * These use the legacy 4-arg static signature; tests still invoke them directly
- * so we can mock \Elgg\Hook for the signature expected by Elgg 4.x hook plumbing.
  */
 class PermissionsTest extends IntegrationTestCase {
 
@@ -26,31 +24,34 @@ class PermissionsTest extends IntegrationTestCase {
 			'subtype' => 'blog',
 			'user' => $user,
 		];
-		$result = Permissions::checkContainerPermissions('container_permissions_check', 'object', true, $params);
+		$hook = new Hook(elgg(), 'container_permissions_check', 'object', true, $params);
+		$result = Permissions::checkContainerPermissions($hook);
 		$this->assertNull($result);
 	}
 
 	public function testCheckContainerPermissionsRejectsUserFolderWhenSettingDisabled(): void {
-		\elgg_get_plugin_from_id('hypeFolders')->setSetting('user_folders', false);
+		\elgg_get_plugin_from_id('hypefolders')->setSetting('user_folders', false);
 		$user = $this->createUser();
 		$params = [
 			'container' => $user,
 			'subtype' => MainFolder::SUBTYPE,
 			'user' => $user,
 		];
-		$result = Permissions::checkContainerPermissions('container_permissions_check', 'object', true, $params);
+		$hook = new Hook(elgg(), 'container_permissions_check', 'object', true, $params);
+		$result = Permissions::checkContainerPermissions($hook);
 		$this->assertFalse($result);
 	}
 
 	public function testCheckContainerPermissionsAllowsUserFolderWhenSettingEnabled(): void {
-		\elgg_get_plugin_from_id('hypeFolders')->setSetting('user_folders', 1);
+		\elgg_get_plugin_from_id('hypefolders')->setSetting('user_folders', 1);
 		$user = $this->createUser();
 		$params = [
 			'container' => $user,
 			'subtype' => MainFolder::SUBTYPE,
 			'user' => $user,
 		];
-		$result = Permissions::checkContainerPermissions('container_permissions_check', 'object', true, $params);
+		$hook = new Hook(elgg(), 'container_permissions_check', 'object', true, $params);
+		$result = Permissions::checkContainerPermissions($hook);
 		// Handler falls through when enabled, returning null (= keep existing permission)
 		$this->assertNull($result);
 	}
@@ -62,7 +63,8 @@ class PermissionsTest extends IntegrationTestCase {
 			'subtype' => 'file',
 			'user' => $user,
 		];
-		$result = Permissions::checkFolderPermissions('container_permissions_check', 'object', true, $params);
+		$hook = new Hook(elgg(), 'container_permissions_check', 'object', true, $params);
+		$result = Permissions::checkFolderPermissions($hook);
 		$this->assertNull($result);
 	}
 }

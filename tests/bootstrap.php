@@ -38,4 +38,20 @@ if (file_exists($pluginRoot . '/vendor/autoload.php')) {
     require_once $pluginRoot . '/vendor/autoload.php';
 }
 
+// Clear the Elgg boot cache so PHPUnit always reads active plugins from DB.
+// Without this, a stale cache (created before plugin activation) causes all
+// integration tests to be skipped with "Plugin X isn't active".
+$cacheRoot = getenv('ELGG_CACHE_DIR') ?: '/var/www/data/cache/';
+foreach (['fastcache', 'localfastcache'] as $dir) {
+    $path = rtrim($cacheRoot, '/') . '/' . $dir;
+    if (is_dir($path)) {
+        foreach (new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        ) as $item) {
+            $item->isDir() ? rmdir($item) : unlink($item);
+        }
+    }
+}
+
 \Elgg\Application::loadCore();

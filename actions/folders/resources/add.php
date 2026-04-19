@@ -13,7 +13,7 @@ if (empty($guids) || !is_array($guids)) {
 	return elgg_error_response('');
 }
 
-if (!$main_folder instanceof MainFolder || !$main_folder->canWriteToContainer()) {
+if (!$main_folder instanceof MainFolder || !$main_folder->canEdit()) {
 	return elgg_error_response(elgg_echo('folders:folder:error:no_entity'));
 }
 

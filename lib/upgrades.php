@@ -3,8 +3,7 @@
 // run_function_once() removed in Elgg 4.x — this upgrade should be handled via Elgg\Upgrade\Batch
 // Keeping function definition for reference only
 // run_function_once('hypefolders_upgrade_20160510a');
-function hypefolders_upgrade_20160510a()
-{
+function hypefolders_upgrade_20160510a() {
     $dbprefix = elgg_get_config('dbprefix');
     // Setup MySQL databases
     $sql = "CREATE TABLE IF NOT EXISTS `{$dbprefix}folders` (

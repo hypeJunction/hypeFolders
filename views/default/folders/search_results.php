@@ -71,12 +71,12 @@ $access_ids = array_filter([
 ]);
 
 if ($container instanceof ElggUser) {
-	$restrict = elgg_get_plugin_setting('user_folders_restrict_by_owner', 'hypeFolders', true);
+	$restrict = elgg_get_plugin_setting('user_folders_restrict_by_owner', 'hypefolders', true);
 	if ($restrict && !elgg_is_admin_logged_in()) {
 		$owner_guids = $container->guid;
 	}
 } else {
-	$restrict = elgg_get_plugin_setting('group_folders_restrict_by_container', 'hypeFolders', true);
+	$restrict = elgg_get_plugin_setting('group_folders_restrict_by_container', 'hypefolders', true);
 	if ($restrict) {
 		$container_guids = $container->guid;
 	}

@@ -20,7 +20,7 @@ if ($children) {
 	$toggle = '<span class="elgg-child-menu-toggle"><span class="collapse ">&#9698;</span><span class="expand">&#9654;</span></span>';
 
 	if (!empty($children)) {
-		$submenu = elgg_view('navigation/menu/folders/section', array(
+$submenu = elgg_view('navigation/menu/folders/section', array(
 			'items' => $children,
 			'class' => 'elgg-menu elgg-child-menu',
 			'collapse' => true

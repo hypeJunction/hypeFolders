@@ -21,7 +21,7 @@ $no_results = '';
 $resources = $folder->getChildren($resource->guid, ['limit' => 0]);
 
 if (empty($resources) && elgg_extract('show_placeholder', $vars, false)) {
-	echo elgg_format_element('ul', [
+echo elgg_format_element('ul', [
 		'class' => 'elgg-list folders-content-list',
 	], '');
 	return;

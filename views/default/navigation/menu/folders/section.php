@@ -14,7 +14,7 @@ if ($headers) {
 
 echo "<ul id=\"$id\" class=\"$class\">";
 foreach ($vars['items'] as $menu_item) {
-	echo elgg_view('navigation/menu/folders/item', array(
+echo elgg_view('navigation/menu/folders/item', array(
 		'item' => $menu_item,
 		'item_class' => $item_class,
 		'collapse' => $collapse

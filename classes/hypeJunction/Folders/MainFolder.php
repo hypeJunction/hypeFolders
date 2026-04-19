@@ -13,8 +13,7 @@ class MainFolder extends ElggObject
     /**
      * {@inheritdoc}
      */
-    protected function initializeAttributes()
-    {
+    protected function initializeAttributes() {
         parent::initializeAttributes();
         $this->attributes['subtype'] = self::SUBTYPE;
     }
@@ -24,8 +23,7 @@ class MainFolder extends ElggObject
      * @param int $resource_guid GUID of the resource
      * @return int|false
      */
-    public function isResource($resource_guid = 0)
-    {
+    public function isResource($resource_guid = 0) {
         $relationship = check_entity_relationship($resource_guid, 'resource', $this->guid);
         return $relationship ? $relationship->id : false;
     }
@@ -38,8 +36,7 @@ class MainFolder extends ElggObject
      * @param int $weight        Weight
      * @return int|false
      */
-    public function addResource($resource_guid, $parent_guid = 0, $weight = 0)
-    {
+    public function addResource($resource_guid, $parent_guid = 0, $weight = 0) {
         if ($resource_guid == $parent_guid || $resource_guid == $this->guid) {
             return false;
         }
@@ -77,8 +74,7 @@ class MainFolder extends ElggObject
      * @param int $resource_guid GUID of the resource
      * @return boolean
      */
-    public function removeResource($resource_guid)
-    {
+    public function removeResource($resource_guid) {
         if (!$resource_guid) {
             return false;
         }
@@ -101,8 +97,7 @@ class MainFolder extends ElggObject
      * @param array $options Getter options
      * @return \stdClass[]|false
      */
-    public function getResources($options = array())
-    {
+    public function getResources($options = array()) {
         $defaults = array('limit' => 0);
         $options = array_merge($defaults, $options);
         $dbprefix = elgg_get_config('dbprefix');
@@ -127,8 +122,7 @@ class MainFolder extends ElggObject
      * @param array $options     Getter options
      * @return ElggEntity[]
      */
-    public function getChildren($parent_guid = 0, $options = array())
-    {
+    public function getChildren($parent_guid = 0, $options = array()) {
         if (!$parent_guid) {
             $parent_guid = $this->guid;
         }
@@ -142,8 +136,7 @@ class MainFolder extends ElggObject
      * @param int $resource_guid GUID of the resource
      * @return \stdClass
      */
-    public function getParent($resource_guid = 0)
-    {
+    public function getParent($resource_guid = 0) {
         $resources = $this->getResources(['callback' => false]);
         if (!$resources) {
             return false;
@@ -166,8 +159,7 @@ class MainFolder extends ElggObject
      * @param int $resource_guid GUID of the resource
      * @return int
      */
-    public function getWeight($resource_guid = 0)
-    {
+    public function getWeight($resource_guid = 0) {
         $resources = $this->getResources(['callback' => false]);
         if (!$resources) {
             return 0;
@@ -185,8 +177,7 @@ class MainFolder extends ElggObject
      * @param int $resource_guid GUID of the resource
      * @return \stdClass[]
      */
-    public function getAncestors($resource_guid = 0)
-    {
+    public function getAncestors($resource_guid = 0) {
         $resource = get_entity($resource_guid);
         if (!$resource) {
             $resource = $this;
@@ -212,8 +203,7 @@ class MainFolder extends ElggObject
      * @param int $resource_guid GUID of the resource
      * @return void
      */
-    public function setBreadcrumbs($resource_guid = 0)
-    {
+    public function setBreadcrumbs($resource_guid = 0) {
         $container = $this->getContainerEntity();
         //elgg_set_page_owner_guid($container->guid);
         if ($container instanceof ElggUser) {
@@ -231,8 +221,7 @@ class MainFolder extends ElggObject
     /**
      * {@inheritdoc}
      */
-    public function save(): bool
-    {
+    public function save(): bool {
         $return = parent::save();
         if ($return && !isset($this->priority)) {
             $this->priority = 0;
@@ -242,13 +231,14 @@ class MainFolder extends ElggObject
     /**
      * Add new resource when entity is created with a special form
      *
-     * @param string     $event  "create"
-     * @param string     $type   "object"
-     * @param ElggEntity $entity New entity
+     * @param \Elgg\Event $event Event
      * @return void
      */
-    public static function addCreatedResource($event, $type, $entity)
-    {
+    public static function addCreatedResource(\Elgg\Event $event) {
+        $entity = $event->getObject();
+        if (!$entity instanceof ElggEntity) {
+            return;
+        }
         $folder_guid = get_input('main_folder_guid');
         $folder = get_entity($folder_guid);
         $parent_guid = (int) get_input('parent_guid');
@@ -263,14 +253,15 @@ class MainFolder extends ElggObject
     }
     /**
      * Sync item title in the folders table
-     * 
-     * @param string     $event  "update"
-     * @param string     $type   "object"
-     * @param ElggEntity $entity Entity
+     *
+     * @param \Elgg\Event $event Event
      * @return void
      */
-    public static function syncTitle($event, $type, $entity)
-    {
+    public static function syncTitle(\Elgg\Event $event) {
+        $entity = $event->getObject();
+        if (!$entity instanceof ElggEntity) {
+            return;
+        }
         $original_attributes = $entity->getOriginalAttributes();
         if (!array_key_exists('title', $original_attributes)) {
             return;
@@ -283,13 +274,14 @@ class MainFolder extends ElggObject
     /**
      * Remove deleted items from the tree
      *
-     * @param string     $event  "delete"
-     * @param string     $type   "object"
-     * @param ElggEntity $entity Entity
+     * @param \Elgg\Event $event Event
      * @return void
      */
-    public static function removeDeletedItems($event, $type, $entity)
-    {
+    public static function removeDeletedItems(\Elgg\Event $event) {
+        $entity = $event->getObject();
+        if (!$entity instanceof ElggEntity) {
+            return;
+        }
         $dbprefix = elgg_get_config('dbprefix');
         $query = "\n\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\tWHERE folder_guid = :guid\n\t\t\tOR parent_guid = :guid\n\t\t\tOR resource_guid = :guid\n\t\t";
         $params = [':guid' => $entity->guid];

@@ -69,20 +69,20 @@ class Router {
 				$subpage = array_shift($segments);
 				switch ($subpage) {
 					case 'edit' :
-						echo elgg_view_resource('folders/resources/edit', [
+    echo elgg_view_resource('folders/resources/edit', [
 							'guid' => array_shift($segments),
 							'resource_guid' => array_shift($segments),
 						]);
 						return true;
 					case 'add' :
-						echo elgg_view_resource('folders/resources/add', [
+    echo elgg_view_resource('folders/resources/add', [
 							'guid' => array_shift($segments),
 							'resource_guid' => array_shift($segments),
 						]);
 						return true;
 
 					case 'new' :
-						echo elgg_view_resource('folders/resources/new', [
+    echo elgg_view_resource('folders/resources/new', [
 							'guid' => array_shift($segments),
 							'resource_guid' => array_shift($segments),
 							'subtype' => array_shift($segments),
@@ -90,7 +90,7 @@ class Router {
 						return true;
 
 					case 'move' :
-						echo elgg_view_resource('folders/resources/move', [
+    echo elgg_view_resource('folders/resources/move', [
 							'guid' => array_shift($segments),
 							'resource_guid' => array_shift($segments),
 						]);
@@ -115,9 +115,9 @@ class Router {
 	 * @param array  $params Hook params
 	 * @return string
 	 */
-	public static function entityUrlHandler($hook, $type, $return, $params) {
+	public static function entityUrlHandler(\Elgg\Hook $hook) {
 
-		$entity = elgg_extract('entity', $params);
+		$entity = $hook->getParam('entity');
 
 		$subtype = $entity->getSubtype();
 		switch ($subtype) {

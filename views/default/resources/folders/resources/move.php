@@ -8,7 +8,7 @@ elgg_entity_gatekeeper($guid, 'object', MainFolder::SUBTYPE);
 $folder = get_entity($guid);
 /* @var $folder MainFolder */
 
-if (!$folder->canWriteToContainer()) {
+if (!$folder->canEdit()) {
 	throw new \Elgg\Exceptions\Http\EntityPermissionsException();
 }
 
@@ -37,12 +37,12 @@ if (elgg_is_xhr()) {
 	echo $content;
 } else {
 
-	$sidebar = elgg_view('folders/sidebar', array(
+$sidebar = elgg_view('folders/sidebar', array(
 		'folder' => $folder,
 		'resource' => $resource,
 	));
 
-	$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', array(
 		'title' => $title,
 		'content' => $content,
 		'filter' => false,

@@ -7,7 +7,7 @@ $parent_guid = get_input('parent_guid');
 $folder_guid = get_input('folder_guid');
 
 $folder = get_entity($folder_guid);
-if (!$folder instanceof MainFolder || !$folder->canWriteToContainer()) {
+if (!$folder instanceof MainFolder || !$folder->canEdit()) {
 	return elgg_error_response(elgg_echo('folders:error:permissions'));
 }
 

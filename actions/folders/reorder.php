@@ -15,7 +15,7 @@ foreach ($items as $item) {
 	$folder_guid = elgg_extract('folder_guid', $item);
 
 	$folder = get_entity($folder_guid);
-	if (!$folder instanceof MainFolder || !$folder->canWriteToContainer()) {
+	if (!$folder instanceof MainFolder || !$folder->canEdit()) {
 		continue;
 	}
 

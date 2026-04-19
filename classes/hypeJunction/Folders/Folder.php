@@ -9,8 +9,7 @@ class Folder extends \ElggObject
     /**
      * {@inheritdoc}
      */
-    protected function initializeAttributes()
-    {
+    protected function initializeAttributes() {
         parent::initializeAttributes();
         $this->attributes['subtype'] = self::SUBTYPE;
     }
@@ -20,16 +19,14 @@ class Folder extends \ElggObject
      * @param MainFolder $folder
      * @return void
      */
-    public function setMainFolder($folder)
-    {
+    public function setMainFolder($folder) {
         $this->setVolatileData('select:folder_guid', $folder->guid);
     }
     /**
      * Returns a folder reference
      * @return MainFolder
      */
-    public function getMainFolder()
-    {
+    public function getMainFolder() {
         $folder_guid = $this->getVolatileData('select:folder_guid');
         $folder = get_entity($folder_guid);
         if (!$folder) {

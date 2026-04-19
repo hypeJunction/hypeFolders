@@ -7,12 +7,12 @@ $resource = elgg_extract('resource', $vars);
 ?>
 <div class="folders-editor-component">
 	<p class="elgg-text-help">
-		<?= elgg_echo('folders:add:content:instructions'); ?>
+		<?php echo elgg_echo('folders:add:content:instructions'); ?>
 	</p>
 	<div class="folders-content-editor elgg-content">
 		<div class="folders-search-area">
 			<?php
-			echo elgg_view_form('folders/resources/search', [
+echo elgg_view_form('folders/resources/search', [
 				'action' => "folders/search",
 				'method' => 'GET',
 				'disable_security' => true,
@@ -27,7 +27,7 @@ $resource = elgg_extract('resource', $vars);
 			</div>
 		</div>
 		<div class="folders-content-area">
-			<?= elgg_view_form('folders/resources/add', [], $vars) ?>
+			<?php echo elgg_view_form('folders/resources/add', [], $vars) ?>
 		</div>
 	</div>
 </div>

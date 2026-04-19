@@ -3,54 +3,63 @@
 $entity = elgg_extract('entity', $vars);
 $container = elgg_extract('container', $vars);
 
-echo elgg_view_input('text', array(
+echo elgg_view_field([
+	'#type' => 'text',
 	'name' => 'title',
 	'value' => elgg_extract('title', $vars, $entity->title),
 	'required' => true,
-	'label' => elgg_echo('folders:folder:title'),
-));
+	'#label' => elgg_echo('folders:folder:title'),
+]);
 
-echo elgg_view_input('file', array(
+echo elgg_view_field([
+	'#type' => 'file',
 	'name' => 'icon',
 	'value' => $entity instanceof ElggEntity && $entity->hasIcon(),
-	'label' => elgg_echo('folders:folder:icon'),
-));
+	'#label' => elgg_echo('folders:folder:icon'),
+]);
 
-echo elgg_view_input('longtext', array(
+echo elgg_view_field([
+	'#type' => 'longtext',
 	'name' => 'description',
 	'value' => elgg_extract('description', $vars, $entity->description),
-	'label' => elgg_echo('folders:folder:description'),
-));
+	'#label' => elgg_echo('folders:folder:description'),
+]);
 
-echo elgg_view_input('tags', array(
+echo elgg_view_field([
+	'#type' => 'tags',
 	'name' => 'tags',
 	'value' => elgg_extract('tags', $vars, $entity->tags),
-	'label' => elgg_echo('folders:folder:tags'),
-));
+	'#label' => elgg_echo('folders:folder:tags'),
+]);
 
-echo elgg_view_input('category', array(
+echo elgg_view_field([
+	'#type' => 'category',
 	'value' => elgg_extract('category', $vars),
 	'entity' => $entity,
-));
+]);
 
 echo elgg_view('forms/folders/edit/extend', $vars);
 
-echo elgg_view_input('access', array(
+echo elgg_view_field([
+	'#type' => 'access',
 	'name' => 'access_id',
 	'value' => elgg_extract('access_id', $vars, ($entity) ? $entity->access_id : elgg_get_default_access()),
-	'label' => elgg_echo('folders:folder:access_id'),
-));
+	'#label' => elgg_echo('folders:folder:access_id'),
+]);
 
-echo elgg_view_input('hidden', array(
+echo elgg_view_field([
+	'#type' => 'hidden',
 	'name' => 'guid',
 	'value' => $entity->guid,
-));
-echo elgg_view_input('hidden', array(
+]);
+echo elgg_view_field([
+	'#type' => 'hidden',
 	'name' => 'container_guid',
 	'value' => $container->guid,
-));
+]);
 
-echo elgg_view_input('submit', array(
+echo elgg_view_field([
+	'#type' => 'submit',
 	'value' => elgg_echo('save'),
-	'field_class' => 'elgg-foot',
-));
+	'#class' => 'elgg-foot',
+]);

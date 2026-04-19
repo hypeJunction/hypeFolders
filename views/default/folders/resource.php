@@ -26,7 +26,7 @@ $subtitle[] = elgg_format_element('span', array(
 
 $owner = $entity->getOwnerEntity();
 if ($owner instanceof ElggUser) {
-	$owner_link = elgg_view('output/url', array(
+$owner_link = elgg_view('output/url', array(
 		'href' => "folders/owner/$owner->username",
 		'text' => $owner->getDisplayName(),
 		'is_trusted' => true,
@@ -38,7 +38,7 @@ if ($owner instanceof ElggUser) {
 
 $metadata = '';
 if (!elgg_in_context('widgets')) {
-	$metadata = elgg_view_menu('entity', array(
+$metadata = elgg_view_menu('entity', array(
 		'entity' => $entity,
 		'sort_by' => 'priority',
 		'class' => 'elgg-menu-hz',
@@ -46,7 +46,7 @@ if (!elgg_in_context('widgets')) {
 }
 
 if ($full_view) {
-	$summary = elgg_view('object/elements/summary', array(
+$summary = elgg_view('object/elements/summary', array(
 		'entity' => $entity,
 		'title' => false,
 		'subtitle' => implode(' | ', $subtitle),
@@ -55,21 +55,21 @@ if ($full_view) {
 	));
 
 	if ($entity instanceof MainFolder || $entity instanceof Folder) {
-	echo elgg_view('object/elements/full', [
+echo elgg_view('object/elements/full', [
 		'entity' => $entity,
 		'summary' => $summary,
 		'icon' => $icon,
-		'body' => elgg_view('output/longtext', [
+'body' => elgg_view('output/longtext', [
 			'value' => $entity->description,
 		]),
 	]);
 	} else {
-		echo elgg_view_entity($entity, [
+echo elgg_view_entity($entity, [
 			'full_view' => true,
 		]);
 	}
 
-	echo elgg_view('folders/resources', [
+echo elgg_view('folders/resources', [
 		'folder' => $folder,
 		'resource' => $entity,
 	]);
@@ -94,13 +94,13 @@ if ($full_view) {
 		$excerpt = elgg_get_excerpt($entity->description, 100);
 	}
 
-	$title = elgg_view('output/url', array(
+$title = elgg_view('output/url', array(
 		'text' => $title,
 		'href' => $entity->getURL(),
 		'is_trusted' => true,
 	));
 
-	$summary = elgg_view('object/elements/summary', array(
+$summary = elgg_view('object/elements/summary', array(
 		'entity' => $entity,
 		'title' => $title,
 		'subtitle' => implode(' | ', $subtitle),
@@ -112,13 +112,13 @@ if ($full_view) {
 
 	$input_name = elgg_extract('input_name', $vars, false);
 	if ($input_name) {
-		$summary .= elgg_view_input('hidden', [
+$summary .= elgg_view_input('hidden', [
 			'name' => "{$input_name}[]",
 			'value' => $entity->guid,
 		]);
 	}
 
-	echo elgg_view_image_block($icon, $summary, array(
+echo elgg_view_image_block($icon, $summary, array(
 		'class' => 'folders-content-item',
 	));
 }

@@ -28,7 +28,7 @@ if (!$folder->canEdit()) {
 	unset($tabs['edit']);
 }
 
-if (!$folder->canWriteToContainer()) {
+if (!$folder->canEdit()) {
 	unset($tabs['resources/add']);
 }
 
