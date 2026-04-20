@@ -54,9 +54,10 @@ class Permissions {
 	public static function checkFolderPermissions(\Elgg\Hook $hook) {
 
 		$folder = $hook->getParam('container');
+		$type = $hook->getType();
 		$subtype = $hook->getParam('subtype');
 		$user = $hook->getParam('user');
-		
+
 		if (!$folder instanceof MainFolder) {
 			return;
 		}

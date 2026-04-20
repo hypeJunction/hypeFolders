@@ -98,7 +98,11 @@ class Menus
             return;
         }
         $items = self::getProfileMenuItems($entity, $folder);
-        return array_merge($return, $items);
+        if (is_array($return)) {
+            return array_merge($return, $items);
+        }
+        $return->merge($items);
+        return $return;
     }
     /**
      * Setup owner block
