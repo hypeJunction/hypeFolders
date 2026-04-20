@@ -18,7 +18,7 @@
 		}
 	],
 	"extra": {
-		"installer-name": "hypeFolders",
+		"installer-name": "hypefolders",
 		"elgg-plugin": {
 			"id": "hypefolders"
 		}
@@ -26,7 +26,6 @@
 	"require": {
 		"php": ">=7.4",
 		"composer/installers": "^2.0",
-		"hypejunction/elgg_tokeninput": "*",
 		"elgg/elgg": "^4.0"
 	},
 	"autoload": {
