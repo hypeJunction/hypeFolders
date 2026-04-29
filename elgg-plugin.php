@@ -37,9 +37,6 @@ return [
 				MainFolder::class . '::removeDeletedItems' => ['priority' => 999],
 			],
 		],
-	],
-
-	'hooks' => [
 		'entity:url' => [
 			'object' => [
 				Router::class . '::entityUrlHandler' => ['priority' => 999],
@@ -96,14 +93,23 @@ return [
 		'collection:object:main_resource_folder:owner' => [
 			'path' => '/folders/owner/{username}',
 			'resource' => 'folders/owner',
+			'middleware' => [
+				\Elgg\Router\Middleware\UserPageOwnerGatekeeper::class,
+			],
 		],
 		'collection:object:main_resource_folder:friends' => [
 			'path' => '/folders/friends/{username}',
 			'resource' => 'folders/friends',
+			'middleware' => [
+				\Elgg\Router\Middleware\UserPageOwnerGatekeeper::class,
+			],
 		],
 		'collection:object:main_resource_folder:group' => [
 			'path' => '/folders/group/{guid}',
 			'resource' => 'folders/group',
+			'middleware' => [
+				\Elgg\Router\Middleware\GroupPageOwnerGatekeeper::class,
+			],
 		],
 		'view:object:main_resource_folder' => [
 			'path' => '/folders/view/{guid}/{resource_guid?}',

@@ -25,7 +25,7 @@ class ViewsTest extends IntegrationTestCase {
 
 	public function testMainFolderObjectViewRenders(): void {
 		$user = $this->createUser();
-		$session = _elgg_services()->session;
+		$session = _elgg_services()->session_manager;
 		$session->setLoggedInUser($user);
 
 		try {
@@ -50,7 +50,7 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 
 	public function testEditFormViewRenders(): void {
 		$user = $this->createUser();
-		$session = _elgg_services()->session;
+		$session = _elgg_services()->session_manager;
 		$session->setLoggedInUser($user);
 
 		try {

@@ -28,16 +28,16 @@ class FoldersServiceTest extends IntegrationTestCase {
 	}
 
 	public function testContentTypesHookCanFilterList(): void {
-		$handler = function (\Elgg\Hook $hook) {
+		$handler = function (\Elgg\Event $event) {
 			return ['custom_type'];
 		};
-		\elgg_register_plugin_hook_handler('content_types', 'folders', $handler);
+		\elgg_register_event_handler('content_types', 'folders', $handler);
 		try {
 			$svc = new FoldersService();
 			$types = $svc->getContentTypes();
 			$this->assertEquals(['custom_type'], $types);
 		} finally {
-			\elgg_unregister_plugin_hook_handler('content_types', 'folders', $handler);
+			\elgg_unregister_event_handler('content_types', 'folders', $handler);
 		}
 	}
 }

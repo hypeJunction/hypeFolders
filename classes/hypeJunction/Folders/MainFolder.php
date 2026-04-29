@@ -2,6 +2,8 @@
 
 namespace hypeJunction\Folders;
 
+use Elgg\Database\Delete;
+use Elgg\Database\Update;
 use ElggEntity;
 use ElggGroup;
 use ElggObject;
@@ -24,7 +26,10 @@ class MainFolder extends ElggObject
      * @return int|false
      */
     public function isResource($resource_guid = 0) {
-        $relationship = check_entity_relationship($resource_guid, 'resource', $this->guid);
+        if (!$resource_guid) {
+            return false;
+        }
+        $relationship = _elgg_services()->relationshipsTable->check((int) $resource_guid, 'resource', $this->guid);
         return $relationship ? $relationship->id : false;
     }
     /**
@@ -48,7 +53,7 @@ class MainFolder extends ElggObject
         if ($id) {
             $weight = $weight ?: $this->getPriority($resource_guid);
         } else {
-            add_entity_relationship($resource_guid, 'resource', $this->guid);
+            $resource->addRelationship($this->guid, 'resource');
             $id = $this->isResource($resource_guid);
         }
         if (!$id) {
@@ -63,10 +68,20 @@ class MainFolder extends ElggObject
         if (!$parent) {
             return false;
         }
-        $dbprefix = elgg_get_config('dbprefix');
-        $query = "\n\t\t\tINSERT INTO {$dbprefix}folders\n\t\t\tSET relationship_id = :relationship_id,\n\t\t\t\tfolder_guid = :folder_guid,\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tresource_guid = :resource_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t\tON DUPLICATE KEY UPDATE\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t";
-        $params = [':relationship_id' => (int) $id, ':folder_guid' => (int) $this->guid, ':parent_guid' => (int) $parent->guid, ':resource_guid' => (int) $resource->guid, ':weight' => (int) $weight, ':title' => (string) $resource->getDisplayName()];
-        return elgg()->db->insertData($query, $params);
+        $table = elgg_get_config('dbprefix') . 'folders';
+        $connection = elgg()->db->getConnection('write');
+        $sql = "INSERT INTO {$table} (relationship_id, folder_guid, parent_guid, resource_guid, weight, title)
+            VALUES (:relationship_id, :folder_guid, :parent_guid, :resource_guid, :weight, :title)
+            ON DUPLICATE KEY UPDATE parent_guid = :parent_guid, weight = :weight, title = :title";
+        $connection->executeStatement($sql, [
+            'relationship_id' => (int) $id,
+            'folder_guid' => (int) $this->guid,
+            'parent_guid' => (int) $parent->guid,
+            'resource_guid' => (int) $resource->guid,
+            'weight' => (int) $weight,
+            'title' => (string) $resource->getDisplayName(),
+        ]);
+        return (int) $connection->lastInsertId() ?: (int) $id;
     }
     /**
      * Removes a resource from folder
@@ -78,16 +93,16 @@ class MainFolder extends ElggObject
         if (!$resource_guid) {
             return false;
         }
-        $relationship = check_entity_relationship($resource_guid, 'resource', $this->guid);
+        $relationship = _elgg_services()->relationshipsTable->check((int) $resource_guid, 'resource', $this->guid);
         if (!$relationship) {
             return false;
         }
         $id = $relationship->id;
-        $result = remove_entity_relationship($resource_guid, 'resource', $this->guid);
+        $result = _elgg_services()->relationshipsTable->remove((int) $resource_guid, 'resource', $this->guid);
         if ($result) {
-            $dbprefix = elgg_get_config('dbprefix');
-            $query = "\n\t\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\t\tWHERE relationship_id = :relationship_id\n\t\t\t";
-            elgg()->db->deleteData($query, [':relationship_id' => $id]);
+            $delete = Delete::fromTable('folders');
+            $delete->where($delete->compare('relationship_id', '=', $id, ELGG_VALUE_INTEGER));
+            elgg()->db->deleteData($delete);
         }
         return $result;
     }
@@ -188,7 +203,7 @@ class MainFolder extends ElggObject
             while ($parent && $parent->guid != $resource->guid) {
                 $ancestors[] = $parent;
                 $new_parent = $this->getParent($parent->guid);
-                if ($new_parent->guid != $parent->guid) {
+                if ($new_parent && $new_parent->guid != $parent->guid) {
                     $parent = $new_parent;
                 } else {
                     $parent = false;
@@ -239,8 +254,8 @@ class MainFolder extends ElggObject
         if (!$entity instanceof ElggEntity) {
             return;
         }
-        $folder_guid = get_input('main_folder_guid');
-        $folder = get_entity($folder_guid);
+        $folder_guid = (int) get_input('main_folder_guid');
+        $folder = $folder_guid ? get_entity($folder_guid) : null;
         $parent_guid = (int) get_input('parent_guid');
         if (!$folder instanceof MainFolder) {
             return;
@@ -266,10 +281,10 @@ class MainFolder extends ElggObject
         if (!array_key_exists('title', $original_attributes)) {
             return;
         }
-        $dbprefix = elgg_get_config('dbprefix');
-        $query = "\n\t\t\tUPDATE {$dbprefix}folders\n\t\t\tSET title = :title\n\t\t\tWHERE resource_guid = :resource_guid\n\t\t";
-        $params = [':title' => (string) $entity->getDisplayName(), ':resource_guid' => $entity->guid];
-        elgg()->db->updateData($query, false, $params);
+        $update = Update::table('folders');
+        $update->set('title', $update->createNamedParameter($entity->getDisplayName(), ELGG_VALUE_STRING))
+            ->where($update->compare('resource_guid', '=', $entity->guid, ELGG_VALUE_GUID));
+        elgg()->db->updateData($update);
     }
     /**
      * Remove deleted items from the tree
@@ -282,9 +297,12 @@ class MainFolder extends ElggObject
         if (!$entity instanceof ElggEntity) {
             return;
         }
-        $dbprefix = elgg_get_config('dbprefix');
-        $query = "\n\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\tWHERE folder_guid = :guid\n\t\t\tOR parent_guid = :guid\n\t\t\tOR resource_guid = :guid\n\t\t";
-        $params = [':guid' => $entity->guid];
-        elgg()->db->deleteData($query, $params);
+        $delete = Delete::fromTable('folders');
+        $delete->where($delete->expr()->or(
+            $delete->compare('folder_guid', '=', $entity->guid, ELGG_VALUE_GUID),
+            $delete->compare('parent_guid', '=', $entity->guid, ELGG_VALUE_GUID),
+            $delete->compare('resource_guid', '=', $entity->guid, ELGG_VALUE_GUID)
+        ));
+        elgg()->db->deleteData($delete);
     }
 }

@@ -61,7 +61,7 @@ class FoldersService {
 
 		$object_subtypes = array_diff($object_subtypes, $exceptions);
 
-		return elgg_trigger_plugin_hook('content_types', 'folders', [], $object_subtypes);
+		return elgg_trigger_event_results('content_types', 'folders', [], $object_subtypes);
 	}
 
 }

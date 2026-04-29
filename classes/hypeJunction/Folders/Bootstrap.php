@@ -26,7 +26,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;";
 
 		try {
-			\elgg()->db->updateData($sql);
+			\elgg()->db->getConnection('write')->executeStatement($sql);
 		} catch (\Throwable $e) {
 			// Table may already exist
 		}

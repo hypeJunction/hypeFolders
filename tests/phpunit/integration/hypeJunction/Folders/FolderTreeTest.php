@@ -2,6 +2,7 @@
 
 namespace hypeJunction\Folders;
 
+use Elgg\Database\Select;
 use Elgg\IntegrationTestCase;
 
 /**
@@ -59,7 +60,7 @@ return elgg_call(ELGG_IGNORE_ACCESS, function () use ($title) {
 		$this->assertNotFalse($result);
 
 $this->assertTrue(
-			(bool) check_entity_relationship($resource->guid, 'resource', $this->folder->guid)
+			(bool) _elgg_services()->relationshipsTable->check($resource->guid, 'resource', $this->folder->guid)
 		);
 		$this->assertNotFalse($this->folder->isResource($resource->guid));
 
@@ -83,7 +84,7 @@ $this->assertTrue(
 		$removed = elgg_call(ELGG_IGNORE_ACCESS, fn() => $this->folder->removeResource($resource->guid));
 		$this->assertTrue((bool) $removed);
 $this->assertFalse(
-			(bool) check_entity_relationship($resource->guid, 'resource', $this->folder->guid)
+			(bool) _elgg_services()->relationshipsTable->check($resource->guid, 'resource', $this->folder->guid)
 		);
 
 		elgg_call(ELGG_IGNORE_ACCESS, fn() => $resource->delete());
@@ -156,12 +157,9 @@ elgg_call(ELGG_IGNORE_ACCESS, function () use ($a, $b) {
 		elgg_call(ELGG_IGNORE_ACCESS, fn() => $resource->delete());
 
 		// After deletion, the folders table row should be gone too.
-		$dbprefix = \elgg_get_config('dbprefix');
-$rows = \elgg()->db->getData(
-			"SELECT id FROM {$dbprefix}folders WHERE resource_guid = :g",
-			null,
-			[':g' => $guid]
-		);
+		$select = Select::fromTable('folders');
+		$select->select('id')->where($select->compare('resource_guid', '=', $guid, ELGG_VALUE_GUID));
+		$rows = \elgg()->db->getData($select);
 		$this->assertEmpty($rows);
 	}
 }

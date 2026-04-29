@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Folders;
 
-use Elgg\HooksRegistrationService\Hook;
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 
 /**
@@ -34,7 +34,7 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 			return $f;
 		});
 
-		$hook = new Hook(elgg(), 'entity:url', 'object', '', ['entity' => $folder]);
+		$hook = new Event(elgg(), 'entity:url', 'object', '', ['entity' => $folder]);
 		$url = Router::entityUrlHandler($hook);
 		$this->assertIsString($url);
 		$this->assertStringContainsString("folders/view/{$folder->guid}", $url);

@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Folders;
 
-use Elgg\HooksRegistrationService\Hook;
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 
 /**
@@ -24,7 +24,7 @@ class PermissionsTest extends IntegrationTestCase {
 			'subtype' => 'blog',
 			'user' => $user,
 		];
-		$hook = new Hook(elgg(), 'container_permissions_check', 'object', true, $params);
+		$hook = new Event(elgg(), 'container_permissions_check', 'object', true, $params);
 		$result = Permissions::checkContainerPermissions($hook);
 		$this->assertNull($result);
 	}
@@ -37,7 +37,7 @@ class PermissionsTest extends IntegrationTestCase {
 			'subtype' => MainFolder::SUBTYPE,
 			'user' => $user,
 		];
-		$hook = new Hook(elgg(), 'container_permissions_check', 'object', true, $params);
+		$hook = new Event(elgg(), 'container_permissions_check', 'object', true, $params);
 		$result = Permissions::checkContainerPermissions($hook);
 		$this->assertFalse($result);
 	}
@@ -50,7 +50,7 @@ class PermissionsTest extends IntegrationTestCase {
 			'subtype' => MainFolder::SUBTYPE,
 			'user' => $user,
 		];
-		$hook = new Hook(elgg(), 'container_permissions_check', 'object', true, $params);
+		$hook = new Event(elgg(), 'container_permissions_check', 'object', true, $params);
 		$result = Permissions::checkContainerPermissions($hook);
 		// Handler falls through when enabled, returning null (= keep existing permission)
 		$this->assertNull($result);
@@ -63,7 +63,7 @@ class PermissionsTest extends IntegrationTestCase {
 			'subtype' => 'file',
 			'user' => $user,
 		];
-		$hook = new Hook(elgg(), 'container_permissions_check', 'object', true, $params);
+		$hook = new Event(elgg(), 'container_permissions_check', 'object', true, $params);
 		$result = Permissions::checkFolderPermissions($hook);
 		$this->assertNull($result);
 	}
