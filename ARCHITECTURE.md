@@ -1,4 +1,4 @@
-# hypeFolders plugin architecture (Elgg 4.x)
+# hypeFolders plugin architecture (Elgg 5.x)
 
 Allows users to organize content into hierarchical folder structures. Users can create main
 folders that act as containers for resources (files, pages, videos) and organize them in
@@ -9,7 +9,7 @@ tree hierarchies with drag-and-drop support.
 ```
 hypefolders/
 ├── composer.json             Plugin metadata and PHP dependencies
-├── elgg-plugin.php           Elgg 4.x declarative configuration (routes, actions, hooks, events, entities)
+├── elgg-plugin.php           Elgg 5.x declarative configuration (routes, actions, events, entities)
 ├── autoloader.php            PSR-0 autoloader for classes/
 ├── classes/hypeJunction/Folders/
 │   ├── Bootstrap.php         Plugin lifecycle: register(), activate() — creates custom DB table
@@ -67,19 +67,21 @@ hypefolders/
         └── FolderClassConstantsTest.php
 ```
 
-## Registered hooks/events (elgg-plugin.php)
+## Registered events (elgg-plugin.php)
 
-| Kind | Identifier | Handler | Notes |
-|------|-----------|---------|-------|
-| event | create:object | MainFolder::addCreatedResource | Triggered when a folder is created |
-| event | update:object | MainFolder::syncTitle | Syncs folder title to related resources |
-| event | delete:object | MainFolder::removeDeletedItems (priority 999) | Cleans up when folder deleted |
-| hook | entity:url:object | Router::entityUrlHandler (priority 999) | Custom URLs for folder entities |
-| hook | container_permissions_check:object | Permissions::checkContainerPermissions | Folder creation permissions |
-| hook | container_permissions_check:all | Permissions::checkFolderPermissions | Content addition to folders |
-| hook | register:menu:folders | Menus::setupFolderMenu | Folder tree menu structure |
-| hook | register:menu:entity | Menus::setupFolderResourceMenu | Folder actions on entity menus |
-| hook | register:menu:owner_block | Menus::setupOwnerBlockMenu | Folder link in owner profile block |
+All handlers registered under the `'events'` key (Elgg 5.x merged hooks and events).
+
+| Event | Type | Handler | Notes |
+|-------|------|---------|-------|
+| create | object | MainFolder::addCreatedResource | Triggered when a folder is created |
+| update | object | MainFolder::syncTitle | Syncs folder title to related resources |
+| delete | object | MainFolder::removeDeletedItems (priority 999) | Cleans up when folder deleted |
+| entity:url | object | Router::entityUrlHandler (priority 999) | Custom URLs for folder entities |
+| container_permissions_check | object | Permissions::checkContainerPermissions | Folder creation permissions |
+| container_permissions_check | all | Permissions::checkFolderPermissions | Content addition to folders |
+| register | menu:folders | Menus::setupFolderMenu | Folder tree menu structure |
+| register | menu:entity | Menus::setupFolderResourceMenu | Folder actions on entity menus |
+| register | menu:owner_block | Menus::setupOwnerBlockMenu | Folder link in owner profile block |
 
 View extensions declared:
 - `elgg.css` ← `folders/stylesheet.css`
@@ -92,9 +94,9 @@ View extensions declared:
 | Route name | Path | Middleware |
 |------------|------|-----------|
 | collection:object:main_resource_folder:all | /folders/all | — |
-| collection:object:main_resource_folder:owner | /folders/owner/{username} | — |
-| collection:object:main_resource_folder:friends | /folders/friends/{username} | — |
-| collection:object:main_resource_folder:group | /folders/group/{guid} | — |
+| collection:object:main_resource_folder:owner | /folders/owner/{username} | UserPageOwnerGatekeeper |
+| collection:object:main_resource_folder:friends | /folders/friends/{username} | UserPageOwnerGatekeeper |
+| collection:object:main_resource_folder:group | /folders/group/{guid} | GroupPageOwnerGatekeeper |
 | view:object:main_resource_folder | /folders/view/{guid}/{resource_guid?} | — |
 | add:object:main_resource_folder | /folders/add/{container_guid?} | Gatekeeper |
 | edit:object:main_resource_folder | /folders/edit/{guid} | Gatekeeper |
@@ -150,9 +152,38 @@ Tracks folder hierarchy relationships, parent-child links, and item ordering.
 
 ## External dependencies
 
-Only `elgg/elgg ^4.0` and `composer/installers ^2.0` — no third-party PHP libraries.
+Only `elgg/elgg ^5.0` and `composer/installers ^2.0` — no third-party PHP libraries.
 
 Optional Elgg plugin dep: `elgg_tokeninput` (for resource selection autocomplete).
+
+## Migration notes (4.x → 5.x)
+
+1. **Hooks merged into events** — the `'hooks'` key in `elgg-plugin.php` is removed in Elgg 5.x.
+   All formerly-hook handlers (`entity:url`, `container_permissions_check`, `register:menu:*`)
+   moved into the `'events'` block. Handler type hints changed from `\Elgg\Hook` to `\Elgg\Event`.
+
+2. **`elgg_trigger_plugin_hook()` removed** — replaced with `elgg_trigger_event_results()` in
+   `FoldersService::getContentTypes()`.
+
+3. **Relationship helpers removed** — `check_entity_relationship()`, `add_entity_relationship()`,
+   and `remove_entity_relationship()` are gone. Replaced with:
+   - `_elgg_services()->relationshipsTable->check()`
+   - `$entity->addRelationship()`
+   - `_elgg_services()->relationshipsTable->remove()`
+
+4. **Raw SQL DB methods removed** — `elgg()->db->insertData()`, `deleteData()`, and `updateData()`
+   no longer accept raw SQL strings. All now require Doctrine DBAL QueryBuilder instances
+   (`Delete::fromTable()`, `Update::table()`). The MySQL UPSERT in `addResource()` uses
+   `elgg()->db->getConnection('write')->executeStatement()` as the QueryBuilder lacks `ON DUPLICATE KEY UPDATE`.
+
+5. **Bootstrap::activate() raw SQL** — CREATE TABLE call updated to use
+   `elgg()->db->getConnection('write')->executeStatement()` instead of raw `updateData()`.
+
+6. **PHP 8.2 strict typing** — `get_entity()` requires `int`, not nullable. All call sites guard
+   against `null`/`0` before calling. Null guards added throughout views for optional `$entity`/`$container`.
+
+7. **Route middleware** — added `UserPageOwnerGatekeeper` and `GroupPageOwnerGatekeeper` to the
+   `owner`, `friends`, and `group` collection routes (new requirement in Elgg 5.x).
 
 ## Migration notes (3.x → 4.x)
 
