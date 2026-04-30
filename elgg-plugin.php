@@ -16,6 +16,7 @@ return [
 	],
 
 	'plugin' => [
+		'version' => '5.0.0',
 		'dependencies' => [
 			'elgg_tokeninput' => [],
 		],
