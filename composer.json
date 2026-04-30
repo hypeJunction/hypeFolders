@@ -1,5 +1,6 @@
 {
 	"name": "hypejunction/hypefolders",
+	"version": "5.0.0",
 	"type": "elgg-plugin",
 	"description": "Allows users to create folders and content trees",
 	"homepage": "http://hypejunction.com",
