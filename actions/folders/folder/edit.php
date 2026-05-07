@@ -48,7 +48,6 @@ $entity->access_id = $access_id;
 
 
 if ($entity->save()) {
-
 	$entity->saveIconFromUploadedFile('icon');
 
 	$entity->setMainFolder($main_folder);

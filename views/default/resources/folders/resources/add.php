@@ -28,31 +28,30 @@ $folder->setBreadcrumbs($resource->guid);
 $title = elgg_echo('folders:resources:add');
 elgg_push_breadcrumb($title);
 
-$content = elgg_view('folders/resources/add', array(
+$content = elgg_view('folders/resources/add', [
 	'folder' => $folder,
 	'resource' => $resource,
-));
+]);
 
 if (elgg_is_xhr()) {
 	echo $content;
 } else {
-
-$filter = elgg_view('folders/filter', [
+	$filter = elgg_view('folders/filter', [
 		'folder' => $folder,
 		'resource' => $resource,
 		'filter_context' => 'resources/add',
 	]);
 
-$sidebar = elgg_view('folders/sidebar', array(
+	$sidebar = elgg_view('folders/sidebar', [
 		'folder' => $folder,
 		'resource' => $resource,
-	));
+	]);
 
-$layout = elgg_view_layout('content', array(
+	$layout = elgg_view_layout('content', [
 		'title' => $title,
 		'content' => $content,
 		'filter' => $filter,
 		'sidebar' => $sidebar,
-	));
+	]);
 	echo elgg_view_page($title, $layout);
 }

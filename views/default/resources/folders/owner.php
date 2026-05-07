@@ -16,16 +16,16 @@ elgg_push_breadcrumb($user->getDisplayName(), "folders/owner/$user->guid");
 
 elgg_register_title_button('folders', 'add', 'object', MainFolder::SUBTYPE);
 
-$title = elgg_echo('folders:owner', array($user->getDisplayName()));
+$title = elgg_echo('folders:owner', [$user->getDisplayName()]);
 
 $content = elgg_view('folders/listing/owner', [
 	'entity' => $user,
 ]);
 
-$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', [
 	'title' => $title,
 	'content' => $content,
 	'filter_context' => 'mine',
-		));
+]);
 
 echo elgg_view_page($title, $layout);

@@ -15,7 +15,7 @@ $entity = ($guid) ? get_entity($guid) : null;
 $container = get_entity($container_guid);
 
 if (!$title) {
-	return elgg_error_response(elgg_echo('folders:input:error:required', array('folders:folder:title')));
+	return elgg_error_response(elgg_echo('folders:input:error:required', ['folders:folder:title']));
 }
 
 if ($guid) {

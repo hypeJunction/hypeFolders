@@ -63,6 +63,7 @@ if ($container instanceof \ElggGroup) {
 		$group_acl_id = $acl->id;
 	}
 }
+
 $access_ids = array_filter([
 	ACCESS_PUBLIC,
 	ACCESS_LOGGED_IN,

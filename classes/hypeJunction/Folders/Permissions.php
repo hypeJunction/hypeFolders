@@ -4,16 +4,16 @@ namespace hypeJunction\Folders;
 
 use ElggGroup;
 
+/**
+ * Container/folder permission handlers for hypeFolders.
+ */
 class Permissions {
 
 	/**
-	 * Check container permissions for creating new folders/subfolders
-	 * 
-	 * @param string $hook   "container_permissions_check"
-	 * @param string $type   "object"
-	 * @param bool   $return Permission 
-	 * @param array  $params Hook params
-	 * @return bool
+	 * Check container permissions for creating new folders/subfolders.
+	 *
+	 * @param \Elgg\Event $hook Event
+	 * @return bool|null
 	 */
 	public static function checkContainerPermissions(\Elgg\Event $hook) {
 
@@ -29,9 +29,11 @@ class Permissions {
 			if (!elgg_get_plugin_setting('group_folders', 'hypefolders', false)) {
 				return false;
 			}
+
 			if ($container->folders_enable == 'no') {
 				return false;
 			}
+
 			if ($container->admin_only_folders !== 'no') {
 				return $container->canEdit($user->guid);
 			}
@@ -43,13 +45,10 @@ class Permissions {
 	}
 
 	/**
-	 * Check folders permissions for adding new content
+	 * Check folders permissions for adding new content.
 	 *
-	 * @param string $hook   "container_permissions_check"
-	 * @param string $type   "object"
-	 * @param bool   $return Permission
-	 * @param array  $params Hook params
-	 * @return bool
+	 * @param \Elgg\Event $hook Event
+	 * @return bool|null
 	 */
 	public static function checkFolderPermissions(\Elgg\Event $hook) {
 

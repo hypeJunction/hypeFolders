@@ -10,6 +10,8 @@ robots.txt
 /releases/
 /vendor/
 composer.lock
-Gemfile.locktests/.phpunit.result.cache
+Gemfile.lock
+tests/.phpunit.result.cache
+tests/coverage/
 docker/.env
 tests/deps.local.txt

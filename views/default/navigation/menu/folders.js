@@ -46,4 +46,3 @@ define(function (require) {
 		});
 	}
 });
-

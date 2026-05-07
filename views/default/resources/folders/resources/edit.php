@@ -27,27 +27,27 @@ $folder->setBreadcrumbs($resource->guid);
 $title = elgg_echo('folders:edit');
 elgg_push_breadcrumb($title);
 
-$sidebar = elgg_view('folders/sidebar', array(
+$sidebar = elgg_view('folders/sidebar', [
 	'folder' => $folder,
 	'resource' => $resource,
-		));
+]);
 
 $filter = elgg_view('folders/filter', [
 	'folder' => $folder,
 	'resource' => $resource,
 	'filter_context' => 'edit',
-		]);
+]);
 
-$content = elgg_view('folders/resources/edit', array(
+$content = elgg_view('folders/resources/edit', [
 	'entity' => $resource,
 	'folder' => $folder,
-		));
+]);
 
-$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', [
 	'title' => $title,
 	'content' => $content,
 	'filter' => $filter,
 	'sidebar' => $sidebar,
-		));
+]);
 
 echo elgg_view_page($title, $layout);

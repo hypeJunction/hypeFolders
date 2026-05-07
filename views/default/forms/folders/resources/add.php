@@ -10,11 +10,10 @@ $resource = elgg_extract('resource', $vars);
 	$svc = new FoldersService();
 	$subtypes = $svc->getContentTypes();
 	foreach ($subtypes as $subtype) {
-		if (
-			elgg_view_exists("folders/resources/new/$subtype")
+		if (elgg_view_exists("folders/resources/new/$subtype")
 			&& $folder->canEdit()
 		) {
-echo elgg_view('output/url', [
+			echo elgg_view('output/url', [
 				'text' => elgg_view_icon('plus') . elgg_echo("folders:new:$subtype"),
 				'href' => "folders/resources/new/$folder->guid/$resource->guid/$subtype",
 				'class' => 'elgg-button elgg-button-action elgg-lightbox',

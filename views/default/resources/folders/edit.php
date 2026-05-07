@@ -18,10 +18,10 @@ $folder->setBreadcrumbs($folder->guid);
 elgg_push_breadcrumb(elgg_echo('folders:edit'));
 
 $title = elgg_echo('folders:edit');
-$content = elgg_view('folders/edit', array(
+$content = elgg_view('folders/edit', [
 	'entity' => $folder,
 	'container' => $container,
-		));
+]);
 
 $filter = elgg_view('folders/filter', [
 	'folder' => $folder,
@@ -29,16 +29,16 @@ $filter = elgg_view('folders/filter', [
 	'filter_context' => 'edit',
 ]);
 
-$sidebar = elgg_view('folders/sidebar', array(
+$sidebar = elgg_view('folders/sidebar', [
 	'folder' => $folder,
-));
+]);
 
-$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', [
 	'title' => $title,
 	'content' => $content,
 	'filter' => $filter,
 	'sidebar' => $sidebar,
-		));
+]);
 
 echo elgg_view_page($title, $layout);
 

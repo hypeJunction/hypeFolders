@@ -37,16 +37,16 @@ $folder->setBreadcrumbs($resource->guid);
 
 elgg_push_breadcrumb($title);
 
-$sidebar = elgg_view('folders/sidebar', array(
+$sidebar = elgg_view('folders/sidebar', [
 	'folder' => $folder,
 	'resource' => $resource,
-		));
+]);
 
-$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', [
 	'title' => $title,
 	'content' => $content,
 	'filter' => false,
 	'sidebar' => $sidebar,
-		));
+]);
 
 echo elgg_view_page($title, $layout);

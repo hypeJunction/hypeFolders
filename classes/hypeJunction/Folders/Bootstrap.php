@@ -4,13 +4,22 @@ namespace hypeJunction\Folders;
 
 use Elgg\DefaultPluginBootstrap;
 
+/**
+ * Bootstrap for hypeFolders plugin.
+ */
 class Bootstrap extends DefaultPluginBootstrap {
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function register() {
 		elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
 		elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function activate() {
 		$dbprefix = \elgg_get_config('dbprefix');
 		$sql = "CREATE TABLE IF NOT EXISTS `{$dbprefix}folders` (

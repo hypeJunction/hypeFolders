@@ -12,8 +12,8 @@ $resource = elgg_extract('resource', $vars);
 	<div class="folders-content-editor elgg-content">
 		<div class="folders-search-area">
 			<?php
-echo elgg_view_form('folders/resources/search', [
-				'action' => "folders/search",
+			echo elgg_view_form('folders/resources/search', [
+				'action' => 'folders/search',
 				'method' => 'GET',
 				'disable_security' => true,
 			], $vars);

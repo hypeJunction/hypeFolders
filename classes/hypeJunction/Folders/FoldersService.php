@@ -18,14 +18,14 @@ class FoldersService {
 	 * @param callable $ege      ege* callable
 	 * @return ElggBatch|array
 	 */
-	protected function getEntities(array $options = array(), $as_guids = false, callable $ege = null) {
+	protected function getEntities(array $options = [], $as_guids = false, callable $ege = null) {
 
 		if (!$ege) {
 			$ege = 'elgg_get_entities';
 		}
 
 		if (!is_callable($ege)) {
-			return array();
+			return [];
 		}
 
 		if (!empty($options['count'])) {
@@ -33,7 +33,7 @@ class FoldersService {
 		}
 
 		if ($as_guids) {
-			$options['callback'] = array($this, 'rowToGUID');
+			$options['callback'] = [$this, 'rowToGUID'];
 		}
 
 		return new ElggBatch($ege, $options);
@@ -63,5 +63,4 @@ class FoldersService {
 
 		return elgg_trigger_event_results('content_types', 'folders', [], $object_subtypes);
 	}
-
 }

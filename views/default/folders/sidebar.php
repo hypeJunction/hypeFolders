@@ -11,7 +11,7 @@ $vars['class'] = $folder->canEdit() ? 'elgg-state-sortable' : '';
 $menu = elgg_view_menu('folders', $vars);
 
 if ($menu) {
-echo elgg_view_module('info', '', $menu, array(
+	echo elgg_view_module('info', '', $menu, [
 		'class' => 'folders-sidebar-nav ',
-	));
+	]);
 }

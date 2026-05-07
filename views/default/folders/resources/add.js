@@ -42,6 +42,7 @@ define(function (require) {
 			if (jqXHR.AjaxData.status === -1) {
 				return;
 			}
+
 			$('.folders-search-results').html(output);
 			$('.folders-search-results').find('.elgg-list').trigger('initialize');
 			prepareDragAndDrop();
@@ -74,6 +75,7 @@ define(function (require) {
 						$('folders-search-area .folders-content-list').trigger('refresh');
 					}
 				}
+
 				if (json.system_messages) {
 					elgg.register_error(json.system_messages.error);
 					elgg.system_message(json.system_messages.success);

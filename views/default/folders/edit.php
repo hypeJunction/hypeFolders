@@ -8,6 +8,6 @@ if (elgg_is_sticky_form('folders/edit')) {
 	}
 }
 
-echo elgg_view_form('folders/edit', array(
+echo elgg_view_form('folders/edit', [
 	'enctype' => 'multipart/form-data',
-		), $vars);
+], $vars);

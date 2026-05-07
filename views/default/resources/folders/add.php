@@ -23,18 +23,19 @@ if ($container instanceof ElggGroup) {
 } else {
 	elgg_push_breadcrumb(elgg_echo('folders'), "folders/owner/$container->username");
 }
+
 elgg_push_breadcrumb(elgg_echo('folders:add'));
 
 $title = elgg_echo('folders:add');
-$content = elgg_view('folders/edit', array(
+$content = elgg_view('folders/edit', [
 	'container' => $container,
-));
+]);
 
-$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', [
 	'title' => $title,
 	'content' => $content,
 	'filter' => false,
-));
+]);
 
 echo elgg_view_page($title, $layout);
 

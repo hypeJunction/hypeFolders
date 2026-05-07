@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Folders;
 
+/**
+ * URL routing for hypeFolders pages and entity URL handler.
+ */
 class Router {
 
 	/**
@@ -15,7 +18,7 @@ class Router {
 	 * /folders/edit/<entity_guid>
 	 * /folders/resources/add/<folder_guid>[/<resource_guid>]
 	 *
-	 * @param array  $segments   URL segments
+	 * @param array $segments URL segments
 	 * @return bool
 	 */
 	public static function handleFolders($segments) {
@@ -23,74 +26,73 @@ class Router {
 		$page = array_shift($segments);
 
 		switch ($page) {
-
-			case 'view' :
+			case 'view':
 				echo elgg_view_resource('folders/view', [
 					'guid' => array_shift($segments),
 					'resource_guid' => array_shift($segments),
 				]);
 				return true;
 
-			case 'all' :
+			case 'all':
 				echo elgg_view_resource('folders/all');
 				return true;
 
-			case 'owner' :
+			case 'owner':
 				echo elgg_view_resource('folders/owner', [
 					'username' => array_shift($segments),
 				]);
 				return true;
 
-			case 'friends' :
+			case 'friends':
 				echo elgg_view_resource('folders/friends', [
 					'username' => array_shift($segments),
 				]);
 				return true;
 
-			case 'group' :
+			case 'group':
 				echo elgg_view_resource('folders/group', [
 					'container_guid' => array_shift($segments),
 				]);
 				return true;
 
-			case 'add' :
+			case 'add':
 				echo elgg_view_resource('folders/add', [
 					'container_guid' => array_shift($segments),
 				]);
 				return true;
 
-			case 'edit' :
+			case 'edit':
 				echo elgg_view_resource('folders/edit', [
 					'guid' => array_shift($segments),
 				]);
 				return true;
 
-			case 'resources' :
+			case 'resources':
 				$subpage = array_shift($segments);
 				switch ($subpage) {
-					case 'edit' :
-    echo elgg_view_resource('folders/resources/edit', [
+					case 'edit':
+						echo elgg_view_resource('folders/resources/edit', [
 							'guid' => array_shift($segments),
 							'resource_guid' => array_shift($segments),
 						]);
 						return true;
-					case 'add' :
-    echo elgg_view_resource('folders/resources/add', [
+					case 'add':
+						echo elgg_view_resource('folders/resources/add', [
 							'guid' => array_shift($segments),
 							'resource_guid' => array_shift($segments),
 						]);
 						return true;
 
-					case 'new' :
-    echo elgg_view_resource('folders/resources/new', [
+					case 'new':
+						echo elgg_view_resource('folders/resources/new', [
 							'guid' => array_shift($segments),
 							'resource_guid' => array_shift($segments),
 							'subtype' => array_shift($segments),
 						]);
 						return true;
 
-					case 'move' :
-    echo elgg_view_resource('folders/resources/move', [
+					case 'move':
+						echo elgg_view_resource('folders/resources/move', [
 							'guid' => array_shift($segments),
 							'resource_guid' => array_shift($segments),
 						]);
@@ -98,7 +100,7 @@ class Router {
 				}
 				return false;
 
-			case 'search' :
+			case 'search':
 				echo elgg_view_resource('folders/search');
 				return true;
 		}
@@ -107,12 +109,9 @@ class Router {
 	}
 
 	/**
-	 * Returns a URL of the folder
+	 * Returns a URL of the folder.
 	 *
-	 * @param string $hook   "entity:url"
-	 * @param string $type   "object"
-	 * @param string $return URL
-	 * @param array  $params Hook params
+	 * @param \Elgg\Event $hook Event
 	 * @return string
 	 */
 	public static function entityUrlHandler(\Elgg\Event $hook) {
@@ -121,19 +120,20 @@ class Router {
 
 		$subtype = $entity->getSubtype();
 		switch ($subtype) {
-			case MainFolder::SUBTYPE :
+			case MainFolder::SUBTYPE:
 				/* @var $entity MainFolder */
 				return elgg_normalize_url("folders/view/$entity->guid");
 
-			case Folder::SUBTYPE :
+			case Folder::SUBTYPE:
 				/* @var $entity Folder */
 				$folder = $entity->getMainFolder();
 				return elgg_normalize_url("folders/view/$folder->guid/$entity->guid");
 
-			default :
+			default:
 				if (!elgg_in_context('folders')) {
 					return;
 				}
+
 				$folder_guid = $entity->getVolatileData('select:folder_guid');
 				$folder = get_entity($folder_guid);
 				if ($folder) {

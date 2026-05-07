@@ -28,25 +28,24 @@ $folder->setBreadcrumbs($resource->guid);
 $title = elgg_echo('folders:move');
 elgg_push_breadcrumb($title);
 
-$content = elgg_view('folders/resources/move', array(
+$content = elgg_view('folders/resources/move', [
 	'folder' => $folder,
 	'resource' => $resource,
-));
+]);
 
 if (elgg_is_xhr()) {
 	echo $content;
 } else {
-
-$sidebar = elgg_view('folders/sidebar', array(
+	$sidebar = elgg_view('folders/sidebar', [
 		'folder' => $folder,
 		'resource' => $resource,
-	));
+	]);
 
-$layout = elgg_view_layout('content', array(
+	$layout = elgg_view_layout('content', [
 		'title' => $title,
 		'content' => $content,
 		'filter' => false,
 		'sidebar' => $sidebar,
-	));
+	]);
 	echo elgg_view_page($title, $layout);
 }

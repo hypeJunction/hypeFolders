@@ -21,7 +21,7 @@ $tree = function($node, $level = 0) use ($folder, $resource, &$options, &$tree) 
 	}
 
 	if ($level > 0) {
-		$prefix = str_repeat("&#160;", $level * 3) . '-- ';
+		$prefix = str_repeat('&#160;', $level * 3) . '-- ';
 	}
 
 	$options[$node->guid] = $prefix . $node->title;
@@ -59,6 +59,6 @@ $footer = elgg_view_field([
 	'#type' => 'submit',
 	'value' => elgg_echo('save'),
 	'field_class' => 'elgg-foot',
-		]);
+]);
 elgg_set_form_footer($footer);
 
