@@ -60,7 +60,7 @@ class FoldersService {
 
 		$allowed = array_diff($allowed, $exceptions);
 
-		return elgg_trigger_plugin_hook('content_types', 'folders', [], $allowed);
+		return elgg_trigger_event_results('content_types', 'folders', [], $allowed);
 	}
 
 }

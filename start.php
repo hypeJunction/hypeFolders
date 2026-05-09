@@ -18,19 +18,19 @@ use hypeJunction\Folders\Permissions;
 
 elgg_register_event_handler('init', 'system', function () {
 
-	elgg_register_plugin_hook_handler('entity:url', 'object', [Router::class, 'entityUrlHandler'], 999);
+	elgg_register_event_handler('entity:url', 'object', [Router::class, 'entityUrlHandler'], 999);
 
 	// Permissions
-	elgg_register_plugin_hook_handler('container_permissions_check', 'object', [Permissions::class, 'checkContainerPermissions']);
-	elgg_register_plugin_hook_handler('container_permissions_check', 'all', [Permissions::class, 'checkFolderPermissions']);
+	elgg_register_event_handler('container_permissions_check', 'object', [Permissions::class, 'checkContainerPermissions']);
+	elgg_register_event_handler('container_permissions_check', 'all', [Permissions::class, 'checkFolderPermissions']);
 
 	// Setup menus
-	elgg_register_plugin_hook_handler('register', 'menu:folders', [Menus::class, 'setupFolderMenu']);
-	elgg_register_plugin_hook_handler('register', 'menu:entity', [Menus::class, 'setupFolderResourceMenu']);
-	elgg_register_plugin_hook_handler('register', 'menu:owner_block', [Menus::class, 'setupOwnerBlockMenu']);
+	elgg_register_event_handler('register', 'menu:folders', [Menus::class, 'setupFolderMenu']);
+	elgg_register_event_handler('register', 'menu:entity', [Menus::class, 'setupFolderResourceMenu']);
+	elgg_register_event_handler('register', 'menu:owner_block', [Menus::class, 'setupOwnerBlockMenu']);
 
 	// Group tools
-	if (elgg_get_plugin_setting('group_folders', 'hypeFolders', false)) {
+	if (elgg_get_plugin_setting('group_folders', 'hypefolders', false)) {
 		elgg()->group_tools->register('folders', [
 			'label' => elgg_echo('folders:group_tool:folders'),
 			'default_on' => true,

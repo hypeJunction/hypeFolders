@@ -114,11 +114,11 @@ class Menus
     {
         $entity = elgg_extract('entity', $params);
         if ($entity instanceof ElggGroup) {
-            if (elgg_get_plugin_setting('group_folders', 'hypeFolders', false) && $entity->folders_enable !== 'no') {
+            if (elgg_get_plugin_setting('group_folders', 'hypefolders', false) && $entity->folders_enable !== 'no') {
                 $return[] = ElggMenuItem::factory(['name' => 'folders', 'href' => "folders/group/{$entity->guid}", 'text' => elgg_echo('folders:group')]);
             }
         } else if ($entity instanceof ElggUser) {
-            if (elgg_get_plugin_setting('user_folders', 'hypeFolders', false)) {
+            if (elgg_get_plugin_setting('user_folders', 'hypefolders', false)) {
                 $return[] = ElggMenuItem::factory(['name' => 'folders', 'href' => "folders/owner/{$entity->username}", 'text' => elgg_echo('folders')]);
             }
         }
