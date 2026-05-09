@@ -18,6 +18,8 @@ use hypeJunction\Folders\Permissions;
 
 elgg_register_event_handler('init', 'system', function () {
 
+	elgg_register_event_handler('seeds', 'database', [\hypeJunction\Folders\Seeder::class, 'addSeed']);
+
 	elgg_register_event_handler('entity:url', 'object', [Router::class, 'entityUrlHandler'], 999);
 
 	// Permissions
