@@ -13,6 +13,8 @@ class Bootstrap extends PluginBootstrap {
 	 * {@inheritDoc}
 	 */
 	public function init(): void {
+		elgg_register_event_handler('seeds', 'database', [Seeder::class, 'addSeed']);
+
 		elgg_register_event_handler('entity:url', 'object', [Router::class, 'entityUrlHandler'], 999);
 
 		// Permissions
