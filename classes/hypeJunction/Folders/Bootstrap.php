@@ -20,6 +20,13 @@ class Bootstrap extends DefaultPluginBootstrap {
 	/**
 	 * {@inheritdoc}
 	 */
+	public function init() {
+		elgg_register_event_handler('seeds', 'database', [Seeder::class, 'addSeed']);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function activate() {
 		$dbprefix = \elgg_get_config('dbprefix');
 		$sql = "CREATE TABLE IF NOT EXISTS `{$dbprefix}folders` (
