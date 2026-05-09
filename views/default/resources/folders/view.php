@@ -22,7 +22,7 @@ $title = $resource->getDisplayName();
 elgg_push_breadcrumb($title);
 $items = \hypeJunction\Folders\Menus::getProfileMenuItems($resource, $folder, false);
 foreach ($items as $item) {
-    $item->addLinkClass('elgg-button elgg-button-action');
+    $item->addLinkClass('elgg-button');
     elgg_register_menu_item('title', $item);
 }
 $content = elgg_view('folders/resource', ['folder' => $folder, 'entity' => $resource, 'full_view' => true]);

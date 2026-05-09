@@ -4,6 +4,7 @@ use hypeJunction\Folders\Folder;
 use hypeJunction\Folders\MainFolder;
 
 return [
+	'bootstrap' => \hypeJunction\Folders\Bootstrap::class,
 	'entities' => [
 		[
 			'type' => 'object',
