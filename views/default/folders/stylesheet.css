@@ -1,3 +1,24 @@
+:root {
+	--folders-border-color: #dcdcdc;
+	--folders-bg-muted: #f1f1f1;
+	--folders-bg-search: #f4f4f4;
+	--folders-color-muted: #666;
+	--folders-color-controls: #aaa;
+	--folders-panel-height: 600px;
+	--folders-toolbar-height: 32px;
+	--folders-toolbar-padding: 10px;
+	--folders-item-padding: 10px;
+	--folders-placeholder-min-height: 60px;
+	--folders-thumb-max-width-lg: 40px;
+	--folders-thumb-max-width-sm: 25px;
+	--folders-menu-line-height: 18px;
+	--folders-menu-icon-size: 10px;
+	--folders-menu-icon-width: 18px;
+	--folders-editor-padding: 15px;
+	--folders-control-font-size: 11px;
+	--folders-icon-font-size: 12px;
+}
+
 .folders-search-form {
   display: flex;
   flex-wrap: wrap;
@@ -13,7 +34,7 @@
 }
 
 .elgg-menu-folders li {
-  line-height: 18px;
+  line-height: var(--folders-menu-line-height);
   vertical-align: middle;
   text-indent: -15px;
   padding-left: 20px;
@@ -27,7 +48,7 @@
   margin-right: 5px;
   display: inline;
   vertical-align: middle;
-  line-height: 18px;
+  line-height: var(--folders-menu-line-height);
 }
 
 .elgg-menu-folders li.elgg-state-selected > a {
@@ -70,12 +91,12 @@
 .elgg-menu-folders .elgg-child-menu-indicator {
   margin: 0;
   cursor: pointer;
-  color: #666;
-  font-size: 10px;
+  color: var(--folders-color-muted);
+  font-size: var(--folders-menu-icon-size);
   display: inline-block;
   vertical-align: middle;
   padding: 0 6px 0 3px;
-  width: 18px;
+  width: var(--folders-menu-icon-width);
   text-align: center;
 }
 
@@ -98,7 +119,7 @@
 .folders-search-area {
   flex: 1 1 40%;
   box-sizing: border-box;
-  border: 1px solid #dcdcdc;
+  border: 1px solid var(--folders-border-color);
 }
 
 .folders-search-area .elgg-menu-folderd-entity {
@@ -108,20 +129,20 @@
 .folders-content-area {
   flex: 1 1 60%;
   box-sizing: border-box;
-  border-color: #dcdcdc;
+  border-color: var(--folders-border-color);
   border-style: solid;
   border-width: 1px 1px 1px 0;
 }
 
 .folders-search-results {
-  max-height: 600px;
+  max-height: var(--folders-panel-height);
   overflow-y: scroll;
 }
 
 .folders-content-area .folders-content-list {
-  height: 600px;
+  height: var(--folders-panel-height);
   overflow-y: auto;
-  margin-bottom: 10px;
+  margin-bottom: var(--folders-toolbar-padding);
 }
 
 .folders-content-editor .folders-content-list > li {
@@ -141,8 +162,8 @@
 }
 
 .folders-draggable-placeholder {
-  background: #f1f1f1;
-  min-height: 60px;
+  background: var(--folders-bg-muted);
+  min-height: var(--folders-placeholder-min-height);
   width: 100%;
   display: block;
 }
@@ -154,12 +175,12 @@
 }
 
 .folders-content-item.elgg-image-block {
-  padding: 10px;
+  padding: var(--folders-item-padding);
   font-size: 90%;
 }
 
 .folders-content-item.elgg-image-block > .elgg-image img {
-  max-width: 40px;
+  max-width: var(--folders-thumb-max-width-lg);
   height: auto;
 }
 
@@ -173,21 +194,21 @@
 }
 
 .folders-nav-item.elgg-image-block > .elgg-image img {
-  max-width: 25px;
+  max-width: var(--folders-thumb-max-width-sm);
   height: auto;
 }
 
 .folders-search-area .elgg-form {
-  padding: 5px 10px;
-  border-bottom: 1px solid #dcdcdc;
+  padding: 5px var(--folders-toolbar-padding);
+  border-bottom: 1px solid var(--folders-border-color);
   position: relative;
-  background: #f4f4f4;
+  background: var(--folders-bg-search);
 }
 
 .folders-search-area .elgg-form button {
   position: absolute;
   right: 0;
-  margin: 5px 10px;
+  margin: 5px var(--folders-toolbar-padding);
   font-size: 14px;
   line-height: 14px;
 }
@@ -197,13 +218,13 @@
 }
 
 .folders-content-area .elgg-form .elgg-foot {
-  padding: 10px;
+  padding: var(--folders-toolbar-padding);
   text-align: right;
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: 1px solid var(--folders-border-color);
 }
 
 .folders-editor-component {
-  padding: 15px;
+  padding: var(--folders-editor-padding);
 }
 
 .elgg-menu-resource-item-controls {
@@ -220,7 +241,7 @@
 }
 
 .elgg-menu-resource-item-controls > li > a {
-  color: #aaa;
+  color: var(--folders-color-controls);
   text-indent: 0;
   margin: 0;
   padding: 0;
@@ -229,7 +250,7 @@
 .elgg-menu-resource-item-controls > li > a > span {
   text-indent: 0;
   margin: 0;
-  font-size: 11px;
+  font-size: var(--folders-control-font-size);
 }
 
 .elgg-menu-folders li:hover > .elgg-menu-resource-item-controls {
@@ -241,6 +262,6 @@
 }
 
 .elgg-menu-folders li .elgg-icon-arrows {
-  font-size: 12px;
-  color: #aaa;
+  font-size: var(--folders-icon-font-size);
+  color: var(--folders-color-controls);
 }
