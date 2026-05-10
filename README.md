@@ -14,7 +14,6 @@
 
  * Update title column in the folders table when object title is updated
 
-
 ## Compatibility
 
 | Plugin version | Elgg version |
