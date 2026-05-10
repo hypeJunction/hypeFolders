@@ -1,43 +1,44 @@
 {
-	"name": "hypejunction/hypefolders",
-	"type": "elgg-plugin",
-	"description": "Allows users to create folders and content trees",
-	"homepage": "http://hypejunction.com",
-	"keywords": [
-		"elgg",
-		"plugin",
-		"tree",
-		"folders",
-		"organize"
-	],
-	"license": "GPL-2.0",
-	"authors": [
-		{
-			"name": "Ismayil Khayredinov",
-			"email": "info@hypejunction.com"
-		}
-	],
-	"extra": {
-		"installer-name": "hypefolders",
-		"elgg-plugin": {
-			"id": "hypefolders"
-		}
-	},
-	"require": {
-		"php": ">=8.3",
-		"ext-intl": "*",
-		"composer/installers": "^2.0",
-		"elgg/elgg": "~7.0.0",
-		"hypejunction/elgg_tokeninput": "*"
-	},
-	"autoload": {
-		"psr-4": {
-			"hypeJunction\\Folders\\": "classes/hypeJunction/Folders/"
-		}
-	},
-	"config": {
-		"allow-plugins": {
-			"composer/installers": true
-		}
-	}
+    "name": "hypejunction/hypefolders",
+    "type": "elgg-plugin",
+    "description": "Allows users to create folders and content trees",
+    "homepage": "https://github.com/hypeJunction/hypeFolders",
+    "keywords": [
+        "elgg",
+        "plugin",
+        "tree",
+        "folders",
+        "organize"
+    ],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Ismayil Khayredinov",
+            "email": "ismayil.khayredinov@gmail.com"
+        }
+    ],
+    "extra": {
+        "installer-name": "hypefolders",
+        "elgg-plugin": {
+            "id": "hypefolders"
+        }
+    },
+    "require": {
+        "php": ">=8.3",
+        "ext-intl": "*",
+        "composer/installers": "^2.0",
+        "elgg/elgg": "~7.0.0",
+        "hypejunction/elgg_tokeninput": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "hypeJunction\\Folders\\": "classes/hypeJunction/Folders/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "version": "3.0"
 }
