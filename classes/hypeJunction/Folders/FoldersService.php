@@ -21,7 +21,7 @@ class FoldersService {
 	protected function getEntities(array $options = array(), $as_guids = false, callable $ege = null) {
 
 		if (!$ege) {
-			$ege = 'elgg_get_entities';
+			$ege = 'elgg_get_entities_from_attributes';
 		}
 
 		if (!is_callable($ege)) {
@@ -60,7 +60,7 @@ class FoldersService {
 
 		$allowed = array_diff($allowed, $exceptions);
 
-		return elgg_trigger_event_results('content_types', 'folders', [], $allowed);
+		return elgg_trigger_plugin_hook('content_types', 'folders', [], $allowed);
 	}
 
 }

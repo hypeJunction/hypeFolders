@@ -2,7 +2,7 @@
     "name": "hypejunction/hypefolders",
     "type": "elgg-plugin",
     "description": "Allows users to create folders and content trees",
-    "homepage": "https://github.com/hypeJunction/hypeFolders",
+    "homepage": "http://hypejunction.com",
     "keywords": [
         "elgg",
         "plugin",
@@ -10,34 +10,24 @@
         "folders",
         "organize"
     ],
-    "license": "GPL-2.0-or-later",
+    "license": "GPL-2.0",
     "authors": [
         {
             "name": "Ismayil Khayredinov",
-            "email": "ismayil.khayredinov@gmail.com"
+            "email": "info@hypejunction.com"
         }
     ],
     "extra": {
-        "installer-name": "hypefolders",
-        "elgg-plugin": {
-            "id": "hypefolders"
-        }
+        "installer-name": "hypeFolders"
     },
     "require": {
-        "php": ">=8.3",
-        "ext-intl": "*",
-        "composer/installers": "^2.0",
-        "elgg/elgg": "~7.0.0",
+        "php": ">=5.5",
+        "composer/installers": "~1.0",
         "hypejunction/elgg_tokeninput": "*"
     },
     "autoload": {
-        "psr-4": {
-            "hypeJunction\\Folders\\": "classes/hypeJunction/Folders/"
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "composer/installers": true
+        "psr-0": {
+            "": "classes/"
         }
     },
     "version": "3.0"

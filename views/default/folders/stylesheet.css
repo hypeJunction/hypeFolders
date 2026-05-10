@@ -1,102 +1,74 @@
-:root {
-	--folders-border-color: #dcdcdc;
-	--folders-bg-muted: #f1f1f1;
-	--folders-bg-search: #f4f4f4;
-	--folders-color-muted: #666;
-	--folders-color-controls: #aaa;
-	--folders-panel-height: 600px;
-	--folders-toolbar-height: 32px;
-	--folders-toolbar-padding: 10px;
-	--folders-item-padding: 10px;
-	--folders-placeholder-min-height: 60px;
-	--folders-thumb-max-width-lg: 40px;
-	--folders-thumb-max-width-sm: 25px;
-	--folders-menu-line-height: 18px;
-	--folders-menu-icon-size: 10px;
-	--folders-menu-icon-width: 18px;
-	--folders-editor-padding: 15px;
-	--folders-control-font-size: 11px;
-	--folders-icon-font-size: 12px;
-}
-
 .folders-search-form {
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 
 .folders-search-form .elgg-foot {
+  -webkit-flex: 1 0 100%;
   flex: 1 0 100%;
 }
 
 .folders-search-form .elgg-field {
+  -webkit-flex: 0 1 49%;
   flex: 0 1 49%;
 }
 
 .elgg-menu-folders li {
-  line-height: var(--folders-menu-line-height);
+  line-height: 18px;
   vertical-align: middle;
   text-indent: -15px;
   padding-left: 20px;
   padding-top: 4px;
   padding-bottom: 4px;
 }
-
-.elgg-menu-folders li > span,
-.elgg-menu-folders li > a,
-.elgg-menu-folders li > a span {
+.elgg-menu-folders li > span, .elgg-menu-folders li > a, .elgg-menu-folders li > a span {
   margin-right: 5px;
   display: inline;
   vertical-align: middle;
-  line-height: var(--folders-menu-line-height);
+  line-height: 18px;
 }
-
 .elgg-menu-folders li.elgg-state-selected > a {
   font-weight: bold;
 }
-
 .elgg-menu-folders .elgg-menu-closed .elgg-child-menu {
   display: none;
 }
-
 .elgg-menu-folders .elgg-menu-closed > .elgg-child-menu-toggle > .collapse {
   display: none;
 }
-
 .elgg-menu-folders .elgg-menu-closed > .elgg-child-menu-toggle > .expand {
   display: block;
 }
-
 .elgg-menu-folders .elgg-menu-closed.elgg-menu-parent {
   margin-left: auto;
 }
-
 .elgg-menu-folders .elgg-menu-open > .elgg-child-menu-toggle > .collapse {
   display: block;
 }
-
 .elgg-menu-folders .elgg-menu-open > .elgg-child-menu-toggle > .expand {
   display: none;
 }
-
 .elgg-menu-folders img {
-  width: auto;
+  width: 16px;
   height: 16px;
+  width: auto;
   display: inline-block;
   vertical-align: middle;
   margin-right: 4px;
 }
-
-.elgg-menu-folders .elgg-child-menu-toggle,
-.elgg-menu-folders .elgg-child-menu-indicator {
+.elgg-menu-folders .elgg-child-menu-toggle, .elgg-menu-folders .elgg-child-menu-indicator {
   margin: 0;
   cursor: pointer;
-  color: var(--folders-color-muted);
-  font-size: var(--folders-menu-icon-size);
+  color: #666;
+  font-size: 10px;
   display: inline-block;
   vertical-align: middle;
   padding: 0 6px 0 3px;
-  width: var(--folders-menu-icon-width);
+  width: 18px;
   text-align: center;
 }
 
@@ -119,7 +91,7 @@
 .folders-search-area {
   flex: 1 1 40%;
   box-sizing: border-box;
-  border: 1px solid var(--folders-border-color);
+  border: 1px solid #dcdcdc;
 }
 
 .folders-search-area .elgg-menu-folderd-entity {
@@ -129,20 +101,20 @@
 .folders-content-area {
   flex: 1 1 60%;
   box-sizing: border-box;
-  border-color: var(--folders-border-color);
+  border-color: #dcdcdc;
   border-style: solid;
   border-width: 1px 1px 1px 0;
 }
 
 .folders-search-results {
-  max-height: var(--folders-panel-height);
+  max-height: 600px;
   overflow-y: scroll;
 }
 
 .folders-content-area .folders-content-list {
-  height: var(--folders-panel-height);
+  height: 600px;
   overflow-y: auto;
-  margin-bottom: var(--folders-toolbar-padding);
+  margin-bottom: 10px;
 }
 
 .folders-content-editor .folders-content-list > li {
@@ -162,8 +134,8 @@
 }
 
 .folders-draggable-placeholder {
-  background: var(--folders-bg-muted);
-  min-height: var(--folders-placeholder-min-height);
+  background: #f1f1f1;
+  min-height: 60px;
   width: 100%;
   display: block;
 }
@@ -175,12 +147,12 @@
 }
 
 .folders-content-item.elgg-image-block {
-  padding: var(--folders-item-padding);
+  padding: 10px;
   font-size: 90%;
 }
 
 .folders-content-item.elgg-image-block > .elgg-image img {
-  max-width: var(--folders-thumb-max-width-lg);
+  max-width: 40px;
   height: auto;
 }
 
@@ -194,21 +166,21 @@
 }
 
 .folders-nav-item.elgg-image-block > .elgg-image img {
-  max-width: var(--folders-thumb-max-width-sm);
+  max-width: 25px;
   height: auto;
 }
 
 .folders-search-area .elgg-form {
-  padding: 5px var(--folders-toolbar-padding);
-  border-bottom: 1px solid var(--folders-border-color);
+  padding: 5px 10px;
+  border-bottom: 1px solid #dcdcdc;
   position: relative;
-  background: var(--folders-bg-search);
+  background: #f4f4f4;
 }
 
 .folders-search-area .elgg-form button {
   position: absolute;
   right: 0;
-  margin: 5px var(--folders-toolbar-padding);
+  margin: 5px 10px;
   font-size: 14px;
   line-height: 14px;
 }
@@ -218,13 +190,13 @@
 }
 
 .folders-content-area .elgg-form .elgg-foot {
-  padding: var(--folders-toolbar-padding);
+  padding: 10px;
   text-align: right;
-  border-bottom: 1px solid var(--folders-border-color);
+  border-bottom: 1px solid #dcdcdc;
 }
 
 .folders-editor-component {
-  padding: var(--folders-editor-padding);
+  padding: 15px;
 }
 
 .elgg-menu-resource-item-controls {
@@ -234,6 +206,8 @@
 }
 
 .elgg-menu-resource-item-controls > li {
+  padding: 0;
+  margin: 0;
   display: inline-block;
   text-indent: 0;
   margin: 0;
@@ -241,16 +215,17 @@
 }
 
 .elgg-menu-resource-item-controls > li > a {
-  color: var(--folders-color-controls);
+  color: #aaa;
+  margin: 0;
   text-indent: 0;
   margin: 0;
   padding: 0;
 }
 
 .elgg-menu-resource-item-controls > li > a > span {
-  text-indent: 0;
   margin: 0;
-  font-size: var(--folders-control-font-size);
+  text-indent: 0;
+  font-size: 11px;
 }
 
 .elgg-menu-folders li:hover > .elgg-menu-resource-item-controls {
@@ -262,6 +237,6 @@
 }
 
 .elgg-menu-folders li .elgg-icon-arrows {
-  font-size: var(--folders-icon-font-size);
-  color: var(--folders-color-controls);
+  font-size: 12px;
+  color: #aaa;
 }

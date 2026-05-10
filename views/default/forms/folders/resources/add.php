@@ -17,7 +17,7 @@ $resource = elgg_extract('resource', $vars);
 			echo elgg_view('output/url', [
 				'text' => elgg_view_icon('plus') . elgg_echo("folders:new:$subtype"),
 				'href' => "folders/resources/new/$folder->guid/$resource->guid/$subtype",
-				'class' => 'elgg-button elgg-lightbox',
+				'class' => 'elgg-button elgg-button-action elgg-lightbox',
 				'data-colorbox-opts' => json_encode([
 					'maxWidth' => '600px',
 					'maxHeight' => '600px',

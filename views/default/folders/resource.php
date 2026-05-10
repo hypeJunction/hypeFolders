@@ -76,18 +76,18 @@ if ($full_view) {
 	
 } else {
 	$query = elgg_extract('query', $vars);
-	if ($query) {
+	if (elgg_is_active_plugin('search') && $query) {
+
 		if ($entity->getVolatileData('search_matched_title')) {
 			$title = $entity->getVolatileData('search_matched_title');
 		} else {
-			$title = preg_replace('/(' . preg_quote($query, '/') . ')/i', '<strong>$1</strong>', $entity->getDisplayName());
+			$title = search_get_highlighted_relevant_substrings($entity->getDisplayName(), $query, 5, 5000);
 		}
 
 		if ($entity->getVolatileData('search_matched_description')) {
 			$excerpt = $entity->getVolatileData('search_matched_description');
 		} else {
-			$excerpt = elgg_get_excerpt($entity->description, 100);
-			$excerpt = preg_replace('/(' . preg_quote($query, '/') . ')/i', '<strong>$1</strong>', $excerpt);
+			$excerpt = search_get_highlighted_relevant_substrings($entity->description, $query, 5, 5000);
 		}
 	} else {
 		$title = $entity->getDisplayName();

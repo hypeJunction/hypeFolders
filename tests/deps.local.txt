@@ -1,5 +1,0 @@
-# Local path overrides for sibling plugin deps. Gitignored — paths are
-# developer-specific. Format: <plugin-id> <relative-or-absolute-path>
-# Consumed by skills/elgg-test-writer/bin/scaffold-docker.sh which
-# injects the corresponding bind mounts into docker/docker-compose.yml.
-elgg_tokeninput ../elgg_tokeninput

@@ -1,15 +1,3 @@
-:root {
-	--folders-border-color: #dcdcdc;
-	--folders-bg-muted: #f1f1f1;
-	--folders-panel-height: 600px;
-	--folders-toolbar-height: 32px;
-	--folders-toolbar-padding: 10px;
-	--folders-item-padding: 10px;
-	--folders-placeholder-min-height: 60px;
-	--folders-thumb-max-width-lg: 40px;
-	--folders-thumb-max-width-sm: 25px;
-}
-
 .elgg-form-folders-search-search_results [type="text"] {
     display: inline-block;
     width: calc(100% - 50px);
@@ -29,7 +17,7 @@
 .folders-search-area {
     flex: 1 1 40%;
     box-sizing: border-box;
-    border: 1px solid var(--folders-border-color);
+    border: 1px solid #dcdcdc;
 }
 
 .folders-search-area .elgg-menu-folderd-entity {
@@ -39,20 +27,20 @@
 .folders-content-area {
     flex: 1 1 60%;
     box-sizing: border-box;
-	border-color: var(--folders-border-color);
+	border-color: #dcdcdc;
 	border-style: solid;
 	border-width: 1px 1px 1px 0;
 }
 
 .folders-search-results {
-    max-height: var(--folders-panel-height);
+    max-height: 600px;
     overflow-y: scroll;
 }
 
 .folders-content-area .folders-content-list {
-    height: var(--folders-panel-height);
+    height: 600px;
     overflow-y: auto;
-	margin-bottom: var(--folders-toolbar-padding);
+	margin-bottom: 10px;
 }
 
 .folders-content-editor .folders-content-list > li *:not(a) {
@@ -66,24 +54,24 @@
 	margin: 0;
 }
 .elgg-form-folders-search-search_results {
-    padding: var(--folders-toolbar-padding);
-    background: var(--folders-bg-muted);
-    border-bottom: 1px solid var(--folders-border-color);
-	height: var(--folders-toolbar-height);
+    padding: 10px;
+    background: #f1f1f1;
+    border-bottom: 1px solid #dcdcdc;
+	height: 32px;
 }
 
 .elgg-form-folders-add-content .elgg-foot {
-    height: var(--folders-toolbar-height);
-    border-bottom: 1px solid var(--folders-border-color);
-    padding: var(--folders-toolbar-padding);
+    height: 32px;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 10px;
     text-align: right;
     margin: 0;
-    background: var(--folders-bg-muted);
+    background: #f1f1f1;
 }
 
 .folders-draggable-placeholder {
-	background: var(--folders-bg-muted);
-	min-height: var(--folders-placeholder-min-height);
+	background: #f1f1f1;
+	min-height: 60px;
 }
 
 .folders-content-list > li {
@@ -91,12 +79,12 @@
 }
 
 .folders-content-item.elgg-image-block {
-    padding: var(--folders-item-padding);
+    padding: 10px;
     font-size: 90%;
 }
 
 .folders-content-item.elgg-image-block > .elgg-image img {
-    max-width: var(--folders-thumb-max-width-lg);
+    max-width: 40px;
     height: auto;
 }
 
@@ -110,6 +98,6 @@
 }
 
 .folders-nav-item.elgg-image-block > .elgg-image img {
-    max-width: var(--folders-thumb-max-width-sm);
+    max-width: 25px;
     height: auto;
 }

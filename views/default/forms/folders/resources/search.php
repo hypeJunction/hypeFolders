@@ -5,7 +5,7 @@ $query = elgg_extract('query', $vars, get_input('query', ''));
 
 echo elgg_format_element('button', [
 	'type' => 'submit',
-	'class' => 'elgg-button',
+	'class' => 'elgg-button elgg-button-submit',
 ], elgg_view_icon('search'));
 
 echo elgg_view_input('text', [

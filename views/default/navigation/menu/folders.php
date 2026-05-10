@@ -18,4 +18,6 @@ foreach ($vars['menu'] as $section => $menu_items) {
 	));
 }
 ?>
-<?php elgg_import_esm('navigation/menu/folders'); ?>
+<script>
+	require(['navigation/menu/folders']);
+</script>
