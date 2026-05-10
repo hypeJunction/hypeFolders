@@ -18,7 +18,9 @@ class Menus {
 	 * @param array  $params Hook params
 	 * @return array
 	 */
-	public static function setupFolderMenu($hook, $type, $return, $params) {
+	public static function setupFolderMenu(\Elgg\Event $event) {
+		$return = $event->getValue();
+		$params = $event->getParams();
 
 		$folder = elgg_extract('folder', $params);
 
@@ -129,7 +131,9 @@ class Menus {
 	 * @param array  $params Hook params
 	 * @return array
 	 */
-	public static function setupFolderResourceMenu($hook, $type, $return, $params) {
+	public static function setupFolderResourceMenu(\Elgg\Event $event) {
+		$return = $event->getValue();
+		$params = $event->getParams();
 
 		if (elgg_in_context('folders')) {
 			$remove = ['access', 'likes', 'unlike', 'likes_count'];
@@ -166,7 +170,9 @@ class Menus {
 	 * @param array  $params Hook params
 	 * @return array
 	 */
-	public static function setupOwnerBlockMenu($hook, $type, $return, $params) {
+	public static function setupOwnerBlockMenu(\Elgg\Event $event) {
+		$return = $event->getValue();
+		$params = $event->getParams();
 
 		$entity = elgg_extract('entity', $params);
 
