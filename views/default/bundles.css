@@ -1,3 +1,15 @@
+:root {
+	--folders-border-color: #dcdcdc;
+	--folders-bg-muted: #f1f1f1;
+	--folders-panel-height: 600px;
+	--folders-toolbar-height: 32px;
+	--folders-toolbar-padding: 10px;
+	--folders-item-padding: 10px;
+	--folders-placeholder-min-height: 60px;
+	--folders-thumb-max-width-lg: 40px;
+	--folders-thumb-max-width-sm: 25px;
+}
+
 .elgg-form-folders-search-search_results [type="text"] {
     display: inline-block;
     width: calc(100% - 50px);
@@ -17,7 +29,7 @@
 .folders-search-area {
     flex: 1 1 40%;
     box-sizing: border-box;
-    border: 1px solid #dcdcdc;
+    border: 1px solid var(--folders-border-color);
 }
 
 .folders-search-area .elgg-menu-folderd-entity {
@@ -27,20 +39,20 @@
 .folders-content-area {
     flex: 1 1 60%;
     box-sizing: border-box;
-	border-color: #dcdcdc;
+	border-color: var(--folders-border-color);
 	border-style: solid;
 	border-width: 1px 1px 1px 0;
 }
 
 .folders-search-results {
-    max-height: 600px;
+    max-height: var(--folders-panel-height);
     overflow-y: scroll;
 }
 
 .folders-content-area .folders-content-list {
-    height: 600px;
+    height: var(--folders-panel-height);
     overflow-y: auto;
-	margin-bottom: 10px;
+	margin-bottom: var(--folders-toolbar-padding);
 }
 
 .folders-content-editor .folders-content-list > li *:not(a) {
@@ -54,24 +66,24 @@
 	margin: 0;
 }
 .elgg-form-folders-search-search_results {
-    padding: 10px;
-    background: #f1f1f1;
-    border-bottom: 1px solid #dcdcdc;
-	height: 32px;
+    padding: var(--folders-toolbar-padding);
+    background: var(--folders-bg-muted);
+    border-bottom: 1px solid var(--folders-border-color);
+	height: var(--folders-toolbar-height);
 }
 
 .elgg-form-folders-add-content .elgg-foot {
-    height: 32px;
-    border-bottom: 1px solid #dcdcdc;
-    padding: 10px;
+    height: var(--folders-toolbar-height);
+    border-bottom: 1px solid var(--folders-border-color);
+    padding: var(--folders-toolbar-padding);
     text-align: right;
     margin: 0;
-    background: #f1f1f1;
+    background: var(--folders-bg-muted);
 }
 
 .folders-draggable-placeholder {
-	background: #f1f1f1;
-	min-height: 60px;
+	background: var(--folders-bg-muted);
+	min-height: var(--folders-placeholder-min-height);
 }
 
 .folders-content-list > li {
@@ -79,12 +91,12 @@
 }
 
 .folders-content-item.elgg-image-block {
-    padding: 10px;
+    padding: var(--folders-item-padding);
     font-size: 90%;
 }
 
 .folders-content-item.elgg-image-block > .elgg-image img {
-    max-width: 40px;
+    max-width: var(--folders-thumb-max-width-lg);
     height: auto;
 }
 
@@ -98,6 +110,6 @@
 }
 
 .folders-nav-item.elgg-image-block > .elgg-image img {
-    max-width: 25px;
+    max-width: var(--folders-thumb-max-width-sm);
     height: auto;
 }

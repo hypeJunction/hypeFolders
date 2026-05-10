@@ -1,6 +1,6 @@
 # Folders for Elgg
 
-![Elgg 2.2](https://img.shields.io/badge/Elgg-2.2-orange.svg?style=flat-square)
+![Elgg 7.x](https://img.shields.io/badge/Elgg-7.x-orange.svg?style=flat-square)
 
 ## Features
 
@@ -14,3 +14,8 @@
 
  * Update title column in the folders table when object title is updated
 
+## Compatibility
+
+| Plugin version | Elgg version |
+|---|---|
+| current | 7.x |

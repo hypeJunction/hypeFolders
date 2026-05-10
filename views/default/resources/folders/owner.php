@@ -5,7 +5,7 @@ use hypeJunction\Folders\MainFolder;
 $username = elgg_extract('username', $vars);
 $user = get_user_by_username($username);
 
-if (!$user || !elgg_get_plugin_setting('user_folders', 'hypeFolders', false)) {
+if (!$user || !elgg_get_plugin_setting('user_folders', 'hypefolders', false)) {
 	forward('', '404');
 }
 

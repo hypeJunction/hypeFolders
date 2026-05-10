@@ -15,19 +15,16 @@ $entity = ($guid) ? get_entity($guid) : null;
 $container = get_entity($container_guid);
 
 if (!$title) {
-	register_error(elgg_echo('folders:input:error:required', array('folders:folder:title')));
-	forward(REFERRER);
+	return elgg_error_response(elgg_echo('folders:input:error:required', array('folders:folder:title')));
 }
 
 if ($guid) {
 	if (!$entity) {
-		register_error(elgg_echo('folders:get:error:entity'));
-		forward(REFERRER);
+		return elgg_error_response(elgg_echo('folders:get:error:entity'));
 	}
 } else {
 	if (!$container || !$container->canWriteToContainer(0, 'object', \hypeJunction\Folders\MainFolder::SUBTYPE)) {
-		register_error(elgg_echo('folders:write:error:container'));
-		forward(REFERRER);
+		return elgg_error_response(elgg_echo('folders:write:error:container'));
 	}
 
 	$entity = new \hypeJunction\Folders\MainFolder();

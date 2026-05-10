@@ -31,6 +31,4 @@ $resource = elgg_extract('resource', $vars);
 		</div>
 	</div>
 </div>
-<script>
-	require(['folders/resources/add']);
-</script>
+<?php elgg_import_esm('folders/resources/add'); ?>
