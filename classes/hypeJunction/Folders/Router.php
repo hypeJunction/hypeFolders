@@ -115,7 +115,8 @@ class Router {
 	 * @param array  $params Hook params
 	 * @return string
 	 */
-	public static function entityUrlHandler($hook, $type, $return, $params) {
+	public static function entityUrlHandler(\Elgg\Event $event) {
+		$params = $event->getParams();
 
 		$entity = elgg_extract('entity', $params);
 
