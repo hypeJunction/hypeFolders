@@ -15,7 +15,8 @@ class Permissions {
 	 * @param array  $params Hook params
 	 * @return bool
 	 */
-	public static function checkContainerPermissions($hook, $type, $return, $params) {
+	public static function checkContainerPermissions(\Elgg\Event $event) {
+		$params = $event->getParams();
 
 		$container = elgg_extract('container', $params);
 		$subtype = elgg_extract('subtype', $params);
@@ -51,7 +52,9 @@ class Permissions {
 	 * @param array  $params Hook params
 	 * @return bool
 	 */
-	public static function checkFolderPermissions($hook, $type, $return, $params) {
+	public static function checkFolderPermissions(\Elgg\Event $event) {
+		$params = $event->getParams();
+		$type = $event->getType();
 
 		$folder = elgg_extract('container', $params);
 		$subtype = elgg_extract('subtype', $params);
