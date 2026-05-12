@@ -30,6 +30,9 @@
         "elgg/elgg": "~7.0.0",
         "hypejunction/elgg_tokeninput": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
     "autoload": {
         "psr-4": {
             "hypeJunction\\Folders\\": "classes/hypeJunction/Folders/"
