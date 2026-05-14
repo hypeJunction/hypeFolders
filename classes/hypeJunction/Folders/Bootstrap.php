@@ -2,12 +2,12 @@
 
 namespace hypeJunction\Folders;
 
-use Elgg\PluginBootstrap;
+use Elgg\DefaultPluginBootstrap;
 
 /**
  * Plugin bootstrap
  */
-class Bootstrap extends PluginBootstrap {
+class Bootstrap extends DefaultPluginBootstrap {
 
 	/**
 	 * {@inheritDoc}
