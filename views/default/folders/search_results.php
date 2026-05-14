@@ -21,31 +21,31 @@ $exceptions = [
 ];
 
 $subtypes = array_diff($subtypes, $exceptions);
-$dbprefix = elgg_get_config('dbprefix');
+$folder_guid = (int) $folder->guid;
 $options = [
 	'types' => 'object',
 	'subtypes' => $subtypes,
 	'limit' => $limit,
 	'offset' => $offset,
-	'joins' => [
-		"
-			JOIN {$dbprefix}objects_entity oe_sort
-				ON oe_sort.guid = e.guid
-		",
-	],
 	'wheres' => [
 		// only show items that are not part of the folder yet
-		"
-		NOT EXISTS(
-			SELECT 1 FROM {$dbprefix}entity_relationships
-				WHERE guid_one=e.guid
-				AND relationship = 'resource'
-				AND guid_two = $folder->guid
-		)
-		",
-		"e.guid != $folder->guid",
+		function (\Elgg\Database\QueryBuilder $qb, $main_alias) use ($folder_guid) {
+			$dbprefix = elgg_get_config('dbprefix');
+			return "NOT EXISTS(
+				SELECT 1 FROM {$dbprefix}entity_relationships
+					WHERE guid_one = {$main_alias}.guid
+					AND relationship = 'resource'
+					AND guid_two = {$folder_guid}
+			)";
+		},
+		function (\Elgg\Database\QueryBuilder $qb, $main_alias) use ($folder_guid) {
+			return $qb->compare("{$main_alias}.guid", '!=', $folder_guid, ELGG_VALUE_INTEGER);
+		},
 	],
-	'order_by' => 'oe_sort.title ASC',
+	'sort_by' => [
+		'property' => 'name',
+		'direction' => 'ASC',
+	],
 	'query' => $query,
 ];
 
@@ -56,20 +56,27 @@ $container_guids = ELGG_ENTITIES_ANY_VALUE;
 
 // We want to make sure the folder items are accessible
 // by users who are allowed to see the folder
+$group_acl_id = null;
+if ($container instanceof \ElggGroup) {
+	$acl = $container->getOwnedAccessCollection('group_acl');
+	if ($acl) {
+		$group_acl_id = $acl->id;
+	}
+}
 $access_ids = array_filter([
 	ACCESS_PUBLIC,
 	ACCESS_LOGGED_IN,
 	$folder->access_id,
-	$container->group_acl,
+	$group_acl_id,
 ]);
 
 if ($container instanceof ElggUser) {
-	$restrict = elgg_get_plugin_setting('user_folders_restrict_by_owner', 'hypeFolders', true);
+	$restrict = elgg_get_plugin_setting('user_folders_restrict_by_owner', 'hypefolders', true);
 	if ($restrict && !elgg_is_admin_logged_in()) {
 		$owner_guids = $container->guid;
 	}
 } else {
-	$restrict = elgg_get_plugin_setting('group_folders_restrict_by_container', 'hypeFolders', true);
+	$restrict = elgg_get_plugin_setting('group_folders_restrict_by_container', 'hypefolders', true);
 	if ($restrict) {
 		$container_guids = $container->guid;
 	}
@@ -79,12 +86,13 @@ $options['owner_guids'] = $owner_guids;
 $options['container_guids'] = $container_guids;
 
 if (!empty($access_ids)) {
-	$access_ids_in = implode(',', $access_ids);
-	$options['wheres'][] = "e.access_id IN ($access_ids_in)";
+	$options['wheres'][] = function (\Elgg\Database\QueryBuilder $qb, $main_alias) use ($access_ids) {
+		return $qb->compare("{$main_alias}.access_id", 'IN', $access_ids, ELGG_VALUE_INTEGER);
+	};
 }
 
 if ($query) {
-	$results = (array) elgg_trigger_plugin_hook('search', 'object', $options, []);
+	$results = (array) elgg_trigger_event_results('search', 'object', $options, []);
 } else {
 	$options['count'] = true;
 	$count = elgg_get_entities($options);
