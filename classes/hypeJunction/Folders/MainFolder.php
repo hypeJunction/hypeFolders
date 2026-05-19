@@ -251,7 +251,10 @@ class MainFolder extends ElggObject
         if (!$entity instanceof \ElggEntity) {
             return;
         }
-        $folder_guid = get_input('main_folder_guid');
+        $folder_guid = (int) get_input('main_folder_guid');
+        if (!$folder_guid) {
+            return;
+        }
         $folder = get_entity($folder_guid);
         $parent_guid = (int) get_input('parent_guid');
         if (!$folder instanceof MainFolder) {
