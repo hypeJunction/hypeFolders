@@ -242,13 +242,15 @@ class MainFolder extends ElggObject
     /**
      * Add new resource when entity is created with a special form
      *
-     * @param string     $event  "create"
-     * @param string     $type   "object"
-     * @param ElggEntity $entity New entity
+     * @param \Elgg\Event $event create:object event carrying the new entity
      * @return void
      */
-    public static function addCreatedResource($event, $type, $entity)
+    public static function addCreatedResource(\Elgg\Event $event)
     {
+        $entity = $event->getObject();
+        if (!$entity instanceof \ElggEntity) {
+            return;
+        }
         $folder_guid = get_input('main_folder_guid');
         $folder = get_entity($folder_guid);
         $parent_guid = (int) get_input('parent_guid');
@@ -264,35 +266,43 @@ class MainFolder extends ElggObject
     /**
      * Sync item title in the folders table
      * 
-     * @param string     $event  "update"
-     * @param string     $type   "object"
-     * @param ElggEntity $entity Entity
+     * @param \Elgg\Event $event update:object event carrying the entity
      * @return void
      */
-    public static function syncTitle($event, $type, $entity)
+    public static function syncTitle(\Elgg\Event $event)
     {
+        $entity = $event->getObject();
+        if (!$entity instanceof \ElggEntity) {
+            return;
+        }
         $original_attributes = $entity->getOriginalAttributes();
         if (!array_key_exists('title', $original_attributes)) {
             return;
         }
+        $conn = _elgg_services()->db->getConnection('write');
         $dbprefix = elgg_get_config('dbprefix');
-        $query = "\n\t\t\tUPDATE {$dbprefix}folders\n\t\t\tSET title = :title\n\t\t\tWHERE resource_guid = :resource_guid\n\t\t";
-        $params = [':title' => (string) $entity->getDisplayName(), ':resource_guid' => $entity->guid];
-        update_data($query, $params);
+        $conn->executeStatement(
+            "UPDATE {$dbprefix}folders SET title = :title WHERE resource_guid = :resource_guid",
+            [':title' => (string) $entity->getDisplayName(), ':resource_guid' => $entity->guid]
+        );
     }
     /**
      * Remove deleted items from the tree
      *
-     * @param string     $event  "delete"
-     * @param string     $type   "object"
-     * @param ElggEntity $entity Entity
+     * @param \Elgg\Event $event delete:object event carrying the entity
      * @return void
      */
-    public static function removeDeletedItems($event, $type, $entity)
+    public static function removeDeletedItems(\Elgg\Event $event)
     {
+        $entity = $event->getObject();
+        if (!$entity instanceof \ElggEntity) {
+            return;
+        }
+        $conn = _elgg_services()->db->getConnection('write');
         $dbprefix = elgg_get_config('dbprefix');
-        $query = "\n\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\tWHERE folder_guid = :guid\n\t\t\tOR parent_guid = :guid\n\t\t\tOR resource_guid = :guid\n\t\t";
-        $params = [':guid' => $entity->guid];
-        delete_data($query, $params);
+        $conn->executeStatement(
+            "DELETE FROM {$dbprefix}folders WHERE folder_guid = :guid OR parent_guid = :guid OR resource_guid = :guid",
+            [':guid' => $entity->guid]
+        );
     }
 }
