@@ -9,7 +9,7 @@ $resource_guid = get_input('resource_guid');
 $title = get_input('title');
 $description = get_input('description');
 $tags = get_input('tags', '');
-$access_id = get_input('access_id', get_default_access());
+$access_id = get_input('access_id', elgg_get_default_access());
 
 $user = elgg_get_logged_in_user_entity();
 $entity = ($guid) ? get_entity($guid) : null;
