@@ -3,7 +3,7 @@
 use hypeJunction\Folders\MainFolder;
 
 $username = elgg_extract('username', $vars);
-$user = get_user_by_username($username);
+$user = elgg_get_user_by_username($username);
 
 if (!$user) {
 	forward('', '404');
