@@ -58,14 +58,16 @@ class Bootstrap extends DefaultPluginBootstrap {
 		$sql_file = $this->elgg()->config->path . 'mod/hypefolders/install/mysql.sql';
 		if (file_exists($sql_file)) {
 			elgg_call(ELGG_IGNORE_ACCESS, function () use ($sql_file) {
-				$db = _elgg_services()->db;
+				// Elgg 7.x Database::updateData() takes a QueryBuilder, not a
+				// string. Drop to the underlying Doctrine connection for raw
+				// install DDL.
+				$conn = _elgg_services()->db->getConnection('write');
 				$sql = file_get_contents($sql_file);
-				// Replace prefix placeholder
 				$prefix = elgg_get_config('dbprefix');
 				$sql = str_replace('prefix_', $prefix, $sql);
 				foreach (array_filter(array_map('trim', explode(';', $sql))) as $stmt) {
 					if ($stmt) {
-						$db->updateData($stmt);
+						$conn->executeStatement($stmt);
 					}
 				}
 			});
