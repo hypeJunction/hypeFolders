@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `prefix_folders` (
   `parent_guid` bigint(20) unsigned NOT NULL,
   `resource_guid` bigint(20) unsigned NOT NULL,
   `weight` int(11) NOT NULL DEFAULT '0',
-  `title` text NOT NULL DEFAULT '',
+  `title` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `relationship_id` (`relationship_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
