@@ -10,7 +10,7 @@ function hypefolders_upgrade_20160510a()
     foreach ($folders as $folder) {
         $resources = new ElggBatch('elgg_get_entities', ['relationship' => 'resource', 'relationship_guid' => $folder->guid, 'inverse_relationship' => true, 'limit' => 0]);
         foreach ($resources as $resource) {
-            $relationship = check_entity_relationship($resource->guid, 'resource', $folder->guid);
+            $relationship = (get_entity($resource->guid)?->hasRelationship($folder->guid, 'resource') ?? false);
             $annotations = elgg_get_annotations(array('guids' => $resource->guid, 'annotation_names' => array('parent', 'weight'), 'annotation_owner_guids' => $folder->guid, 'limit' => 0));
             $parent_guid = $folder->guid;
             $weight = 0;
