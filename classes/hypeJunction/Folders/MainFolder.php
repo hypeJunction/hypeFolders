@@ -26,7 +26,7 @@ class MainFolder extends ElggObject
      */
     public function isResource($resource_guid = 0)
     {
-        $relationship = (get_entity($resource_guid)?->hasRelationship($this->guid, 'resource') ?? false);
+        $relationship = (get_entity($resource_guid)?->getRelationship($this->guid, 'resource') ?? null);
         return $relationship ? $relationship->id : false;
     }
     /**
@@ -82,7 +82,7 @@ class MainFolder extends ElggObject
         if (!$resource_guid) {
             return false;
         }
-        $relationship = (get_entity($resource_guid)?->hasRelationship($this->guid, 'resource') ?? false);
+        $relationship = (get_entity($resource_guid)?->getRelationship($this->guid, 'resource') ?? null);
         if (!$relationship) {
             return false;
         }
