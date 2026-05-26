@@ -55,13 +55,13 @@ class FoldersService {
 	 */
 	public function getContentTypes() {
 
-		$allowed = elgg_entity_types_with_capability('searchable');
+		$allowed = \elgg_entity_types_with_capability('searchable');
 		$object_subtypes = isset($allowed['object']) ? $allowed['object'] : [];
 		$exceptions = ['messages', 'comment', 'discussion_reply'];
 
 		$object_subtypes = array_diff($object_subtypes, $exceptions);
 
-		return elgg_trigger_plugin_hook('content_types', 'folders', [], $object_subtypes);
+		return \elgg_trigger_plugin_hook('content_types', 'folders', [], $object_subtypes);
 	}
 
 }

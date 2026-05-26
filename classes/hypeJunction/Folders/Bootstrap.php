@@ -7,8 +7,8 @@ use Elgg\DefaultPluginBootstrap;
 class Bootstrap extends DefaultPluginBootstrap {
 
 	public function register() {
-		elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
-		elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
+		\elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
+		\elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
 	}
 
 	public function activate() {

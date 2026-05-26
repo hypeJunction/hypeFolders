@@ -12,9 +12,9 @@ class ViewsTest extends IntegrationTestCase {
 	public function up() {
 		// Load plugin views so elgg_view_form() etc. can find them
 		$pluginPath = dirname(__DIR__, 5); // Folders/ -> hypeJunction/ -> integration/ -> phpunit/ -> tests/ -> plugin root
-		_elgg_services()->views->registerPluginViews($pluginPath);
-		elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
-		elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
+		\_elgg_services()->views->registerPluginViews($pluginPath);
+		\elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
+		\elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
 	}
 
 	public function down() {}
@@ -25,11 +25,11 @@ class ViewsTest extends IntegrationTestCase {
 
 	public function testMainFolderObjectViewRenders(): void {
 		$user = $this->createUser();
-		$session = _elgg_services()->session;
+		$session = \_elgg_services()->session;
 		$session->setLoggedInUser($user);
 
 		try {
-$folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
+$folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 				$f = new MainFolder();
 				$f->owner_guid = $user->guid;
 				$f->container_guid = $user->guid;
@@ -42,7 +42,7 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 			$output = \elgg_view_entity($folder);
 			$this->assertIsString($output);
 
-			elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
+			\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 		} finally {
 			$session->removeLoggedInUser();
 		}
@@ -50,7 +50,7 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 
 	public function testEditFormViewRenders(): void {
 		$user = $this->createUser();
-		$session = _elgg_services()->session;
+		$session = \_elgg_services()->session;
 		$session->setLoggedInUser($user);
 
 		try {
