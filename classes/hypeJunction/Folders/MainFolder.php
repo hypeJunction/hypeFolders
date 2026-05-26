@@ -66,7 +66,7 @@ class MainFolder extends ElggObject
         if (!$parent) {
             return false;
         }
-        $dbprefix = elgg_get_config('dbprefix');
+        $dbprefix = \elgg_get_config('dbprefix');
         $query = "\n\t\t\tINSERT INTO {$dbprefix}folders\n\t\t\tSET relationship_id = :relationship_id,\n\t\t\t\tfolder_guid = :folder_guid,\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tresource_guid = :resource_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t\tON DUPLICATE KEY UPDATE\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t";
         $params = [':relationship_id' => (int) $id, ':folder_guid' => (int) $this->guid, ':parent_guid' => (int) $parent->guid, ':resource_guid' => (int) $resource->guid, ':weight' => (int) $weight, ':title' => (string) $resource->getDisplayName()];
         return insert_data($query, $params);
@@ -89,7 +89,7 @@ class MainFolder extends ElggObject
         $id = $relationship->id;
         $result = remove_entity_relationship($resource_guid, 'resource', $this->guid);
         if ($result) {
-            $dbprefix = elgg_get_config('dbprefix');
+            $dbprefix = \elgg_get_config('dbprefix');
             $query = "\n\t\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\t\tWHERE relationship_id = :relationship_id\n\t\t\t";
             delete_data($query, [':relationship_id' => $id]);
         }
@@ -105,12 +105,12 @@ class MainFolder extends ElggObject
     {
         $defaults = array('limit' => 0);
         $options = array_merge($defaults, $options);
-        $dbprefix = elgg_get_config('dbprefix');
+        $dbprefix = \elgg_get_config('dbprefix');
         $options['joins'][] = "\n\t\t\tJOIN {$dbprefix}folders frs ON e.guid = frs.resource_guid\n\t\t";
         $options['selects'][] = 'frs.*';
         $options['order_by'] = 'frs.weight = 0, frs.weight ASC';
         $options['wheres'][] = "\n\t\t\tfrs.folder_guid = {$this->guid}\n\t\t\tAND frs.resource_guid != {$this->guid}\n\t\t";
-        $rows = elgg_get_entities($options);
+        $rows = \elgg_get_entities($options);
         if (is_array($rows)) {
             $keys = array_map(function ($elem) {
                 return (int) $elem->guid;
@@ -149,7 +149,7 @@ class MainFolder extends ElggObject
             return false;
         }
         $resource_guid = (int) $resource_guid;
-        $resource = elgg_extract($resource_guid, $resources);
+        $resource = \elgg_extract($resource_guid, $resources);
         if (!$resource) {
             return false;
         }
@@ -157,7 +157,7 @@ class MainFolder extends ElggObject
         if ($parent_guid == $this->guid) {
             return $this;
         }
-        $parent = elgg_extract($parent_guid, $resources, false);
+        $parent = \elgg_extract($parent_guid, $resources, false);
         return $parent;
     }
     /**
@@ -217,15 +217,15 @@ class MainFolder extends ElggObject
         $container = $this->getContainerEntity();
         //elgg_set_page_owner_guid($container->guid);
         if ($container instanceof ElggUser) {
-            elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
-            elgg_push_breadcrumb(elgg_echo('folders'), "folders/owner/{$container->username}");
+            \elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
+            \elgg_push_breadcrumb(\elgg_echo('folders'), "folders/owner/{$container->username}");
         } else if ($container instanceof ElggGroup) {
-            elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
-            elgg_push_breadcrumb(elgg_echo('folders'), "folders/group/{$container->guid}");
+            \elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
+            \elgg_push_breadcrumb(\elgg_echo('folders'), "folders/group/{$container->guid}");
         }
         $ancestors = $this->getAncestors($resource_guid);
         foreach ($ancestors as $ancestor) {
-            elgg_push_breadcrumb($ancestor->title, "folders/view/{$this->guid}/{$ancestor->guid}");
+            \elgg_push_breadcrumb($ancestor->title, "folders/view/{$this->guid}/{$ancestor->guid}");
         }
     }
     /**
@@ -275,7 +275,7 @@ class MainFolder extends ElggObject
         if (!array_key_exists('title', $original_attributes)) {
             return;
         }
-        $dbprefix = elgg_get_config('dbprefix');
+        $dbprefix = \elgg_get_config('dbprefix');
         $query = "\n\t\t\tUPDATE {$dbprefix}folders\n\t\t\tSET title = :title\n\t\t\tWHERE resource_guid = :resource_guid\n\t\t";
         $params = [':title' => (string) $entity->getDisplayName(), ':resource_guid' => $entity->guid];
         update_data($query, $params);
@@ -290,7 +290,7 @@ class MainFolder extends ElggObject
      */
     public static function removeDeletedItems($event, $type, $entity)
     {
-        $dbprefix = elgg_get_config('dbprefix');
+        $dbprefix = \elgg_get_config('dbprefix');
         $query = "\n\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\tWHERE folder_guid = :guid\n\t\t\tOR parent_guid = :guid\n\t\t\tOR resource_guid = :guid\n\t\t";
         $params = [':guid' => $entity->guid];
         delete_data($query, $params);

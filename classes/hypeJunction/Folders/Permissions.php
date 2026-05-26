@@ -18,16 +18,16 @@ class Permissions {
 	public static function checkContainerPermissions(\Elgg\Event $event) {
 		$params = $event->getParams();
 
-		$container = elgg_extract('container', $params);
-		$subtype = elgg_extract('subtype', $params);
-		$user = elgg_extract('user', $params);
+		$container = \elgg_extract('container', $params);
+		$subtype = \elgg_extract('subtype', $params);
+		$user = \elgg_extract('user', $params);
 		
 		if (!in_array($subtype, [MainFolder::SUBTYPE])) {
 			return;
 		}
 
 		if ($container instanceof ElggGroup) {
-			if (!elgg_get_plugin_setting('group_folders', 'hypefolders', false)) {
+			if (!\elgg_get_plugin_setting('group_folders', 'hypefolders', false)) {
 				return false;
 			}
 			if ($container->folders_enable == 'no') {
@@ -37,7 +37,7 @@ class Permissions {
 				return $container->canEdit($user->guid);
 			}
 		} else {
-			if (!elgg_get_plugin_setting('user_folders', 'hypefolders', false)) {
+			if (!\elgg_get_plugin_setting('user_folders', 'hypefolders', false)) {
 				return false;
 			}
 		}
@@ -56,9 +56,9 @@ class Permissions {
 		$params = $event->getParams();
 		$type = $event->getType();
 
-		$folder = elgg_extract('container', $params);
-		$subtype = elgg_extract('subtype', $params);
-		$user = elgg_extract('user', $params);
+		$folder = \elgg_extract('container', $params);
+		$subtype = \elgg_extract('subtype', $params);
+		$user = \elgg_extract('user', $params);
 		
 		if (!$folder instanceof MainFolder) {
 			return;
