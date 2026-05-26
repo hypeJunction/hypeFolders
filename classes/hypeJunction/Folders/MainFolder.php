@@ -36,7 +36,7 @@ class MainFolder extends ElggObject {
 			return false;
 		}
 
-		$relationship = _elgg_services()->relationshipsTable->check((int) $resource_guid, 'resource', $this->guid);
+		$relationship = \_elgg_services()->relationshipsTable->check((int) $resource_guid, 'resource', $this->guid);
 		return $relationship ? $relationship->id : false;
 	}
 
@@ -82,7 +82,7 @@ class MainFolder extends ElggObject {
 			return false;
 		}
 
-		$table = elgg_get_config('dbprefix') . 'folders';
+		$table = \elgg_get_config('dbprefix') . 'folders';
 		$connection = elgg()->db->getConnection('write');
 		$sql = "INSERT INTO {$table} (relationship_id, folder_guid, parent_guid, resource_guid, weight, title)
             VALUES (:relationship_id, :folder_guid, :parent_guid, :resource_guid, :weight, :title)
@@ -109,13 +109,13 @@ class MainFolder extends ElggObject {
 			return false;
 		}
 
-		$relationship = _elgg_services()->relationshipsTable->check((int) $resource_guid, 'resource', $this->guid);
+		$relationship = \_elgg_services()->relationshipsTable->check((int) $resource_guid, 'resource', $this->guid);
 		if (!$relationship) {
 			return false;
 		}
 
 		$id = $relationship->id;
-		$result = _elgg_services()->relationshipsTable->remove((int) $resource_guid, 'resource', $this->guid);
+		$result = \_elgg_services()->relationshipsTable->remove((int) $resource_guid, 'resource', $this->guid);
 		if ($result) {
 			$delete = Delete::fromTable('folders');
 			$delete->where($delete->compare('relationship_id', '=', $id, ELGG_VALUE_INTEGER));
@@ -134,12 +134,12 @@ class MainFolder extends ElggObject {
 	public function getResources($options = []) {
 		$defaults = ['limit' => 0];
 		$options = array_merge($defaults, $options);
-		$dbprefix = elgg_get_config('dbprefix');
+		$dbprefix = \elgg_get_config('dbprefix');
 		$options['joins'][] = "\n\t\t\tJOIN {$dbprefix}folders frs ON e.guid = frs.resource_guid\n\t\t";
 		$options['selects'][] = 'frs.*';
 		$options['order_by'] = 'frs.weight = 0, frs.weight ASC';
 		$options['wheres'][] = "\n\t\t\tfrs.folder_guid = {$this->guid}\n\t\t\tAND frs.resource_guid != {$this->guid}\n\t\t";
-		$rows = elgg_get_entities($options);
+		$rows = \elgg_get_entities($options);
 		if (is_array($rows)) {
 			$keys = array_map(function ($elem) {
 				return (int) $elem->guid;
@@ -181,7 +181,7 @@ class MainFolder extends ElggObject {
 		}
 
 		$resource_guid = (int) $resource_guid;
-		$resource = elgg_extract($resource_guid, $resources);
+		$resource = \elgg_extract($resource_guid, $resources);
 		if (!$resource) {
 			return false;
 		}
@@ -191,7 +191,7 @@ class MainFolder extends ElggObject {
 			return $this;
 		}
 
-		$parent = elgg_extract($parent_guid, $resources, false);
+		$parent = \elgg_extract($parent_guid, $resources, false);
 		return $parent;
 	}
 
@@ -255,16 +255,16 @@ class MainFolder extends ElggObject {
 		$container = $this->getContainerEntity();
 		//elgg_set_page_owner_guid($container->guid);
 		if ($container instanceof ElggUser) {
-			elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
-			elgg_push_breadcrumb(elgg_echo('folders'), "folders/owner/{$container->username}");
+			\elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
+			\elgg_push_breadcrumb(\elgg_echo('folders'), "folders/owner/{$container->username}");
 		} else if ($container instanceof ElggGroup) {
-			elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
-			elgg_push_breadcrumb(elgg_echo('folders'), "folders/group/{$container->guid}");
+			\elgg_push_breadcrumb($container->getDisplayName(), $container->getURL());
+			\elgg_push_breadcrumb(\elgg_echo('folders'), "folders/group/{$container->guid}");
 		}
 
 		$ancestors = $this->getAncestors($resource_guid);
 		foreach ($ancestors as $ancestor) {
-			elgg_push_breadcrumb($ancestor->title, "folders/view/{$this->guid}/{$ancestor->guid}");
+			\elgg_push_breadcrumb($ancestor->title, "folders/view/{$this->guid}/{$ancestor->guid}");
 		}
 	}
 

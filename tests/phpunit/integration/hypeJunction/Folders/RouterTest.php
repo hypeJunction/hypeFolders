@@ -13,7 +13,7 @@ class RouterTest extends IntegrationTestCase {
 	public function up() {
 		// Load plugin views so elgg_view_resource() can find them
 		$pluginPath = dirname(__DIR__, 5); // Folders/ -> hypeJunction/ -> integration/ -> phpunit/ -> tests/ -> plugin root
-		_elgg_services()->views->registerPluginViews($pluginPath);
+		\_elgg_services()->views->registerPluginViews($pluginPath);
 	}
 
 	public function down() {}
@@ -24,7 +24,7 @@ class RouterTest extends IntegrationTestCase {
 
 	public function testMainFolderUrlPointsToViewRoute(): void {
 		$user = $this->createUser();
-$folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
+$folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 			$f = new MainFolder();
 			$f->owner_guid = $user->guid;
 			$f->container_guid = $user->guid;
@@ -39,7 +39,7 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		$this->assertIsString($url);
 		$this->assertStringContainsString("folders/view/{$folder->guid}", $url);
 
-		elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
+		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
 	public function testFolderRouteHandlerKnownSubpagesReturnTrue(): void {

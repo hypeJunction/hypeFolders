@@ -26,7 +26,7 @@ class Permissions {
 		}
 
 		if ($container instanceof ElggGroup) {
-			if (!elgg_get_plugin_setting('group_folders', 'hypefolders', false)) {
+			if (!\elgg_get_plugin_setting('group_folders', 'hypefolders', false)) {
 				return false;
 			}
 
@@ -38,7 +38,7 @@ class Permissions {
 				return $container->canEdit($user->guid);
 			}
 		} else {
-			if (!elgg_get_plugin_setting('user_folders', 'hypefolders', false)) {
+			if (!\elgg_get_plugin_setting('user_folders', 'hypefolders', false)) {
 				return false;
 			}
 		}

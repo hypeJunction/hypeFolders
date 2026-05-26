@@ -11,8 +11,8 @@ class MainFolderEntityTest extends IntegrationTestCase {
 
 	public function up() {
 		// Register entity class mappings explicitly since plugin bootstrap may not run in PHPUnit context
-		elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
-		elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
+		\elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
+		\elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
 	}
 
 	public function down() {}
@@ -22,7 +22,7 @@ class MainFolderEntityTest extends IntegrationTestCase {
 	}
 
 	private function makeMainFolder(\ElggUser $user, string $title = 'Test Folder'): MainFolder {
-return elgg_call(ELGG_IGNORE_ACCESS, function () use ($user, $title) {
+return \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user, $title) {
 			$folder = new MainFolder();
 			$folder->owner_guid = $user->guid;
 			$folder->container_guid = $user->guid;
@@ -42,12 +42,12 @@ return elgg_call(ELGG_IGNORE_ACCESS, function () use ($user, $title) {
 		$this->assertInstanceOf(MainFolder::class, $loaded);
 		$this->assertEquals(MainFolder::SUBTYPE, $loaded->getSubtype());
 
-		elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
+		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
 	public function testResourceFolderSubtypeMapping(): void {
 		$user = $this->createUser();
-$folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
+$folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 			$f = new Folder();
 			$f->owner_guid = $user->guid;
 			$f->container_guid = $user->guid;
@@ -62,12 +62,12 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		$this->assertInstanceOf(Folder::class, $loaded);
 		$this->assertEquals(Folder::SUBTYPE, $loaded->getSubtype());
 
-		elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
+		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
 	public function testMainFolderMetadataPersists(): void {
 		$user = $this->createUser();
-$folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
+$folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 			$f = new MainFolder();
 			$f->owner_guid = $user->guid;
 			$f->container_guid = $user->guid;
@@ -79,12 +79,12 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		});
 		$this->assertNotEmpty($folder->guid);
 
-		_elgg_services()->entityCache->delete($folder->guid);
+		\_elgg_services()->entityCache->delete($folder->guid);
 		$loaded = get_entity($folder->guid);
 		$this->assertEquals('Meta Folder', $loaded->title);
 		$this->assertEquals('A folder with metadata', $loaded->description);
 
-		elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
+		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
 	public function testMainFolderSaveInitialisesPriority(): void {
@@ -94,7 +94,7 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 
 		$this->assertEquals(0, (int) $folder->priority);
 
-		elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
+		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
 	public function testOwnerCanEditNonOwnerCannot(): void {
@@ -107,6 +107,6 @@ $folder = elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		// directly (owner_guid equals the user we set).
 		$this->assertEquals((int) $owner->guid, (int) $folder->owner_guid);
 
-		elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
+		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 }

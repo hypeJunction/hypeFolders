@@ -13,15 +13,15 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 * {@inheritdoc}
 	 */
 	public function register() {
-		elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
-		elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
+		\elgg_set_entity_class('object', MainFolder::SUBTYPE, MainFolder::class);
+		\elgg_set_entity_class('object', Folder::SUBTYPE, Folder::class);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function init() {
-		elgg_register_event_handler('seeds', 'database', [Seeder::class, 'addSeed']);
+		\elgg_register_event_handler('seeds', 'database', [Seeder::class, 'addSeed']);
 	}
 
 	/**
