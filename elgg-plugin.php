@@ -22,24 +22,6 @@ return [
 		],
 	],
 
-	'events' => [
-		'create' => [
-			'object' => [
-				MainFolder::class . '::addCreatedResource' => [],
-			],
-		],
-		'update' => [
-			'object' => [
-				MainFolder::class . '::syncTitle' => [],
-			],
-		],
-		'delete' => [
-			'object' => [
-				MainFolder::class . '::removeDeletedItems' => ['priority' => 999],
-			],
-		],
-	],
-
 	'hooks' => [
 		'entity:url' => [
 			'object' => [
@@ -63,6 +45,24 @@ return [
 			],
 			'menu:owner_block' => [
 				Menus::class . '::setupOwnerBlockMenu' => [],
+			],
+		],
+	],
+
+	'events' => [
+		'create' => [
+			'object' => [
+				MainFolder::class . '::addCreatedResource' => [],
+			],
+		],
+		'update' => [
+			'object' => [
+				MainFolder::class . '::syncTitle' => [],
+			],
+		],
+		'delete' => [
+			'object' => [
+				MainFolder::class . '::removeDeletedItems' => ['priority' => 999],
 			],
 		],
 	],
