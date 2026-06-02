@@ -18,11 +18,17 @@ class RouterTest extends IntegrationTestCase {
 
 	public function down() {}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return '';
 	}
 
-	public function testMainFolderUrlPointsToViewRoute(): void {
+	/**
+     * @return void
+     */
+    public function testMainFolderUrlPointsToViewRoute(): void {
 		$user = $this->createUser();
 $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 			$f = new MainFolder();
@@ -42,7 +48,10 @@ $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
-	public function testFolderRouteHandlerKnownSubpagesReturnTrue(): void {
+	/**
+     * @return void
+     */
+    public function testFolderRouteHandlerKnownSubpagesReturnTrue(): void {
 		// The handler echoes resources — capture output so the test does not pollute PHPUnit.
 		ob_start();
 		try {
@@ -53,7 +62,10 @@ $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		$this->assertTrue($handled);
 	}
 
-	public function testFolderRouteHandlerUnknownPageReturnsFalse(): void {
+	/**
+     * @return void
+     */
+    public function testFolderRouteHandlerUnknownPageReturnsFalse(): void {
 		ob_start();
 		try {
 			$handled = Router::handleFolders(['no-such-subpage']);

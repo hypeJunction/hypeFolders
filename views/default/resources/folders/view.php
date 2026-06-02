@@ -15,7 +15,7 @@ if (!$container) {
     throw new \Elgg\Exceptions\Http\EntityNotFoundException();
 }
 if ($container instanceof \ElggGroup) {
-    elgg_group_gatekeeper(true, $container->guid);
+    _elgg_services()->gatekeeper->assertAccessibleGroup($container);
 }
 elgg_set_page_owner_guid($container->guid);
 $folder->setBreadcrumbs($resource->guid);

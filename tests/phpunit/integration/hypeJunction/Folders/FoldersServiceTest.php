@@ -9,17 +9,26 @@ class FoldersServiceTest extends IntegrationTestCase {
 	public function up() {}
 	public function down() {}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return '';
 	}
 
-	public function testGetContentTypesReturnsArray(): void {
+	/**
+     * @return void
+     */
+    public function testGetContentTypesReturnsArray(): void {
 		$svc = new FoldersService();
 		$types = $svc->getContentTypes();
 		$this->assertIsArray($types);
 	}
 
-	public function testGetContentTypesExcludesComments(): void {
+	/**
+     * @return void
+     */
+    public function testGetContentTypesExcludesComments(): void {
 		$svc = new FoldersService();
 		$types = $svc->getContentTypes();
 		$this->assertNotContains('comment', $types);
@@ -27,7 +36,10 @@ class FoldersServiceTest extends IntegrationTestCase {
 		$this->assertNotContains('messages', $types);
 	}
 
-	public function testContentTypesHookCanFilterList(): void {
+	/**
+     * @return void
+     */
+    public function testContentTypesHookCanFilterList(): void {
 		$handler = function (\Elgg\Hook $hook) {
 			return ['custom_type'];
 		};

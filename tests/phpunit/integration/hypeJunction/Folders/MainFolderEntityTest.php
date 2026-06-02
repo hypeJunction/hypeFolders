@@ -17,11 +17,19 @@ class MainFolderEntityTest extends IntegrationTestCase {
 
 	public function down() {}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return '';
 	}
 
-	private function makeMainFolder(\ElggUser $user, string $title = 'Test Folder'): MainFolder {
+	/**
+     * @param ElggUser $user
+     * @param string $title
+     * @return MainFolder
+     */
+    private function makeMainFolder(\ElggUser $user, string $title = 'Test Folder'): MainFolder {
 return \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user, $title) {
 			$folder = new MainFolder();
 			$folder->owner_guid = $user->guid;
@@ -33,7 +41,10 @@ return \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user, $title) {
 		});
 	}
 
-	public function testMainFolderSubtypeMapping(): void {
+	/**
+     * @return void
+     */
+    public function testMainFolderSubtypeMapping(): void {
 		$user = $this->createUser();
 		$folder = $this->makeMainFolder($user, 'Test Folder');
 		$this->assertNotEmpty($folder->guid);
@@ -45,7 +56,10 @@ return \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user, $title) {
 		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
-	public function testResourceFolderSubtypeMapping(): void {
+	/**
+     * @return void
+     */
+    public function testResourceFolderSubtypeMapping(): void {
 		$user = $this->createUser();
 $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 			$f = new Folder();
@@ -65,7 +79,10 @@ $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
-	public function testMainFolderMetadataPersists(): void {
+	/**
+     * @return void
+     */
+    public function testMainFolderMetadataPersists(): void {
 		$user = $this->createUser();
 $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 			$f = new MainFolder();
@@ -87,7 +104,10 @@ $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
-	public function testMainFolderSaveInitialisesPriority(): void {
+	/**
+     * @return void
+     */
+    public function testMainFolderSaveInitialisesPriority(): void {
 		$user = $this->createUser();
 		$folder = $this->makeMainFolder($user, 'Priority Folder');
 		$this->assertNotEmpty($folder->guid);
@@ -97,7 +117,10 @@ $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		\elgg_call(ELGG_IGNORE_ACCESS, fn() => $folder->delete());
 	}
 
-	public function testOwnerCanEditNonOwnerCannot(): void {
+	/**
+     * @return void
+     */
+    public function testOwnerCanEditNonOwnerCannot(): void {
 		$owner = $this->createUser();
 		$folder = $this->makeMainFolder($owner, 'Owned Folder');
 

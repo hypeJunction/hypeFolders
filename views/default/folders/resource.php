@@ -112,7 +112,7 @@ $summary = elgg_view('object/elements/summary', array(
 
 	$input_name = elgg_extract('input_name', $vars, false);
 	if ($input_name) {
-$summary .= elgg_view_input('hidden', [
+$summary .= elgg_view('input/hidden', [
 			'name' => "{$input_name}[]",
 			'value' => $entity->guid,
 		]);

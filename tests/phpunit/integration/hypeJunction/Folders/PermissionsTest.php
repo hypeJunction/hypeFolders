@@ -13,11 +13,17 @@ class PermissionsTest extends IntegrationTestCase {
 	public function up() {}
 	public function down() {}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return '';
 	}
 
-	public function testCheckContainerPermissionsBailsForUnrelatedSubtype(): void {
+	/**
+     * @return void
+     */
+    public function testCheckContainerPermissionsBailsForUnrelatedSubtype(): void {
 		$user = $this->createUser();
 		$params = [
 			'container' => $user,
@@ -29,7 +35,10 @@ class PermissionsTest extends IntegrationTestCase {
 		$this->assertNull($result);
 	}
 
-	public function testCheckContainerPermissionsRejectsUserFolderWhenSettingDisabled(): void {
+	/**
+     * @return void
+     */
+    public function testCheckContainerPermissionsRejectsUserFolderWhenSettingDisabled(): void {
 		\elgg_get_plugin_from_id('hypefolders')->setSetting('user_folders', false);
 		$user = $this->createUser();
 		$params = [
@@ -42,7 +51,10 @@ class PermissionsTest extends IntegrationTestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testCheckContainerPermissionsAllowsUserFolderWhenSettingEnabled(): void {
+	/**
+     * @return void
+     */
+    public function testCheckContainerPermissionsAllowsUserFolderWhenSettingEnabled(): void {
 		\elgg_get_plugin_from_id('hypefolders')->setSetting('user_folders', 1);
 		$user = $this->createUser();
 		$params = [
@@ -56,7 +68,10 @@ class PermissionsTest extends IntegrationTestCase {
 		$this->assertNull($result);
 	}
 
-	public function testCheckFolderPermissionsIgnoresNonMainFolderContainer(): void {
+	/**
+     * @return void
+     */
+    public function testCheckFolderPermissionsIgnoresNonMainFolderContainer(): void {
 		$user = $this->createUser();
 		$params = [
 			'container' => $user,

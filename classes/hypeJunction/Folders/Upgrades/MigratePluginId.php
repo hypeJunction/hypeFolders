@@ -20,23 +20,40 @@ class MigratePluginId implements Batch {
 	const OLD_ID = 'hypeFolders';
 	const NEW_ID = 'hypefolders';
 
-	public function getVersion(): int {
+	/**
+     * @return int
+     */
+    public function getVersion(): int {
 		return 2026041702;
 	}
 
-	public function shouldBeSkipped(): bool {
+	/**
+     * @return bool
+     */
+    public function shouldBeSkipped(): bool {
 		return !$this->getOldPluginEntity() instanceof \ElggPlugin;
 	}
 
-	public function needsIncrementOffset(): bool {
+	/**
+     * @return bool
+     */
+    public function needsIncrementOffset(): bool {
 		return false;
 	}
 
-	public function countItems(): int {
+	/**
+     * @return int
+     */
+    public function countItems(): int {
 		return Batch::UNKNOWN_COUNT;
 	}
 
-	public function run(Result $result, $offset): Result {
+	/**
+     * @param Result $result
+     * @param mixed $offset
+     * @return Result
+     */
+    public function run(Result $result, $offset): Result {
 		$old = $this->getOldPluginEntity();
 		if (!$old instanceof \ElggPlugin) {
 			$result->markComplete();
@@ -72,7 +89,10 @@ class MigratePluginId implements Batch {
 		return $result;
 	}
 
-	private function getOldPluginEntity(): ?\ElggPlugin {
+	/**
+     * @return ?ElggPlugin
+     */
+    private function getOldPluginEntity(): ?\ElggPlugin {
 $entities = \elgg_get_entities([
 			'type' => 'object',
 			'subtype' => 'plugin',
