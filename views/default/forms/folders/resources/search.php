@@ -8,13 +8,13 @@ echo elgg_format_element('button', [
 	'class' => 'elgg-button elgg-button-submit',
 ], elgg_view_icon('search'));
 
-echo elgg_view_input('text', [
+echo elgg_view('input/text', [
 	'name' => 'query',
 	'value' => $query,
 	'placeholder' => elgg_echo('folders:query:placeholder'),
 ]);
 
-echo elgg_view_input('hidden', [
+echo elgg_view('input/hidden', [
 	'name' => 'main_folder_guid',
 	'value' => $folder->guid,
 ]);

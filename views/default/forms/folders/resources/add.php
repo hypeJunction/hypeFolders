@@ -28,7 +28,7 @@ $resource = elgg_extract('resource', $vars);
 	?>
 </div>
 <?php
-echo elgg_view_input('submit', [
+echo elgg_view('input/submit', [
 	'name' => 'submit_action',
 	'value' => elgg_echo('save'),
 	'class' => 'hidden',
@@ -39,12 +39,12 @@ $params['input_name'] = 'guids';
 $params['show_placeholder'] = true;
 echo elgg_view('folders/resources', $params);
 
-echo elgg_view_input('hidden', [
+echo elgg_view('input/hidden', [
 	'name' => 'main_folder_guid',
 	'value' => $folder->guid,
 ]);
 
-echo elgg_view_input('hidden', [
+echo elgg_view('input/hidden', [
 	'name' => 'resource_guid',
 	'value' => $resource->guid,
 ]);

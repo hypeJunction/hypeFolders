@@ -19,11 +19,17 @@ class ViewsTest extends IntegrationTestCase {
 
 	public function down() {}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return '';
 	}
 
-	public function testMainFolderObjectViewRenders(): void {
+	/**
+     * @return void
+     */
+    public function testMainFolderObjectViewRenders(): void {
 		$user = $this->createUser();
 		$session = \_elgg_services()->session_manager;
 		$session->setLoggedInUser($user);
@@ -48,7 +54,10 @@ $folder = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($user) {
 		}
 	}
 
-	public function testEditFormViewRenders(): void {
+	/**
+     * @return void
+     */
+    public function testEditFormViewRenders(): void {
 		$user = $this->createUser();
 		$session = \_elgg_services()->session_manager;
 		$session->setLoggedInUser($user);

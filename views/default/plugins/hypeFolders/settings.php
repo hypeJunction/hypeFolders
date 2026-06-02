@@ -2,7 +2,7 @@
 
 $entity = elgg_extract('entity', $vars);
 
-echo elgg_view_input('select', [
+echo elgg_view('input/select', [
 	'name' => 'params[user_folders]',
 	'value' => $entity->user_folders,
 	'options_values' => [
@@ -13,7 +13,7 @@ echo elgg_view_input('select', [
 	'help' => elgg_echo('folders:settings:user_folders:help'),
 ]);
 
-echo elgg_view_input('select', [
+echo elgg_view('input/select', [
 	'name' => 'params[user_folders_restrict_by_owner]',
 	'value' => isset($entity->user_folders_restrict_by_owner) ? $entity->user_folders_restrict_by_owner : true,
 	'options_values' => [
@@ -25,7 +25,7 @@ echo elgg_view_input('select', [
 ]);
 
 
-echo elgg_view_input('select', [
+echo elgg_view('input/select', [
 	'name' => 'params[group_folders]',
 	'value' => $entity->group_folders,
 	'options_values' => [
@@ -36,7 +36,7 @@ echo elgg_view_input('select', [
 	'help' => elgg_echo('folders:settings:group_folders:help'),
 ]);
 
-echo elgg_view_input('select', [
+echo elgg_view('input/select', [
 	'name' => 'params[group_folders_restrict_by_container]',
 	'value' => isset($entity->group_folders_restrict_by_container) ? $entity->group_folders_restrict_by_container : true,
 	'options_values' => [

@@ -93,7 +93,7 @@ if (!empty($access_ids)) {
 }
 
 if ($query) {
-	$results = (array) elgg_trigger_plugin_hook('search', 'object', $options, []);
+	$results = (array) elgg_trigger_event_results('search', 'object', $options, []);
 } else {
 	$options['count'] = true;
 	$count = elgg_get_entities($options);
