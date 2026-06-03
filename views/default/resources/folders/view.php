@@ -12,8 +12,7 @@ if (!$resource) {
 }
 $container = $folder->getContainerEntity();
 if (!$container) {
-    // TODO(6.x): forward('', '404') error-page idiom removed; throw \Elgg\Exceptions\Http\EntityNotFoundException or use a gatekeeper
-    forward('', '404');
+    throw new \Elgg\Exceptions\Http\PageNotFoundException();
 }
 elgg_entity_gatekeeper(true, $container->guid);
 elgg_set_page_owner_guid($container->guid);

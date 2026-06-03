@@ -16,8 +16,7 @@ $resource = get_entity($resource_guid);
 /* @var $resource Folder */
 
 if (!$resource->canEdit()) {
-	// TODO(6.x): forward('', '403') error-page idiom removed; throw \Elgg\Exceptions\Http\GatekeeperException or equivalent
-	forward('', '403');
+	throw new \Elgg\Exceptions\Http\EntityPermissionsException();
 }
 
 $container = $folder->getContainerEntity();

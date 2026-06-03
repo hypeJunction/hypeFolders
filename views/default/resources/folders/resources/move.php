@@ -9,8 +9,7 @@ $folder = get_entity($guid);
 /* @var $folder MainFolder */
 
 if (!$folder->canWriteToContainer()) {
-	// TODO(6.x): forward('', '403') error-page idiom removed; throw \Elgg\Exceptions\Http\GatekeeperException or equivalent
-	forward('', '403');
+	throw new \Elgg\Exceptions\Http\EntityPermissionsException();
 }
 
 $resource_guid = elgg_extract('resource_guid', $vars);
@@ -18,8 +17,7 @@ $resource = get_entity($resource_guid);
 /* @var $resource ElggEntity */
 
 if (!$folder->isResource($resource_guid)) {
-	// TODO(6.x): forward('', '404') error-page idiom removed; throw \Elgg\Exceptions\Http\EntityNotFoundException or equivalent
-	forward('', '404');
+	throw new \Elgg\Exceptions\Http\PageNotFoundException();
 }
 
 $container = $folder->getContainerEntity();
