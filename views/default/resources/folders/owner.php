@@ -6,6 +6,7 @@ $username = elgg_extract('username', $vars);
 $user = get_user_by_username($username);
 
 if (!$user || !elgg_get_plugin_setting('user_folders', 'hypefolders', false)) {
+	// TODO(6.x): forward('', '404') error-page idiom removed; throw \Elgg\Exceptions\Http\EntityNotFoundException or equivalent
 	forward('', '404');
 }
 

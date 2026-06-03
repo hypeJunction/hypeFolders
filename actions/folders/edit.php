@@ -42,8 +42,8 @@ if ($entity->save()) {
 
 	elgg_clear_sticky_form('folders/edit');
 	
-	system_message(elgg_echo('folders:save:success'));
-	forward($entity->getURL());
+	elgg_register_success_message(elgg_echo('folders:save:success'));
+	elgg_redirect_response($entity->getURL());
 } else {
-	register_error(elgg_echo('folders:save:error:generic'));
+	elgg_register_error_message(elgg_echo('folders:save:error:generic'));
 }

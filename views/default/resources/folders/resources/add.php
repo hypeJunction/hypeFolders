@@ -9,6 +9,7 @@ $folder = get_entity($guid);
 /* @var $folder MainFolder */
 
 if (!$folder->canWriteToContainer()) {
+	// TODO(6.x): forward('', '403') error-page idiom removed; throw \Elgg\Exceptions\Http\GatekeeperException or equivalent
 	forward('', '403');
 }
 

@@ -12,11 +12,13 @@ if (!$resource) {
 }
 $container = $folder->getContainerEntity();
 if (!$container) {
+    // TODO(6.x): forward('', '404') error-page idiom removed; throw \Elgg\Exceptions\Http\EntityNotFoundException or use a gatekeeper
     forward('', '404');
 }
 elgg_entity_gatekeeper(true, $container->guid);
 elgg_set_page_owner_guid($container->guid);
 $folder->setBreadcrumbs($resource->guid);
+// TODO(6.x): elgg_pop_breadcrumb() removed; use elgg_set_breadcrumbs()/elgg_pop_breadcrumb replacement (breadcrumbs API reworked)
 elgg_pop_breadcrumb();
 $title = $resource->getDisplayName();
 elgg_push_breadcrumb($title);

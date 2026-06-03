@@ -6,12 +6,13 @@ $username = elgg_extract('username', $vars);
 $user = get_user_by_username($username);
 
 if (!$user) {
+	// TODO(6.x): forward('', '404') error-page idiom removed; throw \Elgg\Exceptions\Http\EntityNotFoundException or equivalent
 	forward('', '404');
 }
 
 if (!$user->canEdit()) {
-	register_error(elgg_echo('noaccess'));
-	forward("folders/all");
+	elgg_register_error_message(elgg_echo('noaccess'));
+	elgg_redirect_response("folders/all");
 }
 
 elgg_set_page_owner_guid($user->guid);
