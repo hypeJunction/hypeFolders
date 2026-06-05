@@ -6,7 +6,7 @@ $username = elgg_extract('username', $vars);
 $user = elgg_get_user_by_username($username);
 
 if (!$user || !elgg_get_plugin_setting('user_folders', 'hypefolders', false)) {
-	forward('', '404');
+	throw new \Elgg\Exceptions\Http\PageNotFoundException();
 }
 
 elgg_set_page_owner_guid($user->guid);

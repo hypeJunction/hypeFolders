@@ -16,7 +16,7 @@ $resource = get_entity($resource_guid);
 /* @var $resource Folder */
 
 if (!$resource->canEdit()) {
-	forward('', '403');
+	throw new \Elgg\Exceptions\Http\EntityPermissionsException();
 }
 
 $container = $folder->getContainerEntity();

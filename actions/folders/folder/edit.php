@@ -19,25 +19,21 @@ $main_folder = get_entity($main_folder_guid);
 $resource = get_entity($resource_guid);
 
 if (!$title) {
-	register_error(elgg_echo('folders:input:error:required', [elgg_echo('title')]));
-	forward(REFERRER);
+	return elgg_error_response(elgg_echo('folders:input:error:required', [elgg_echo('title')]));
 }
 
 if (!$main_folder instanceof \hypeJunction\Folders\MainFolder || !$main_folder->canEdit()) {
-	register_error(elgg_echo('folders:folder:error:no_entity'));
-	forward(REFERRER);
+	return elgg_error_response(elgg_echo('folders:folder:error:no_entity'));
 }
 
 if ($guid) {
 	if (!$entity) {
-		register_error(elgg_echo('folders:get:error:entity'));
-		forward(REFERRER);
+		return elgg_error_response(elgg_echo('folders:get:error:entity'));
 	}
 } else {
 	$container = $main_folder->getContainerEntity();
 	if (!$container || !$container->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
-		register_error(elgg_echo('folders:write:error:container'));
-		forward(REFERER);
+		return elgg_error_response(elgg_echo('folders:write:error:container'));
 	}
 
 	$entity = new \hypeJunction\Folders\Folder();
@@ -60,8 +56,8 @@ if ($entity->save()) {
 
 	elgg_clear_sticky_form('folders/folder/edit');
 	
-	system_message(elgg_echo('folders:save:success'));
-	forward($entity->getURL());
+	elgg_register_success_message(elgg_echo('folders:save:success'));
+	return elgg_redirect_response($entity->getURL());
 } else {
-	register_error(elgg_echo('folders:save:error:generic'));
+	return elgg_error_response(elgg_echo('folders:save:error:generic'));
 }

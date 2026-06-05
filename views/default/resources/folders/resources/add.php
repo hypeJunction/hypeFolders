@@ -9,7 +9,7 @@ $folder = get_entity($guid);
 /* @var $folder MainFolder */
 
 if (!$folder->canWriteToContainer()) {
-	forward('', '403');
+	throw new \Elgg\Exceptions\Http\EntityPermissionsException();
 }
 
 $resource_guid = elgg_extract('resource_guid', $vars);
