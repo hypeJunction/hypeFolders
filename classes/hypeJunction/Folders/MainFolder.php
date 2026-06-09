@@ -51,7 +51,7 @@ class MainFolder extends ElggObject
         if ($id) {
             $weight = $weight ?: $this->getPriority($resource_guid);
         } else {
-            add_entity_relationship($resource_guid, 'resource', $this->guid);
+            get_entity((int) $resource_guid)?->addRelationship($this->guid, 'resource');
             $id = $this->isResource($resource_guid);
         }
         if (!$id) {
@@ -69,7 +69,9 @@ class MainFolder extends ElggObject
         $dbprefix = elgg_get_config('dbprefix');
         $query = "\n\t\t\tINSERT INTO {$dbprefix}folders\n\t\t\tSET relationship_id = :relationship_id,\n\t\t\t\tfolder_guid = :folder_guid,\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tresource_guid = :resource_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t\tON DUPLICATE KEY UPDATE\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t";
         $params = [':relationship_id' => (int) $id, ':folder_guid' => (int) $this->guid, ':parent_guid' => (int) $parent->guid, ':resource_guid' => (int) $resource->guid, ':weight' => (int) $weight, ':title' => (string) $resource->getDisplayName()];
-        return insert_data($query, $params);
+        $conn = elgg()->db->getConnection('write');
+        $conn->executeStatement($query, $params);
+        return (int) $conn->lastInsertId();
     }
     /**
      * Removes a resource from folder
@@ -87,11 +89,11 @@ class MainFolder extends ElggObject
             return false;
         }
         $id = $relationship->id;
-        $result = remove_entity_relationship($resource_guid, 'resource', $this->guid);
+        $result = (bool) get_entity((int) $resource_guid)?->removeRelationship($this->guid, 'resource');
         if ($result) {
             $dbprefix = elgg_get_config('dbprefix');
             $query = "\n\t\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\t\tWHERE relationship_id = :relationship_id\n\t\t\t";
-            delete_data($query, [':relationship_id' => $id]);
+            elgg()->db->getConnection('write')->executeStatement($query, [':relationship_id' => $id]);
         }
         return $result;
     }

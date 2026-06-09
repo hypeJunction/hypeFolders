@@ -101,7 +101,10 @@ class Menus
             return;
         }
         $items = self::getProfileMenuItems($entity, $folder);
-        return array_merge($return, $items);
+        foreach ($items as $item) {
+            $return[] = $item;
+        }
+        return $return;
     }
     /**
      * Setup owner block
@@ -138,14 +141,14 @@ class Menus
     public static function getProfileMenuItems(ElggEntity $resource, MainFolder $folder, $expanded = true)
     {
         $return = [];
-        if ($folder->canWriteToContainer()) {
+        if ($folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
             if (!$expanded) {
                 $return[] = ElggMenuItem::factory(['name' => 'resources:add', 'text' => elgg_echo('folders:resources:add'), 'title' => elgg_echo('folders:resources:add'), 'href' => "folders/resources/add/{$folder->guid}/{$resource->guid}", 'link_class' => 'js-folders-resources-add', 'data' => ['icon' => 'plus']]);
             } else {
                 $svc = new FoldersService();
                 $subtypes = $svc->getContentTypes();
                 foreach ($subtypes as $subtype) {
-                    if (elgg_view_exists("folders/resources/new/{$subtype}") && $folder->canWriteToContainer()) {
+                    if (elgg_view_exists("folders/resources/new/{$subtype}") && $folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
                         $return[] = ElggMenuItem::factory(['name' => "add:{$subtype}", 'text' => elgg_echo('folders:resources:new_type', [strtolower(elgg_echo("folders:new:{$subtype}"))]), 'href' => "folders/resources/new/{$folder->guid}/{$resource->guid}/{$subtype}", 'data' => ['icon' => 'plus']]);
                     }
                 }
@@ -157,12 +160,12 @@ class Menus
         if ($resource instanceof Folder && $resource->canEdit()) {
             $return[] = ElggMenuItem::factory(['name' => 'edit', 'text' => elgg_echo('edit'), 'title' => elgg_echo('edit'), 'href' => "folders/resources/edit/{$folder->guid}/{$resource->guid}", 'data' => ['icon' => 'pencil']]);
         }
-        if ($folder->canWriteToContainer()) {
+        if ($folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
             $return[] = ElggMenuItem::factory(['name' => 'move', 'text' => elgg_echo('folders:move'), 'title' => elgg_echo('folders:move'), 'href' => "folders/resources/move/{$folder->guid}/{$resource->guid}", 'link_class' => 'elgg-lightbox', 'data-colorbox-opts' => ['maxWidth' => '600px'], 'data' => ['icon' => 'exchange']]);
         }
         if ($resource->canDelete()) {
             $return[] = ElggMenuItem::factory(['name' => 'delete', 'text' => elgg_echo('delete'), 'title' => elgg_echo('delete'), 'href' => elgg_http_add_url_query_elements("action/entity/delete", ['guid' => $resource->guid]), 'confirm' => true, 'is_action' => true, 'data' => ['icon' => 'delete']]);
-        } else if ($folder->canWriteToContainer()) {
+        } else if ($folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
             $return[] = ElggMenuItem::factory(['name' => 'remove', 'text' => elgg_echo('folders:resources:remove'), 'title' => elgg_echo('folders:resources:remove'), 'href' => elgg_http_add_url_query_elements("action/folders/resources/remove", ['guids' => [$resource->guid], 'main_folder_guid' => $folder->guid]), 'item_class' => 'elgg-menu-item-delete', 'confirm' => true, 'is_action' => true, 'data' => ['icon' => 'chain-broken']]);
         }
         return $return;

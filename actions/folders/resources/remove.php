@@ -11,7 +11,7 @@ if (empty($guids) || !is_array($guids)) {
 	return elgg_error_response('', REFERRER, ELGG_HTTP_BAD_REQUEST);
 }
 
-if (!$main_folder instanceof MainFolder || !$main_folder->canWriteToContainer()) {
+if (!$main_folder instanceof MainFolder || !$main_folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
 	return elgg_error_response(elgg_echo('folders:folder:error:no_entity'));
 }
 

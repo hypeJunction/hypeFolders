@@ -12,7 +12,7 @@ $resource = elgg_extract('resource', $vars);
 	foreach ($subtypes as $subtype) {
 		if (
 			elgg_view_exists("folders/resources/new/$subtype")
-			&& $folder->canWriteToContainer()
+			&& $folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)
 		) {
 			echo elgg_view('output/url', [
 				'text' => elgg_view_icon('plus') . elgg_echo("folders:new:$subtype"),

@@ -26,7 +26,7 @@ function hypefolders_upgrade_20160510a()
             }
             $query = "\n\t\t\t\tINSERT INTO {$dbprefix}folders\n\t\t\t\tSET relationship_id = :relationship_id,\n\t\t\t\t    folder_guid = :folder_guid,\n\t\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\t    resource_guid = :resource_guid,\n\t\t\t\t\tweight = :weight,\n\t\t\t\t\ttitle = :title\n\t\t\t\tON DUPLICATE KEY UPDATE\n\t\t\t\t\tparent_guid = :parent_guid\n\t\t\t";
             $params = [':relationship_id' => (int) $relationship->id, ':folder_guid' => (int) $folder->guid, ':parent_guid' => (int) $parent_guid, ':resource_guid' => (int) $resource->guid, ':weight' => (int) $weight, ':title' => (string) $resource->getDisplayName()];
-            $result = insert_data($query, $params);
+            $conn = elgg()->db->getConnection('write'); $conn->executeStatement($query, $params); $result = (int) $conn->lastInsertId();
             if ($result) {
                 //				elgg_delete_annotations(array(
                 //					'guids' => $resource->guid,

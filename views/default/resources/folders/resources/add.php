@@ -8,7 +8,7 @@ elgg_entity_gatekeeper($guid, 'object', MainFolder::SUBTYPE);
 $folder = get_entity($guid);
 /* @var $folder MainFolder */
 
-if (!$folder->canWriteToContainer()) {
+if (!$folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
 	throw new \Elgg\Exceptions\Http\EntityPermissionsException();
 }
 
