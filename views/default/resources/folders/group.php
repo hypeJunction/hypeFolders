@@ -1,7 +1,7 @@
 <?php
 
 use hypeJunction\Folders\MainFolder;
-$group_guid = elgg_extract('container_guid', $vars);
+$group_guid = elgg_extract('guid', $vars);
 elgg_entity_gatekeeper($group_guid, 'group');
 $group = get_entity($group_guid);
 _elgg_services()->gatekeeper->assertAccessibleGroup($group);
