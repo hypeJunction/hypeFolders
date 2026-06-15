@@ -92,7 +92,17 @@ if (!empty($access_ids)) {
 }
 
 if ($query) {
-	$results = (array) elgg_trigger_event_results('search', 'object', $options, []);
+	// Elgg 3.0 rewrote search to be query-based: the legacy search hook/event no
+	// longer returns an entities array, so the 2.x pattern yielded null here and
+	// fataled elgg_view_entity_list() below. elgg_search() runs the query and
+	// returns entities.
+	$options['query'] = $query;
+	$count_options = $options;
+	$count_options['count'] = true;
+	$results = [
+		'count' => elgg_search($count_options),
+		'entities' => elgg_search($options),
+	];
 } else {
 	$options['count'] = true;
 	$count = elgg_get_entities($options);
