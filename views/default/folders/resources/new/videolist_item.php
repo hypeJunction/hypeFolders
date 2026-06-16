@@ -19,7 +19,5 @@ echo elgg_view_form('videolist/edit', [
 	'resource' => $resource,
 	'container_guid' => $folder->container_guid,
 ]);
-?>
-<script>
-	require(['videolist/videolist']);
-</script>
+
+elgg_import_esm('videolist/videolist');
