@@ -68,7 +68,7 @@ class MainFolder extends ElggObject
         }
         $dbprefix = elgg_get_config('dbprefix');
         $query = "\n\t\t\tINSERT INTO {$dbprefix}folders\n\t\t\tSET relationship_id = :relationship_id,\n\t\t\t\tfolder_guid = :folder_guid,\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tresource_guid = :resource_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t\tON DUPLICATE KEY UPDATE\n\t\t\t\tparent_guid = :parent_guid,\n\t\t\t\tweight = :weight,\n\t\t\t\ttitle = :title\n\t\t";
-        $params = [':relationship_id' => (int) $id, ':folder_guid' => (int) $this->guid, ':parent_guid' => (int) $parent->guid, ':resource_guid' => (int) $resource->guid, ':weight' => (int) $weight, ':title' => (string) $resource->getDisplayName()];
+        $params = ['relationship_id' => (int) $id, 'folder_guid' => (int) $this->guid, 'parent_guid' => (int) $parent->guid, 'resource_guid' => (int) $resource->guid, 'weight' => (int) $weight, 'title' => (string) $resource->getDisplayName()];
         $conn = elgg()->db->getConnection('write');
         $conn->executeStatement($query, $params);
         return (int) $conn->lastInsertId();
@@ -93,7 +93,7 @@ class MainFolder extends ElggObject
         if ($result) {
             $dbprefix = elgg_get_config('dbprefix');
             $query = "\n\t\t\t\tDELETE FROM {$dbprefix}folders\n\t\t\t\tWHERE relationship_id = :relationship_id\n\t\t\t";
-            elgg()->db->getConnection('write')->executeStatement($query, [':relationship_id' => $id]);
+            elgg()->db->getConnection('write')->executeStatement($query, ['relationship_id' => $id]);
         }
         return $result;
     }
@@ -288,7 +288,7 @@ class MainFolder extends ElggObject
         $dbprefix = elgg_get_config('dbprefix');
         $conn->executeStatement(
             "UPDATE {$dbprefix}folders SET title = :title WHERE resource_guid = :resource_guid",
-            [':title' => (string) $entity->getDisplayName(), ':resource_guid' => $entity->guid]
+            ['title' => (string) $entity->getDisplayName(), 'resource_guid' => $entity->guid]
         );
     }
     /**
@@ -307,7 +307,7 @@ class MainFolder extends ElggObject
         $dbprefix = elgg_get_config('dbprefix');
         $conn->executeStatement(
             "DELETE FROM {$dbprefix}folders WHERE folder_guid = :guid OR parent_guid = :guid OR resource_guid = :guid",
-            [':guid' => $entity->guid]
+            ['guid' => $entity->guid]
         );
     }
 }
