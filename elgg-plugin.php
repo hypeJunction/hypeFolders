@@ -8,13 +8,17 @@ return [
 	'entities' => [
 		[
 			'type' => 'object',
-			'subtype' => MainFolder::SUBTYPE,
+			// Hardcoded — elgg-plugin.php is included before the
+			// plugin's classmap is registered, so MainFolder::SUBTYPE
+			// would trigger an autoload that hasn't been wired yet.
+			// ::class is fine (compile-time string), but ::CONST is not.
+			'subtype' => 'main_resource_folder',
 			'class' => MainFolder::class,
 			'searchable' => true,
 		],
 		[
 			'type' => 'object',
-			'subtype' => Folder::SUBTYPE,
+			'subtype' => 'resource_folder',
 			'class' => Folder::class,
 			'searchable' => true,
 		],

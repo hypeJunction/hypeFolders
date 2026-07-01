@@ -12,12 +12,11 @@ if (!$resource) {
 }
 $container = $folder->getContainerEntity();
 if (!$container) {
-    forward('', '404');
+    throw new \Elgg\Exceptions\Http\PageNotFoundException();
 }
 elgg_entity_gatekeeper(true, $container->guid);
 elgg_set_page_owner_guid($container->guid);
 $folder->setBreadcrumbs($resource->guid);
-elgg_pop_breadcrumb();
 $title = $resource->getDisplayName();
 elgg_push_breadcrumb($title);
 $items = \hypeJunction\Folders\Menus::getProfileMenuItems($resource, $folder, false);

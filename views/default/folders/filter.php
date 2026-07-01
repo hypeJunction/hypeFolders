@@ -28,7 +28,7 @@ if (!$folder->canEdit()) {
 	unset($tabs['edit']);
 }
 
-if (!$folder->canWriteToContainer()) {
+if (!$folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
 	unset($tabs['resources/add']);
 }
 

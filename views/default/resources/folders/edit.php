@@ -8,8 +8,8 @@ elgg_entity_gatekeeper($guid, 'object', MainFolder::SUBTYPE);
 $folder = get_entity($guid);
 
 if (!$folder->canEdit()) {
-	register_error(elgg_echo('folders:edit:error:entity'));
-	forward(REFERER);
+	elgg_register_error_message(elgg_echo('folders:edit:error:entity'));
+	return elgg_redirect_response(REFERRER);
 }
 
 $container = $folder->getContainerEntity();

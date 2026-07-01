@@ -55,7 +55,7 @@ class FoldersService {
 	 */
 	public function getContentTypes() {
 
-		$allowed = get_registered_entity_types('object');
+		$allowed = elgg_entity_types_with_capability('searchable')['object'] ?? [];
 		$exceptions = ['messages', 'comment', 'discussion_reply'];
 
 		$allowed = array_diff($allowed, $exceptions);

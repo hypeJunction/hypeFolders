@@ -5,7 +5,7 @@ import spinner from 'elgg/spinner';
 import Ajax from 'elgg/Ajax';
 import 'jquery.form';
 import lightbox from 'elgg/lightbox';
-import notify from 'elgg/notify';
+import notify from 'elgg/system_messages';
 
 const ajax = new Ajax();
 

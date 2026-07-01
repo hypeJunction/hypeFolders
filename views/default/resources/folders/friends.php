@@ -3,15 +3,15 @@
 use hypeJunction\Folders\MainFolder;
 
 $username = elgg_extract('username', $vars);
-$user = get_user_by_username($username);
+$user = elgg_get_user_by_username($username);
 
 if (!$user) {
-	forward('', '404');
+	throw new \Elgg\Exceptions\Http\PageNotFoundException();
 }
 
 if (!$user->canEdit()) {
-	register_error(elgg_echo('noaccess'));
-	forward("folders/all");
+	elgg_register_error_message(elgg_echo('noaccess'));
+	return elgg_redirect_response(elgg_normalize_url("folders/all"));
 }
 
 elgg_set_page_owner_guid($user->guid);

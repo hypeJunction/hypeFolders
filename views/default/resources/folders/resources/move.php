@@ -8,8 +8,8 @@ elgg_entity_gatekeeper($guid, 'object', MainFolder::SUBTYPE);
 $folder = get_entity($guid);
 /* @var $folder MainFolder */
 
-if (!$folder->canWriteToContainer()) {
-	forward('', '403');
+if (!$folder->canWriteToContainer(0, 'object', \hypeJunction\Folders\Folder::SUBTYPE)) {
+	throw new \Elgg\Exceptions\Http\EntityPermissionsException();
 }
 
 $resource_guid = elgg_extract('resource_guid', $vars);
@@ -17,7 +17,7 @@ $resource = get_entity($resource_guid);
 /* @var $resource ElggEntity */
 
 if (!$folder->isResource($resource_guid)) {
-	forward('', '404');
+	throw new \Elgg\Exceptions\Http\PageNotFoundException();
 }
 
 $container = $folder->getContainerEntity();

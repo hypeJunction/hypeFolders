@@ -12,8 +12,8 @@ if (!$container) {
 }
 
 if (!$container->canWriteToContainer(0, 'object', MainFolder::SUBTYPE)) {
-	register_error(elgg_echo('folders:write:error:container'));
-	forward(REFERRER);
+	elgg_register_error_message(elgg_echo('folders:write:error:container'));
+	return elgg_redirect_response(REFERRER);
 }
 
 elgg_set_page_owner_guid($container->guid);

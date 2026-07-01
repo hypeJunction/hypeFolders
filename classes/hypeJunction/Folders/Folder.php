@@ -31,7 +31,7 @@ class Folder extends \ElggObject
     public function getMainFolder()
     {
         $folder_guid = $this->getVolatileData('select:folder_guid');
-        $folder = get_entity($folder_guid);
+        $folder = $folder_guid ? get_entity((int) $folder_guid) : null;
         if (!$folder) {
             $folders = elgg_get_entities(array('types' => 'object', 'subtypes' => MainFolder::SUBTYPE, 'relationship' => 'resource', 'relationship_guid' => $this->guid, 'inverse_relationship' => false, 'limit' => 1));
             $folder = $folders ? $folders[0] : new MainFolder();

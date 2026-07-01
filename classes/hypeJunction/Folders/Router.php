@@ -136,7 +136,7 @@ class Router {
 					return;
 				}
 				$folder_guid = $entity->getVolatileData('select:folder_guid');
-				$folder = get_entity($folder_guid);
+				$folder = $folder_guid ? get_entity((int) $folder_guid) : null;
 				if ($folder) {
 					return elgg_normalize_url("folders/view/$folder->guid/$entity->guid");
 				}
