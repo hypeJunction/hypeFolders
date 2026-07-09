@@ -1,12 +1,12 @@
 <?php
 
 use hypeJunction\Folders\MainFolder;
-$guid = elgg_extract('guid', $vars);
+$guid = (int) elgg_extract('guid', $vars);
 elgg_entity_gatekeeper($guid, 'object', MainFolder::SUBTYPE);
 $folder = get_entity($guid);
 /* @var $folder MainFolder */
-$resource_guid = elgg_extract('resource_guid', $vars);
-$resource = get_entity($resource_guid);
+$resource_guid = (int) elgg_extract('resource_guid', $vars);
+$resource = $resource_guid ? get_entity($resource_guid) : null;
 if (!$resource) {
     $resource = $folder;
 }
@@ -14,7 +14,7 @@ $container = $folder->getContainerEntity();
 if (!$container) {
     throw new \Elgg\Exceptions\Http\PageNotFoundException();
 }
-elgg_entity_gatekeeper(true, $container->guid);
+elgg_entity_gatekeeper($container->guid);
 elgg_set_page_owner_guid($container->guid);
 $folder->setBreadcrumbs($resource->guid);
 $title = $resource->getDisplayName();

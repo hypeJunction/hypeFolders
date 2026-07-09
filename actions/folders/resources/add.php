@@ -24,7 +24,5 @@ foreach ($guids as $weight => $guid) {
 	}
 }
 
-//system_message(elgg_echo('folders:resources:add:success', array($success, count($guids))));
-
 $forward_url = ($resource) ? $resource->getURL() : $main_folder->getURL();
 return elgg_redirect_response($forward_url);

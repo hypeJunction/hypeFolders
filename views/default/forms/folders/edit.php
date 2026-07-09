@@ -12,7 +12,7 @@ echo elgg_view_input('text', array(
 
 echo elgg_view_input('file', array(
 	'name' => 'icon',
-	'value' => $entity instanceof ElggEntity && $entity->hasIcon(),
+	'value' => $entity instanceof ElggEntity && $entity->hasIcon('master'),
 	'label' => elgg_echo('folders:folder:icon'),
 ));
 

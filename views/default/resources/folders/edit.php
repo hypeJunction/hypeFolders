@@ -2,7 +2,7 @@
 
 use hypeJunction\Folders\MainFolder;
 
-$guid = elgg_extract('guid', $vars);
+$guid = (int) elgg_extract('guid', $vars);
 elgg_entity_gatekeeper($guid, 'object', MainFolder::SUBTYPE);
 
 $folder = get_entity($guid);
