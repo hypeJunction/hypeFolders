@@ -86,12 +86,12 @@ if ($full_view) {
 		if ($entity->getVolatileData('search_matched_description')) {
 			$excerpt = $entity->getVolatileData('search_matched_description');
 		} else {
-			$excerpt = elgg_get_excerpt($entity->description, 100);
+			$excerpt = elgg_get_excerpt((string) $entity->description, 100);
 			$excerpt = preg_replace('/(' . preg_quote($query, '/') . ')/i', '<strong>$1</strong>', $excerpt);
 		}
 	} else {
 		$title = $entity->getDisplayName();
-		$excerpt = elgg_get_excerpt($entity->description, 100);
+		$excerpt = elgg_get_excerpt((string) $entity->description, 100);
 	}
 
 	$title = elgg_view('output/url', array(
